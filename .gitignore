@@ -1,0 +1,52 @@
+# Backend (Spring Boot)
+target/
+*.jar
+*.war
+*.ear
+*.log
+
+# Node.js (Frontend Web, Mobile, Desktop)
+node_modules/
+.next/
+.expo/
+.build/
+.DS_Store
+yarn.lock
+package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# IntelliJ IDEA / Eclipse
+.idea/
+*.iml
+.project
+.classpath
+
+# macOS / Linux / Windows system files
+*.swp
+*.swo
+Thumbs.db
+
+# Docker / Kubernetes
+.kube/
+helm/
+.dockerignore
+docker-compose.override.yml
+
+# Logs and Debug
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore compiled TypeScript files
+*.tsbuildinfo
+
+# Ignore Tauri specific files
+frontend-desktop/src-tauri/target/
+frontend-desktop/src-tauri/Cargo.lock
