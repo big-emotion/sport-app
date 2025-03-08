@@ -94,5 +94,5 @@ Cela va lancer **PostgreSQL, le backend Spring Boot, et les applications fronten
 ## 💡 Contributions & Contact
 Ce projet est **open-source**, toute contribution est la bienvenue !
 - 👥 **Fork et PR** sur **GitHub**
-- 📩 Contact : [ton-email@example.com](mailto:ton-email@example.com)
+- 📩 Contact : [kollojeannoe@gmail.com](mailto:kollojeannoe@gmail.com)
 
