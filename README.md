@@ -70,7 +70,7 @@ Avant d’installer le projet, assure-toi d’avoir :
 
 ### **Lancer le projet en local avec Docker Compose**
 ```bash
-git clone https://github.com/<your-github-repo>.git
+git clone https://github.com/kooljo/sport-app.git
 cd sport-app
 docker-compose up --build -d
 ```
