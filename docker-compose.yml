@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: sport-db
+    restart: always
+    environment:
+      POSTGRES_USER: sport_user
+      POSTGRES_PASSWORD: sport_pass
+      POSTGRES_DB: sport_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: sport-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sport_db
+      SPRING_DATASOURCE_USERNAME: sport_user
+      SPRING_DATASOURCE_PASSWORD: sport_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    volumes:
+      - ./backend:/app
+    command: ["java", "-jar", "/app/target/sport-app-backend.jar"]
+
+  frontend-web:
+    build: ./frontend-web
+    container_name: sport-frontend-web
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend-web:/app
+      - /app/node_modules
+    command: ["npm", "run", "dev"]
+
+  frontend-mobile:
+    build: ./frontend-mobile
+    container_name: sport-frontend-mobile
+    restart: always
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend-mobile:/app
+      - /app/node_modules
+    command: ["npm", "start"]
+
+  frontend-desktop:
+    build: ./frontend-desktop
+    container_name: sport-frontend-desktop
+    restart: always
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend-desktop:/app
+      - /app/node_modules
+    command: ["npm", "start"]
+
+volumes:
+  postgres_data:
