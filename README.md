@@ -1,98 +1,97 @@
 # **Sport-App** 🏆
 
-## 🌍 Présentation
-**Sport-App** est une plateforme permettant aux utilisateurs de **localiser et explorer des lieux sportifs** autour d’eux.
-Chaque lieu peut être associé à un ou plusieurs sports (basket, football, running, etc.), et les utilisateurs peuvent **ajouter des sports, publier du contenu (vidéos, commentaires) et discuter entre eux**.
+## 🌍 Overview
+**Sport-App** is a platform that allows users to **locate and explore sports venues** around them.
+Each venue can be associated with one or more sports (basketball, football, running, etc.), and users can **add new sports, post content (videos, comments), and interact with each other**.
 
-L’application est déclinée en plusieurs versions :
+The application is available in multiple versions:
 - **Web** (Next.js)
 - **Mobile** (React Native)
 - **Desktop** (Tauri)
 
-Le **backend est développé avec Spring Boot** et expose une **API REST** pour interagir avec l’ensemble des fonctionnalités.
+The **backend is built with Spring Boot** and exposes a **REST API** to interact with all functionalities.
 
 ---
 
-## 🚀 Fonctionnalités principales
-- 📍 **Localisation des lieux sportifs**
-- 📄 **Fiches détaillées des lieux** (sports associés, avis, photos, vidéos)
-- ➕ **Ajout de nouveaux sports par la communauté**
-- 🔖 **Distinction entre sports officiels et ajoutés par la communauté**
-- 📢 **Publication de vidéos, commentaires sur chaque sport/lieu**
-- 💬 **Messagerie et discussions entre utilisateurs**
-- 🔐 **Authentification et gestion des utilisateurs (JWT, OAuth)**
+## 🚀 Key Features
+- 📍 **Locate sports venues**
+- 📄 **Detailed venue pages** (associated sports, reviews, photos, videos)
+- ➕ **Community-driven sport additions**
+- 🔖 **Distinction between official and community-added sports**
+- 📢 **Post videos, comments on sports/venues**
+- 💬 **Messaging and user discussions**
+- 🔐 **Authentication and user management (JWT, OAuth)**
 
 ---
 
-## 🏗 Stack technique
+## 🏗 Tech Stack
 
-### **Backend (Spring Boot, API REST)**
-- **Langage** : Java 17+
-- **Framework** : Spring Boot (Spring Web, Spring Security, Spring Data JPA)
-- **Base de données** : PostgreSQL
-- **Cache** : Redis
-- **Authentification** : JWT & OAuth2
-- **Stockage des médias** : AWS S3 / Cloudinary
-- **Tests** : JUnit + Mockito
-- **Déploiement** : Docker, Kubernetes, Helm
+### **Backend (Spring Boot, REST API)**
+- **Language**: Java 17+
+- **Framework**: Spring Boot (Spring Web, Spring Security, Spring Data JPA)
+- **Database**: PostgreSQL
+- **Cache**: Redis
+- **Authentication**: JWT & OAuth2
+- **Media Storage**: AWS S3 / Cloudinary
+- **Testing**: JUnit + Mockito
+- **Deployment**: Docker, Kubernetes, Helm
 
 ### **Frontend Web (Next.js - TypeScript)**
-- **Framework** : Next.js (React)
-- **UI** : Tailwind CSS / Shadcn UI
-- **Gestion des états** : React Query
-- **Cartographie** : Google Maps API / Leaflet.js
+- **Framework**: Next.js (React)
+- **UI**: Tailwind CSS / Shadcn UI
+- **State Management**: React Query
+- **Mapping**: Google Maps API / Leaflet.js
 
 ### **Frontend Mobile (React Native - TypeScript)**
-- **Framework** : React Native (Expo)
-- **Navigation** : React Navigation
-- **State Management** : Redux Toolkit
-- **Cartographie** : React Native Maps
+- **Framework**: React Native (Expo)
+- **Navigation**: React Navigation
+- **State Management**: Redux Toolkit
+- **Mapping**: React Native Maps
 
 ### **Frontend Desktop (Tauri - React)**
-- **Framework** : Tauri + React
-- **UI** : Recyclage des composants Next.js
+- **Framework**: Tauri + React
+- **UI**: Reused Next.js components
 
 ### **Infrastructure**
-- **Orchestration** : Docker, Kubernetes
-- **CI/CD** : GitHub Actions + ArgoCD
-- **Monitoring** : Prometheus + Grafana
-- **Logging** : ELK Stack (Elasticsearch, Logstash, Kibana)
+- **Orchestration**: Docker, Kubernetes
+- **CI/CD**: GitHub Actions + ArgoCD
+- **Monitoring**: Prometheus + Grafana
+- **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
 
 ---
 
-## 🔥 Installation & Déploiement
+## 🔥 Installation & Deployment
 
-### **Prérequis**
-Avant d’installer le projet, assure-toi d’avoir :
-- **Docker** et **Docker Compose** installés
-- **Node.js** et **npm/yarn**
-- **Java 17+** et **Maven**
+### **Prerequisites**
+Before installing the project, make sure you have:
+- **Docker** and **Docker Compose** installed
+- **Node.js** and **npm/yarn**
+- **Java 17+** and **Maven**
 
-### **Lancer le projet en local avec Docker Compose**
+### **Run the project locally with Docker Compose**
 ```bash
 git clone https://github.com/kooljo/sport-app.git
 cd sport-app
 docker-compose up --build -d
 ```
-Cela va lancer **PostgreSQL, le backend Spring Boot, et les applications frontend**.
+This will start **PostgreSQL, the Spring Boot backend, and all frontend applications**.
 
-### **Accès aux applications**
-- **API REST (Swagger UI)** : [http://localhost:8080/swagger-ui](http://localhost:8080/swagger-ui)
-- **Frontend Web (Next.js)** : [http://localhost:3000](http://localhost:3000)
-- **Frontend Mobile** : à lancer via Expo
-- **Frontend Desktop** : à lancer via `npm tauri dev`
+### **Access the Applications**
+- **REST API (Swagger UI)**: [http://localhost:8080/swagger-ui](http://localhost:8080/swagger-ui)
+- **Frontend Web (Next.js)**: [http://localhost:3000](http://localhost:3000)
+- **Frontend Mobile**: Run via Expo
+- **Frontend Desktop**: Run with `npm tauri dev`
 
 ---
 
-## 📌 Roadmap & Prochaines Fonctionnalités
-- 🔲 Intégration d'un **système de notifications** 🔔
-- 🔲 Ajout d'un **mode hors ligne pour l’application mobile**
-- 🔲 Amélioration du **système de recherche avancée** 📍
+## 📌 Roadmap & Upcoming Features
+- 🔲 Integration of **notification system** 🔔
+- 🔲 Adding an **offline mode for the mobile app**
+- 🔲 Enhancing the **advanced search system** 📍
 
 ---
 
 ## 💡 Contributions & Contact
-Ce projet est **open-source**, toute contribution est la bienvenue !
-- 👥 **Fork et PR** sur **GitHub**
-- 📩 Contact : [kollojeannoe@gmail.com](mailto:kollojeannoe@gmail.com)
-
+This project is **open-source**, and contributions are welcome!
+- 👥 **Fork and PR** on **GitHub**
+- 📩 Contact: [kollojeannoe@gmail.com](mailto:kollojeannoe@gmail.com)
