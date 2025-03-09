@@ -1,21 +1,21 @@
-# **Documentation de l'API REST - Sport-App**
+# **REST API Documentation - Sport-App**
 
 ## 📌 Introduction
-L'API REST de **Sport-App** permet de gérer les lieux sportifs, les sports, les utilisateurs et les interactions entre eux.
+The **Sport-App** REST API allows managing sports locations, sports, users, and interactions between them.
 
-Base URL : `http://localhost:8080/api`
+Base URL: `http://localhost:8080/api`
 
-## 🔐 **Authentification**
-L'authentification se fait via **JWT** (JSON Web Token). 
+## 🔐 **Authentication**
+Authentication is handled via **JWT** (JSON Web Token).
 
-- **Inscription** : `POST /auth/register`
-- **Connexion** : `POST /auth/login`
-- **Profil utilisateur** : `GET /users/me` (requiert un JWT valide)
+- **Register**: `POST /auth/register`
+- **Login**: `POST /auth/login`
+- **User Profile**: `GET /users/me` (requires a valid JWT)
 
-## 📍 **Gestion des lieux sportifs**
-### ➡️ **Lister tous les lieux sportifs**
+## 📍 **Sports Locations Management**
+### ➡️ **List all sports locations**
 **GET** `/sport-locations`
-#### 📄 Réponse :
+#### 📄 Response:
 ```json
 [
   {
@@ -27,9 +27,9 @@ L'authentification se fait via **JWT** (JSON Web Token).
 ]
 ```
 
-### ➡️ **Ajouter un lieu sportif**
+### ➡️ **Add a sports location**
 **POST** `/sport-locations`
-#### 📥 Corps de la requête :
+#### 📥 Request Body:
 ```json
 {
   "name": "Gymnase Voltaire",
@@ -38,35 +38,35 @@ L'authentification se fait via **JWT** (JSON Web Token).
 }
 ```
 
-### ➡️ **Supprimer un lieu sportif**
+### ➡️ **Delete a sports location**
 **DELETE** `/sport-locations/{id}`
 
-## 🏆 **Gestion des sports**
-### ➡️ **Lister tous les sports**
+## 🏆 **Sports Management**
+### ➡️ **List all sports**
 **GET** `/sports`
 
-### ➡️ **Ajouter un sport** (requiert authentification)
+### ➡️ **Add a sport** (authentication required)
 **POST** `/sports`
-#### 📥 Corps de la requête :
+#### 📥 Request Body:
 ```json
 {
   "name": "Tennis",
-  "description": "Sport de raquette populaire."
+  "description": "Popular racket sport."
 }
 ```
 
-## 💬 **Système de discussion & posts**
-### ➡️ **Créer un post sur un sport**
+## 💬 **Discussion & Posts System**
+### ➡️ **Create a post about a sport**
 **POST** `/sports/{id}/posts`
-#### 📥 Corps de la requête :
+#### 📥 Request Body:
 ```json
 {
-  "content": "Super match aujourd'hui au gymnase Voltaire!",
-  "mediaUrl": "https://url-de-la-video.com"
+  "content": "Great match today at Gymnase Voltaire!",
+  "mediaUrl": "https://url-of-the-video.com"
 }
 ```
 
-### ➡️ **Commenter un post**
+### ➡️ **Comment on a post**
 **POST** `/posts/{id}/comments`
 
 ---
