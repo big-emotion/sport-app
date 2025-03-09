@@ -1,19 +1,19 @@
-# **Architecture du projet - Sport-App**
+# **Project Architecture - Sport-App**
 
-## 📌 **Vue d'ensemble**
-Sport-App est une plateforme full-stack permettant aux utilisateurs de localiser des lieux sportifs, d'ajouter des sports, de publier du contenu et d'échanger entre eux.
+## 📌 **Overview**
+Sport-App is a full-stack platform that allows users to locate sports venues, add sports, publish content, and interact with each other.
 
-L'application est composée de plusieurs modules :
-- **Backend** : API REST avec Spring Boot
-- **Frontend Web** : Next.js
-- **Frontend Mobile** : React Native
-- **Frontend Desktop** : Tauri
-- **Base de données** : PostgreSQL
-- **Infrastructure** : Docker, Kubernetes, CI/CD
+The application is composed of multiple modules:
+- **Backend**: REST API with Spring Boot
+- **Frontend Web**: Next.js
+- **Frontend Mobile**: React Native
+- **Frontend Desktop**: Tauri
+- **Database**: PostgreSQL
+- **Infrastructure**: Docker, Kubernetes, CI/CD
 
 ---
 
-## 🏗 **Architecture générale**
+## 🏗 **General Architecture**
 ```
 📦 sport-app
 ├── 📁 backend (Spring Boot API)
@@ -58,43 +58,43 @@ L'application est composée de plusieurs modules :
 ---
 
 ## 🔹 **Backend (Spring Boot)**
-- **Langage** : Java 17+
-- **Framework** : Spring Boot (Spring Web, Security, Data JPA)
-- **Base de données** : PostgreSQL
-- **Cache** : Redis
-- **Auth** : JWT & OAuth2
-- **Stockage des médias** : AWS S3 / Cloudinary
-- **Tests** : JUnit + Mockito
-- **Déploiement** : Docker, Kubernetes, Helm
+- **Language**: Java 17+
+- **Framework**: Spring Boot (Spring Web, Security, Data JPA)
+- **Database**: PostgreSQL
+- **Cache**: Redis
+- **Auth**: JWT & OAuth2
+- **Media Storage**: AWS S3 / Cloudinary
+- **Testing**: JUnit + Mockito
+- **Deployment**: Docker, Kubernetes, Helm
 
 ---
 
 ## 🔹 **Frontend Web (Next.js)**
-- **Framework** : Next.js (React, TypeScript)
-- **UI** : Tailwind CSS, Shadcn UI
-- **State Management** : React Query
-- **Cartographie** : Google Maps API / Leaflet.js
+- **Framework**: Next.js (React, TypeScript)
+- **UI**: Tailwind CSS, Shadcn UI
+- **State Management**: React Query
+- **Mapping**: Google Maps API / Leaflet.js
 
 ---
 
 ## 🔹 **Frontend Mobile (React Native)**
-- **Framework** : React Native (Expo)
-- **Navigation** : React Navigation
-- **State Management** : Redux Toolkit
-- **Cartographie** : React Native Maps
+- **Framework**: React Native (Expo)
+- **Navigation**: React Navigation
+- **State Management**: Redux Toolkit
+- **Mapping**: React Native Maps
 
 ---
 
 ## 🔹 **Frontend Desktop (Tauri)**
-- **Framework** : Tauri + React
-- **UI** : Composants recyclés de Next.js
+- **Framework**: Tauri + React
+- **UI**: Reused Next.js components
 
 ---
 
-## 🔹 **Infrastructure & Déploiement**
-- **Orchestration** : Docker, Kubernetes
-- **CI/CD** : GitHub Actions + ArgoCD
-- **Monitoring** : Prometheus + Grafana
-- **Logging** : ELK Stack (Elasticsearch, Logstash, Kibana)
+## 🔹 **Infrastructure & Deployment**
+- **Orchestration**: Docker, Kubernetes
+- **CI/CD**: GitHub Actions + ArgoCD
+- **Monitoring**: Prometheus + Grafana
+- **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
 
 ---
