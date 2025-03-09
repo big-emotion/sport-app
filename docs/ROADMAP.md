@@ -1,62 +1,62 @@
-# **Roadmap du projet - Sport-App**
+# **Project Roadmap - Sport-App**
 
-## 📌 Objectif général
-Sport-App est une plateforme qui permet aux utilisateurs de **localiser et explorer des lieux sportifs**, **ajouter des sports**, **publier du contenu** et **interagir avec d'autres utilisateurs**.
+## 📌 General Objective
+Sport-App is a platform that allows users to **locate and explore sports venues**, **add sports**, **publish content**, and **interact with other users**.
 
-Cette roadmap décrit les différentes étapes de développement et les améliorations futures.
+This roadmap outlines the various development stages and future improvements.
 
 ---
 
-## 🚀 **Phase 1 - Mise en place des bases (MVP)** ✅ (En cours)
+## 🚀 **Phase 1 - Initial Setup (MVP)** ✅ (In Progress)
 ### **Backend** (Spring Boot)
-- [x] Mise en place du projet Spring Boot
-- [x] Configuration PostgreSQL et connexion avec JPA
-- [x] Création des entités principales (Lieux, Sports, Utilisateurs)
-- [x] Développement de l'API REST pour la gestion des lieux et des sports
-- [ ] Ajout de l'authentification JWT
-- [ ] Gestion des rôles (utilisateurs/admins)
-- [ ] Documentation API avec Swagger
+- [x] Set up the Spring Boot project
+- [x] Configure PostgreSQL and connect with JPA
+- [x] Create main entities (Locations, Sports, Users)
+- [x] Develop the REST API for managing locations and sports
+- [ ] Add JWT authentication
+- [ ] Implement role management (users/admins)
+- [ ] API documentation with Swagger
 
 ### **Frontend Web** (Next.js)
-- [x] Initialisation du projet Next.js
-- [x] Configuration TypeScript et Tailwind CSS
-- [x] Affichage de la liste des lieux sportifs depuis l'API
-- [ ] Système de recherche avancée (filtrage par sport/localisation)
-- [ ] Page de détail d'un lieu avec ses sports associés
+- [x] Initialize the Next.js project
+- [x] Configure TypeScript and Tailwind CSS
+- [x] Display the list of sports venues from the API
+- [ ] Advanced search system (filter by sport/location)
+- [ ] Venue details page with associated sports
 
 ### **Frontend Mobile** (React Native)
-- [x] Initialisation du projet React Native
-- [ ] Connexion à l'API Spring Boot
-- [ ] Affichage des lieux sportifs sur une carte
-- [ ] Gestion de l’authentification (JWT)
+- [x] Initialize the React Native project
+- [ ] Connect to the Spring Boot API
+- [ ] Display sports venues on a map
+- [ ] Implement authentication (JWT)
 
 ### **Frontend Desktop** (Tauri)
-- [x] Initialisation du projet Tauri
-- [ ] Intégration de l'API REST
-- [ ] UI de gestion des lieux sportifs
+- [x] Initialize the Tauri project
+- [ ] Integrate the REST API
+- [ ] Develop UI for managing sports venues
 
 ### **Infrastructure**
-- [x] Création d'un `docker-compose.yml` pour faciliter le développement local
-- [ ] Mise en place d’un pipeline CI/CD avec GitHub Actions
-- [ ] Déploiement du backend sur Kubernetes
+- [x] Create `docker-compose.yml` for easy local development
+- [ ] Set up CI/CD pipeline with GitHub Actions
+- [ ] Deploy backend on Kubernetes
 
 ---
 
-## 🔥 **Phase 2 - Améliorations et fonctionnalités avancées**
-- [ ] Ajout des **posts et commentaires** sur les sports
-- [ ] Intégration des **notifications en temps réel** (WebSockets)
-- [ ] Ajout d'un **système de messagerie entre utilisateurs**
-- [ ] Gestion des **médias (upload de photos/vidéos)**
-- [ ] Optimisation de la performance backend (caching avec Redis)
-- [ ] Support du **mode hors ligne** sur mobile
+## 🔥 **Phase 2 - Enhancements and Advanced Features**
+- [ ] Add **posts and comments** on sports
+- [ ] Integrate **real-time notifications** (WebSockets)
+- [ ] Implement **user messaging system**
+- [ ] Manage **media uploads (photos/videos)**
+- [ ] Optimize backend performance (caching with Redis)
+- [ ] Support **offline mode** on mobile
 
 ---
 
-## 🎯 **Phase 3 - Scalabilité et expansion**
-- [ ] Hébergement cloud (AWS/GCP)
-- [ ] Support multi-langues
-- [ ] Amélioration du référencement SEO
-- [ ] Application PWA pour le web
-- [ ] Version Bêta publique
+## 🎯 **Phase 3 - Scalability and Expansion**
+- [ ] Cloud hosting (AWS/GCP)
+- [ ] Multi-language support
+- [ ] Improve SEO optimization
+- [ ] Implement PWA for web application
+- [ ] Public Beta release
 
 ---
