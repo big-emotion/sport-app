@@ -27,9 +27,10 @@ services:
       SPRING_DATASOURCE_USERNAME: sport_user
       SPRING_DATASOURCE_PASSWORD: sport_pass
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    volumes:
-      - ./backend:/app
-    command: ["java", "-jar", "/app/target/sport-app-backend.jar"]
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_SERVLET_CONTEXT_PATH: /
+      CORS_ALLOWED_ORIGINS: "*"
+    command: ["java", "-jar", "app.jar"]
 
   frontend-web:
     build: ./frontend-web
@@ -39,32 +40,29 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    volumes:
-      - ./frontend-web:/app
-      - /app/node_modules
-    command: ["npm", "run", "dev"]
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8080/api
+      - NODE_ENV=development
 
   frontend-mobile:
     build: ./frontend-mobile
     container_name: sport-frontend-mobile
     restart: always
+    ports:
+      - "19000:19000"
+      - "19001:19001"
+      - "19002:19002"
     depends_on:
       - backend
-    volumes:
-      - ./frontend-mobile:/app
-      - /app/node_modules
-    command: ["npm", "start"]
 
   frontend-desktop:
     build: ./frontend-desktop
     container_name: sport-frontend-desktop
     restart: always
+    ports:
+      - "1420:1420"
     depends_on:
       - backend
-    volumes:
-      - ./frontend-desktop:/app
-      - /app/node_modules
-    command: ["npm", "start"]
 
 volumes:
   postgres_data:
