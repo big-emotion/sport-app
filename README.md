@@ -70,7 +70,7 @@ Before installing the project, make sure you have:
 
 ### **Run the project locally with Docker Compose**
 ```bash
-git clone https://github.com/kooljo/sport-app.git
+git clone https://github.com/big-emotion/sport-app.git
 cd sport-app
 docker-compose up --build -d
 ```
@@ -94,4 +94,4 @@ This will start **PostgreSQL, the Spring Boot backend, and all frontend applicat
 ## 💡 Contributions & Contact
 This project is **open-source**, and contributions are welcome!
 - 👥 **Fork and PR** on **GitHub**
-- 📩 Contact: [kollojeannoe@gmail.com](mailto:kollojeannoe@gmail.com)
+- 📩 Contact: [contact@big-emotion.com](mailto:contact@big-emotion.com)
