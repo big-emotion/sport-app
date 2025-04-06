@@ -77,7 +77,7 @@ docker-compose up --build -d
 This will start **PostgreSQL, the Spring Boot backend, and all frontend applications**.
 
 ### **Access the Applications**
-- **REST API (Swagger UI)**: [http://localhost:8080/swagger-ui](http://localhost:8080/swagger-ui)
+- **REST API (Swagger UI)**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 - **Frontend Web (Next.js)**: [http://localhost:3000](http://localhost:3000)
 - **Frontend Mobile**: Run via Expo
 - **Frontend Desktop**: Run with `npm tauri dev`
