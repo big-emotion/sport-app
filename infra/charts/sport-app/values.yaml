@@ -1,0 +1,27 @@
+backend:
+  image: your-backend-image:latest
+  port: 8080
+frontend:
+  image: your-frontend-image:latest
+  port: 3000
+postgresql:
+  auth:
+    username: sportuser
+    password: sportpass
+    database: sportdb
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: ""
+      paths:
+        - path: /
+          service: frontend
+        - path: /api
+          service: backend
+  tls: []
