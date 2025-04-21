@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    // The backend service name as defined in docker-compose.yml
-    const backendUrl = 'http://backend:8080/api/sport-venues';
+    // For server-side code, we use the internal Docker network URL
+    const backendUrl = 'http://backend-web/api/sport-venues';
     
     console.log(`Fetching data from backend at: ${backendUrl}`);
     
@@ -25,7 +25,7 @@ export async function GET() {
     }
     
     const data = await response.json();
-    console.log(`Successfully fetched ${data.length} venues from backend`);
+    console.log(`Successfully fetched ${data['hydra:totalItems']} venues from backend`);
     
     return NextResponse.json(data);
   } catch (error) {

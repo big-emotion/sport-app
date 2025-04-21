@@ -51,6 +51,7 @@ services:
       - backend-web
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8080/api
+      - BACKEND_API_URL=http://backend-web/api
       - NODE_ENV=development
 
   frontend-mobile:

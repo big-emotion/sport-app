@@ -14,6 +14,36 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    # Cache services
+    App\Service\CacheService:
+        arguments:
+            $venueCache: '@cache.venue'
+            $userCache: '@cache.user'
+            $sportCache: '@cache.sport'
+            $reviewCache: '@cache.review'
+            $bookingCache: '@cache.booking'
+
+    # Cache pools
+    cache.venue:
+        parent: 'cache.app'
+        tags: ['cache.pool']
+
+    cache.user:
+        parent: 'cache.app'
+        tags: ['cache.pool']
+
+    cache.sport:
+        parent: 'cache.app'
+        tags: ['cache.pool']
+
+    cache.review:
+        parent: 'cache.app'
+        tags: ['cache.pool']
+
+    cache.booking:
+        parent: 'cache.app'
+        tags: ['cache.pool']
+
     # Configure the exception listener
     App\EventListener\ExceptionListener:
         tags:
