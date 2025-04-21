@@ -1,9 +1,12 @@
-# Backend (Spring Boot)
-target/
-*.jar
-*.war
-*.ear
-*.log
+# Backend (Symfony)
+/backend/vendor/
+/backend/var/
+/backend/public/bundles/
+/backend/.env.local
+/backend/.env.local.php
+/backend/.env.*.local
+/backend/composer.phar
+/backend/phpunit.xml
 
 # Node.js (Frontend Web, Mobile, Desktop)
 node_modules/
@@ -20,11 +23,14 @@ package-lock.json
 .env.production
 .env.development
 
-# IntelliJ IDEA / Eclipse
+# IDE files
 .idea/
+.vscode/
+.fleet/
 *.iml
 .project
 .classpath
+.phpstorm.meta.php
 
 # macOS / Linux / Windows system files
 *.swp
@@ -50,3 +56,8 @@ yarn-error.log*
 # Ignore Tauri specific files
 frontend-desktop/src-tauri/target/
 frontend-desktop/src-tauri/Cargo.lock
+
+# PHP / Symfony
+.phpunit.result.cache
+/backend/config/secrets/
+/backend/public/build/

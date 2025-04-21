@@ -9,7 +9,7 @@ The application is available in multiple versions:
 - **Mobile** (React Native)
 - **Desktop** (Tauri)
 
-The **backend is built with Spring Boot** and exposes a **REST API** to interact with all functionalities.
+The **backend is built with Symfony/API Platform** and exposes a **REST API** to interact with all functionalities.
 
 ---
 
@@ -26,14 +26,14 @@ The **backend is built with Spring Boot** and exposes a **REST API** to interact
 
 ## 🏗 Tech Stack
 
-### **Backend (Spring Boot, REST API)**
-- **Language**: Java 17+
-- **Framework**: Spring Boot (Spring Web, Spring Security, Spring Data JPA)
+### **Backend (Symfony/API Platform, REST API)**
+- **Language**: PHP 8.1+
+- **Framework**: Symfony 6.4 with API Platform
 - **Database**: PostgreSQL
 - **Cache**: Redis
 - **Authentication**: JWT & OAuth2
 - **Media Storage**: AWS S3 / Cloudinary
-- **Testing**: JUnit + Mockito
+- **Testing**: PHPUnit
 - **Deployment**: Docker, Kubernetes, Helm
 
 ### **Frontend Web (Next.js - TypeScript)**
@@ -66,7 +66,7 @@ The **backend is built with Spring Boot** and exposes a **REST API** to interact
 Before installing the project, make sure you have:
 - **Docker** and **Docker Compose** installed
 - **Node.js** and **npm/yarn**
-- **Java 17+** and **Maven**
+- **PHP 8.1+** and **Composer**
 
 ### **Run the project locally with Docker Compose**
 ```bash
@@ -74,10 +74,10 @@ git clone https://github.com/big-emotion/sport-app.git
 cd sport-app
 docker-compose up --build -d
 ```
-This will start **PostgreSQL, the Spring Boot backend, and all frontend applications**.
+This will start **PostgreSQL, the Symfony backend, and all frontend applications**.
 
 ### **Access the Applications**
-- **REST API (Swagger UI)**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- **REST API Documentation**: [http://localhost:8080/api/docs](http://localhost:8080/api/docs)
 - **Frontend Web (Next.js)**: [http://localhost:3000](http://localhost:3000)
 - **Frontend Mobile**: Run via Expo
 - **Frontend Desktop**: Run with `npm tauri dev`
