@@ -1,45 +1,67 @@
 version: "3.8"
 
 services:
-  postgres:
+  database:
     image: postgres:15
     container_name: sport-db
     restart: always
     environment:
-      POSTGRES_USER: sport_user
-      POSTGRES_PASSWORD: sport_pass
-      POSTGRES_DB: sport_db
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: ${POSTGRES_USER:-sport_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sport_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-sport_db}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  backend:
-    build:
-      context: ./backend/docker/php
-      dockerfile: Dockerfile
-    container_name: sport-backend
-    restart: always
-    volumes:
-      - ./backend:/var/www/html
-    depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgresql://sport_user:sport_pass@postgres:5432/sport_db?serverVersion=15&charset=utf8
-      APP_ENV: prod
-      CORS_ALLOW_ORIGIN: '*'
-
-  backend-web:
-    image: nginx:alpine
-    container_name: sport-backend-nginx
-    restart: always
     ports:
-      - "8080:80"
-    volumes:
-      - ./backend:/var/www/html
-      - ./backend/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sport_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  php:
+    build:
+      context: ./backend
+      target: frankenphp_dev
+    container_name: sport-backend
     depends_on:
-      - backend
+      - database
+    restart: unless-stopped
+    volumes:
+      - ./backend/api:/app
+    ports:
+      # HTTP
+      - "8080:80"
+      # HTTPS
+      - "443:443"
+      # HTTP/3
+      - "443:443/udp"
+    healthcheck:
+      test: ["CMD", "php", "-v"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
+      # Run "composer require symfony/orm-pack" to install and configure Doctrine ORM
+      DATABASE_URL: postgresql://${POSTGRES_USER:-sport_user}:${POSTGRES_PASSWORD:-sport_pass}@database:5432/${POSTGRES_DB:-sport_db}?serverVersion=15&charset=utf8
+      # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
+      MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
+      MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
+      MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      # Symfony environment variables
+      APP_ENV: ${APP_ENV:-dev}
+      APP_DEBUG: ${APP_DEBUG:-1}
+      CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-'*'}
+      # Symfony version for initial setup
+      SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+      STABILITY: ${STABILITY:-stable}
+
+# Note: FrankenPHP combines PHP and web server functionality, so we don't need a separate Caddy service
 
   frontend-web:
     build: ./frontend-web
@@ -48,10 +70,10 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - backend-web
+      - php
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8080/api
-      - BACKEND_API_URL=http://backend-web/api
+      - BACKEND_API_URL=http://localhost:8080/api/sport_venues
       - NODE_ENV=development
 
   frontend-mobile:
@@ -63,7 +85,7 @@ services:
       - "19001:19001"
       - "19002:19002"
     depends_on:
-      - backend-web
+      - php
 
   frontend-desktop:
     build: ./frontend-desktop
@@ -72,7 +94,7 @@ services:
     ports:
       - "1420:1420"
     depends_on:
-      - backend-web
+      - php
 
 volumes:
   postgres_data:

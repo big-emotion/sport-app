@@ -1,21 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-
-interface SportVenue {
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-  openingTime: string;
-  closingTime: string;
-  entranceFee: number;
-  description: string;
-  creationDate: string;
-  publicationDate: string;
-  averageRating: number;
-  address: string;
-  venueType: 'BASKETBALL' | 'FOOTBALL' | 'TENNIS' | 'SWIMMING' | 'RUNNING' | 'VOLLEYBALL' | 'GOLF' | 'OTHER';
-}
+import { SportVenue } from "./types/venue";
 
 export default function Home() {
   const [venues, setVenues] = useState<SportVenue[]>([]);
@@ -39,7 +24,20 @@ export default function Home() {
         
         const data = await response.json();
         console.log("Data received:", data);
-        setVenues(data);
+        console.log("Data type:", typeof data);
+        
+        // Extract venues from hydra:member field of the API Platform response
+        if (data && data['hydra:member'] && Array.isArray(data['hydra:member'])) {
+          console.log("Using hydra:member data:", data['hydra:member'].length, "items");
+          setVenues(data['hydra:member']);
+        } else if (Array.isArray(data)) {
+          console.log("Using direct array data:", data.length, "items");
+          setVenues(data);
+        } else {
+          console.error("Unexpected API response format:", data);
+          // Ensure venues is always an array
+          setVenues([]);
+        }
         setLoading(false);
       } catch (error) {
         console.error("Error fetching sport venues:", error);
@@ -50,7 +48,9 @@ export default function Home() {
 
     fetchData();
   }, []);
-
+  
+  console.log("Before rendering - venues:", venues, "isArray:", Array.isArray(venues));
+  
   if (loading) {
     return (
       <div className="container mx-auto p-4">
@@ -70,22 +70,25 @@ export default function Home() {
     );
   }
 
+  // Always ensure venues is an array before rendering
+  const venuesArray = Array.isArray(venues) ? venues : [];
+  
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Sport Venues</h1>
       
-      {venues.length === 0 ? (
+      {venuesArray.length === 0 ? (
         <p>No sport venues found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {venues.map((venue) => (
+          {venuesArray.map((venue: SportVenue) => (
             <div key={venue.id} className="border rounded-lg p-4 shadow-md">
               <h2 className="text-xl font-semibold">{venue.name}</h2>
               <div className="mb-2 text-sm bg-blue-100 inline-block px-2 py-1 rounded">
                 {venue.venueType}
               </div>
-              <p className="text-gray-600 mb-2">{venue.address}</p>
-              <p className="mb-2">{venue.description}</p>
+              <p className="text-gray-600 mb-2">{venue.address || 'No address provided'}</p>
+              <p className="mb-2">{venue.description || 'No description available'}</p>
               
               <div className="mt-2 grid grid-cols-2 gap-2">
                 <div>
@@ -98,7 +101,7 @@ export default function Home() {
                 </div>
                 <div>
                   <span className="font-semibold">Fee:</span>{' '}
-                  {venue.entranceFee === 0 ? 'Free' : `€${venue.entranceFee}`}
+                  {venue.entranceFee === '0' || !venue.entranceFee ? 'Free' : `€${venue.entranceFee}`}
                 </div>
                 <div>
                   <span className="font-semibold">Rating:</span>{' '}

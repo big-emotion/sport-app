@@ -36,7 +36,7 @@ export default function VenuesPage() {
         const type = params.get('venueType') || '';
         const name = params.get('name') || '';
         
-        const response = await fetch(`/api/venues?page=${page}&venueType=${type}&name=${name}`);
+        const response = await fetch(`/api/sport_venues?page=${page}&venueType=${type}&name=${name}`);
         if (!response.ok) {
           throw new Error('Failed to fetch venues');
         }

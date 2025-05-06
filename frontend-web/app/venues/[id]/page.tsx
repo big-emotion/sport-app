@@ -2,11 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { SportVenue, Review, Booking } from '@/app/types/venue';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function VenueDetailPage({ params }: { params: { id: string } }) {
-  const router = useRouter();
   const [venue, setVenue] = useState<SportVenue | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -24,7 +22,7 @@ export default function VenueDetailPage({ params }: { params: { id: string } }) 
         setLoading(true);
         
         // Fetch venue details
-        const venueResponse = await fetch(`/api/venues/${params.id}`);
+        const venueResponse = await fetch(`/api/sport_venues/${params.id}`);
         if (!venueResponse.ok) throw new Error('Failed to fetch venue');
         const venueData = await venueResponse.json();
         setVenue(venueData);
