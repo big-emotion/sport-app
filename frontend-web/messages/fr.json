@@ -1,0 +1,85 @@
+{
+  "header": {
+    "title": "Trouvez les meilleurs terrains de sport près de chez vous",
+    "subtitle": "Rassemblez votre équipe, découvrez de nouveaux terrains et vivez le sport comme jamais auparavant. Sport-App vous connecte à votre passion, où que vous soyez.",
+    "cta": "Être alerté de la sortie de l'app",
+    "app_preview_alt": "Aperçu de l'interface Sport-App"
+  },
+  "features": {
+    "title": "Fonctionnalités clés",
+    "localisation": "Localiser des terrains",
+    "subtitle_localisation": "Trouvez facilement les lieux pour pratiquer votre sport",
+    "sport": "Ajouter vos sports",
+    "subtitle_sport": "Vous pratiquez un sport rare ? Créez-le dans l'app",
+    "share": "Partage de contenu",
+    "subtitle_share": "Photos, vidéos, commentaires: créez une vraie communauté",
+    "social": "Interactions sociales",
+    "subtitle_social": "Likez, suivez, discutez entre passionnés"
+  },
+  "testimonials": {
+    "title": "Avis utilisateurs",
+    "subtitle": "Je suis vraiment impatient de la sortie de Sport-App ! Avoir un outil pour échanger des lieux et rencontrer des sportifs près de chez moi me serait très utile",
+    "name": "Thomas"
+  },
+  "gallery": {
+    "title": "Galerie"
+  },
+  "advantage": {
+    "title": "Pourquoi Sport-App ?",
+    "access_title": "Accessibilité",
+    "access_subtitle": "Accédez aux terrains et aux sports près de chez vous",
+    "commu_title": "Communauté",
+    "commu_subtitle": "Échangez et partagez avec d'autres passionnés",
+    "discovery_title": "Découverte",
+    "discovery_subtitle": "Explorez de nouveaux lieux pour pratiquer vos activités",
+    "multisport_title": "Multisport",
+    "multisport_subtitle": "Une plateforme pour tous les types de sports"
+  },
+  "newsletter": {
+    "title": "Soyez les premiers informés",
+    "subtitle": "Inscrivez-vous à notre newsletter pour recevoir les dernières actualitées de Sport-App.",
+    "placeholder": "Adresse email",
+    "button": "S'inscrire",
+    "invalid": "Adresse email invalide"
+  },
+  "faq": {
+    "title": "Foire aux questions",
+    "questions": {
+      "free": "Est-ce que c'est gratuit ?",
+      "sports": "Quels sports sont disponibles ?",
+      "suggest": "Puis-je proposer un lieu ?",
+      "apps": "Y aura-t-il une appli Android/iOS ?"
+    },
+    "answers": {
+      "free": "Oui, notre service est gratuit pour les utilisateurs.",
+      "sports": "Nous proposons une large gamme de sports.",
+      "suggest": "Oui, vous pouvez proposer un lieu via votre compte.",
+      "apps": "Oui, nous prévoyons une application pour Android et iOS."
+    }
+  },
+  "footer": {
+    "title": "Sport-App",
+    "legal": "Mentions légales",
+    "copyright": "© 2024"
+  },
+  "confirmation": {
+    "title": "Merci pour votre inscription !",
+    "button": "Retour à l'accueil"
+  },
+  "modal": {
+    "title": "Confirmer l'inscription",
+    "subtitle": "Voulez-vous vraiment vous inscrire à la newsletter ?",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "confirm_title": "Un email de confirmation a été envoyé à votre adresse.",
+    "confirm_subtitle": "Veuillez cliquer sur le lien dans l'email pour finaliser votre inscription à la newsletter.",
+    "close": "Fermer"
+  },
+  "metadata": {
+    "title": "Sport-App - Trouvez des Terrains de Sport Près de Chez Vous",
+    "description": "Découvrez et réservez les meilleurs terrains de sport dans votre région. Connectez-vous avec d'autres joueurs et organisez des parties facilement avec Sport-App."
+  },
+  "images": {
+    "app_preview": "Aperçu de l'interface Sport-App"
+  }
+} 
