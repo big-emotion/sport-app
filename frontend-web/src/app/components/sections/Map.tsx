@@ -34,6 +34,10 @@ const Map = (): JSX.Element => {
 
       const map = L.map(mapRef.current!).setView([48.8584, 2.2945], 13);
 
+      map.on('click', () => {
+        closeSidebar();
+      });
+
       fakeSportVenues.forEach(venue => {
         const content = `
         <div>
