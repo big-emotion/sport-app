@@ -32,7 +32,13 @@ const Map = (): JSX.Element => {
         popupAnchor: [0, -27],
       });
 
-      const map = L.map(mapRef.current!).setView([48.8584, 2.2945], 13);
+      // Création de la carte SANS zoomControl
+      const map = L.map(mapRef.current!, {
+        zoomControl: false, // on désactive le zoom control par défaut
+      }).setView([48.8584, 2.2945], 13);
+
+      // On ajoute les boutons de zoom en bas à droite
+      L.control.zoom({ position: 'bottomright' }).addTo(map);
 
       map.on('click', () => {
         closeSidebar();
