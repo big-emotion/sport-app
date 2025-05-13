@@ -57,7 +57,7 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
             bottom-0 bg-white shadow-lg p-4 z-10 transition-all duration-200
             sm:transition-none
           `}
-          style={{ height: `calc(${height}px)` }}
+          style={window.innerWidth < 640 ? { height: `${height}px` } : {}}
         >
           <div
             className="w-12 h-2 rounded-full bg-gray-400 mx-auto mb-4 sm:hidden touch-none"
