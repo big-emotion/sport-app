@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 interface SidebarProps {
   content: string | null;
@@ -8,8 +8,31 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [height, setHeight] = useState(256);
+  const startY = useRef<number | null>(null);
+  const startHeight = useRef<number>(256);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    startY.current = e.touches[0].clientY;
+    startHeight.current = height;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (startY.current !== null) {
+      const deltaY = startY.current - e.touches[0].clientY;
+      const newHeight = Math.min(
+        Math.max(startHeight.current + deltaY, 150),
+        window.innerHeight * 0.9
+      );
+      setHeight(newHeight);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    startY.current = null;
+  };
 
   return (
     <>
@@ -24,19 +47,32 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
           "
         >
           <span className="sm:inline hidden">→</span>
-          <span className="sm:hidden inline">↑</span>
         </button>
       )}
 
       {isOpen && (
-        <div className="fixed bottom-0 w-full h-64 sm:left-0 sm:top-0 sm:w-96 sm:h-full bg-white shadow-lg p-4 z-10 transition-transform duration-300">
+        <div
+          className={`
+            fixed w-full sm:w-96 sm:h-full sm:left-0 sm:top-0
+            bottom-0 bg-white shadow-lg p-4 z-10 transition-all duration-200
+            sm:transition-none
+          `}
+          style={{ height: `calc(${height}px)` }}
+        >
+          <div
+            className="w-12 h-2 rounded-full bg-gray-400 mx-auto mb-4 sm:hidden touch-none"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          />
+
           <button
             onClick={toggleSidebar}
             className="absolute top-4 right-1/2 sm:top-1/2 sm:right-4 text-xl text-gray-500 hover:text-gray-700"
           >
             <span className="sm:inline hidden">←</span>
-            <span className="sm:hidden inline">↓</span>
           </button>
+
           <button
             onClick={() => {
               closeSidebar();
@@ -46,6 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
           >
             &times;
           </button>
+
           <h2 className="text-xl text-black font-bold mb-4">Détails du Lieu</h2>
           <div
             className="text-black overflow-y-auto h-full pr-2"
