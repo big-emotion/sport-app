@@ -23,7 +23,7 @@ const Map = (): JSX.Element => {
     import('leaflet').then(L => {
       if (mapRef.current!.childElementCount > 0) {
         return;
-      } 
+      }
 
       const customIcon = L.icon({
         iconUrl: '/images/marqueur.png',
