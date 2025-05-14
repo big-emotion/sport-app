@@ -79,7 +79,16 @@
     "title": "Sport-App - Trouvez des Terrains de Sport Près de Chez Vous",
     "description": "Découvrez et réservez les meilleurs terrains de sport dans votre région. Connectez-vous avec d'autres joueurs et organisez des parties facilement avec Sport-App."
   },
-  "images": {
-    "app_preview": "Aperçu de l'interface Sport-App"
+"images": {
+  "app_preview": "Aperçu de l'interface Sport-App"
+},
+"navbar": {
+    "header": "Accueil",
+    "features": "Fonctionnalités",
+    "testimonials": "Témoignages",
+    "gallery": "Galerie",
+    "advantage": "Avantages",
+    "newsletter": "Newsletter",
+    "faq": "FAQ"
   }
 } 

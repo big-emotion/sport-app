@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import React from 'react';
-
+import Navbar from '../ui/Navbar';
 import { Button } from '../ui/Button';
 import { Section } from '../ui/Section';
 
@@ -13,6 +13,7 @@ export function Header(): React.ReactElement {
 
   return (
     <Section className="pt-24 lg:pt-32">
+      <Navbar />
       <div className="relative">
         <motion.div
           className="mb-12"
