@@ -9,7 +9,7 @@ export function Galerie(): JSX.Element {
   const t = useTranslations('gallery');
 
   return (
-    <Section>
+    <Section id="galerie">
       <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-12 text-black">
         {t('title')}
       </h2>

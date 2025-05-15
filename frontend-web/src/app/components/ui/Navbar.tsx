@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import React, { JSX, useCallback, useEffect, useState } from 'react';
 
 export default function Navbar(): JSX.Element {
-  const t = useTranslations('navbar'); // Utilisation de la traduction pour la navbar
+  const t = useTranslations('navbar'); // Using translations for the navbar
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const sections = [
@@ -19,18 +19,23 @@ export default function Navbar(): JSX.Element {
   ];
 
   const scrollToSection = (id: string) => {
-    // eslint-disable-next-line no-undef
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const offset = 80; // Offset to account for the height of the navigation bar
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     }
   };
 
   const handleScroll = useCallback(() => {
-    // eslint-disable-next-line no-undef
-    const scrollPosition = window.scrollY + 150; // Ajusté pour la navbar haute
+    const scrollPosition = window.scrollY + 150; // Adjusted for the height of the navbar
     for (const section of sections) {
-      // eslint-disable-next-line no-undef
       const element = document.getElementById(section.id);
       if (element) {
         const offsetTop = element.offsetTop;
@@ -51,24 +56,19 @@ export default function Navbar(): JSX.Element {
 
     const onScroll = () => {
       if (timeout !== null) {
-        // eslint-disable-next-line no-undef
         clearTimeout(timeout);
       }
-      // eslint-disable-next-line no-undef
       timeout = window.setTimeout(() => {
         handleScroll();
       }, 100);
     };
 
-    // eslint-disable-next-line no-undef
     window.addEventListener('scroll', onScroll);
-    handleScroll(); // Active la section correcte au chargement
+    handleScroll(); // Activates the correct section on load
 
     return () => {
-      // eslint-disable-next-line no-undef
       window.removeEventListener('scroll', onScroll);
       if (timeout !== null) {
-        // eslint-disable-next-line no-undef
         clearTimeout(timeout);
       }
     };

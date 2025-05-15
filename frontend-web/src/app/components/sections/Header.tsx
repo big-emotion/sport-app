@@ -12,7 +12,7 @@ export function Header(): React.ReactElement {
   const t = useTranslations('header');
 
   return (
-    <Section className="pt-24 lg:pt-32">
+    <Section id="header">
       <Navbar />
       <div className="relative">
         <motion.div

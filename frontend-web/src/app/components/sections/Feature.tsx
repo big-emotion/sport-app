@@ -41,7 +41,7 @@ export function Feature(): JSX.Element {
   ];
 
   return (
-    <Section>
+    <Section id="feature">
       <div className="flex flex-col">
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-12 text-black">
           {t('title')}

@@ -26,7 +26,7 @@ export function Testimonial(): JSX.Element {
   const t = useTranslations('testimonials');
 
   return (
-    <Section>
+    <Section id="testimonial">
       <motion.h2
         className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-12 text-black"
         variants={item}
