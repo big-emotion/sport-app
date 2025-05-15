@@ -1,16 +1,23 @@
 'use client';
 import React, { useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface SidebarProps {
   content: string | null;
   closeSidebar: () => void;
 }
 
+const INITIAL_SIDEBAR_HEIGHT = 256;
+const MIN_SIDEBAR_HEIGHT = 150;
+const MAX_SIDEBAR_HEIGHT_RATIO = 0.9;
+
 const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
+  const t = useTranslations('sidebar');
+
   const [isOpen, setIsOpen] = useState(true);
-  const [height, setHeight] = useState(256);
+  const [height, setHeight] = useState(INITIAL_SIDEBAR_HEIGHT);
   const startY = useRef<number | null>(null);
-  const startHeight = useRef<number>(256);
+  const startHeight = useRef<number>(INITIAL_SIDEBAR_HEIGHT);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -23,8 +30,8 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
     if (startY.current !== null) {
       const deltaY = startY.current - e.touches[0].clientY;
       const newHeight = Math.min(
-        Math.max(startHeight.current + deltaY, 150),
-        window.innerHeight * 0.9
+        Math.max(startHeight.current + deltaY, MIN_SIDEBAR_HEIGHT),
+        window.innerHeight * MAX_SIDEBAR_HEIGHT_RATIO
       );
       setHeight(newHeight);
     }
@@ -83,7 +90,7 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
             &times;
           </button>
 
-          <h2 className="text-xl text-black font-bold mb-4">Détails du Lieu</h2>
+          <h2 className="text-xl text-black font-bold mb-4">{t('detail')}</h2>
           <div
             className="text-black overflow-y-auto h-full pr-2"
             dangerouslySetInnerHTML={{ __html: content ?? '' }}

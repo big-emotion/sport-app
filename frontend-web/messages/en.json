@@ -81,5 +81,11 @@
   },
   "images": {
     "app_preview": "Sport-App interface preview"
+  },
+  "sidebar": {
+    "detail": "Location details"
+  },
+  "map": {
+    "loading": "Loading the card..."
   }
 } 

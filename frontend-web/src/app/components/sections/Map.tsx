@@ -3,7 +3,6 @@ import { JSX, useEffect, useRef, useState } from 'react';
 
 import Sidebar from '@/app/components/ui/Sidebar';
 import 'leaflet/dist/leaflet.css';
-import { fakeSportVenues } from '@/data/FakeSportVenues';
 
 const Map = (): JSX.Element => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -16,14 +15,17 @@ const Map = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !mapRef.current) {
-      return;
-    }
+    if (typeof window === 'undefined' || !mapRef.current) return;
 
-    import('leaflet').then(L => {
-      if (mapRef.current!.childElementCount > 0) {
-        return;
-      }
+    const fetchDataAndInitMap = async () => {
+      const res = await fetch('http://127.0.0.1:8080/api/sport_places'); // URL de ton backend
+      const data = await res.json();
+
+      const venues = data.member;
+
+      const L = await import('leaflet');
+
+      if (mapRef.current!.childElementCount > 0) return;
 
       const customIcon = L.icon({
         iconUrl: '/images/marqueur.png',
@@ -32,28 +34,26 @@ const Map = (): JSX.Element => {
         popupAnchor: [0, -27],
       });
 
-      // Création de la carte SANS zoomControl
       const map = L.map(mapRef.current!, {
-        zoomControl: false, // on désactive le zoom control par défaut
-      }).setView([48.8584, 2.2945], 13);
+        zoomControl: false,
+      }).setView([48.8584, 2.2945], 12);
 
-      // On ajoute les boutons de zoom en bas à droite
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-      map.on('click', () => {
-        closeSidebar();
-      });
+      map.on('click', () => closeSidebar());
 
-      fakeSportVenues.forEach(venue => {
+      venues.forEach((venue: any) => {
         const content = `
-        <div>
-          <h3>${venue.name}</h3>
-          <p>${venue.category}</p>
-          <p>${venue.adresse}</p>
-        </div>
-      `;
+  <div class="text-sm text-gray-800 font-semibold">
+    <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
+    <p>${venue.description}</p>
+    <p class="text-gray-600">${venue.address}</p>
+  </div>
+`;
 
-        const marker = L.marker(venue.position, { icon: customIcon })
+        const marker = L.marker([venue.latitude, venue.longitude], {
+          icon: customIcon,
+        })
           .addTo(map)
           .bindPopup(content, {
             closeButton: false,
@@ -76,7 +76,9 @@ const Map = (): JSX.Element => {
             '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © OpenStreetMap contributors',
         }
       ).addTo(map);
-    });
+    };
+
+    fetchDataAndInitMap();
   }, []);
 
   return (
