@@ -18,11 +18,13 @@ const Map = (): JSX.Element => {
     if (typeof window === 'undefined' || !mapRef.current) return;
 
     const fetchDataAndInitMap = async () => {
-      const res = await fetch('http://127.0.0.1:8080/api/sport_places'); // URL de ton backend
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const backendPort = process.env.NEXT_PUBLIC_BACKEND_PORT;
+
+      const res = await fetch(`http://${backendUrl}:${backendPort}/api/sport_places`);
       const data = await res.json();
 
       const venues = data.member;
-
       const L = await import('leaflet');
 
       if (mapRef.current!.childElementCount > 0) return;

@@ -21,10 +21,18 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
+  // Lorsque l'utilisateur commence à toucher l'écran (sur mobile), on enregistre :
+  // - la position verticale du doigt (`clientY`) au début du geste
+  // - la hauteur actuelle de la sidebar
+
   const handleTouchStart = (e: React.TouchEvent) => {
     startY.current = e.touches[0].clientY;
     startHeight.current = height;
   };
+
+  // Lorsque l'utilisateur fait glisser son doigt vers le haut ou vers le bas :
+  // - On calcule la différence entre la position de départ et la position actuelle du doigt (`deltaY`)
+  // - Puis on ajuste dynamiquement la hauteur de la sidebar, en la limitant à une valeur minimale et maximale
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (startY.current !== null) {
