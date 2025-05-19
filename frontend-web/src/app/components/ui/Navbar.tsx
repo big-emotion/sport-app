@@ -88,7 +88,7 @@ export default function Navbar(): JSX.Element {
             }}
             className={`px-3 py-1.5 text-sm font-semibold rounded-full transition-all duration-300 ${
               activeSection === section.id
-                ? 'text-black bg-yellow-400 shadow-md'
+                ? 'text-black --color-yellow-400 shadow-md'
                 : 'text-black hover:bg-yellow-400'
             }`}
             initial={{ opacity: 0 }}
