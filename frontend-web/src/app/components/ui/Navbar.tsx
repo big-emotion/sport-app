@@ -3,11 +3,13 @@
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import React, { JSX, useCallback, useEffect, useState } from 'react';
+
 import { SECTION_IDS } from '@/app/components/ui/Section-id';
 
 export default function Navbar(): JSX.Element {
   const t = useTranslations('navbar');
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const sections = [
     { id: SECTION_IDS.HEADER, label: t('header') },
@@ -31,6 +33,7 @@ export default function Navbar(): JSX.Element {
         top: offsetPosition,
         behavior: 'smooth',
       });
+      setMenuOpen(false);
     }
   };
 
@@ -77,30 +80,90 @@ export default function Navbar(): JSX.Element {
 
   return (
     <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-md rounded-full">
-      <nav className="flex justify-center items-center gap-4 py-2 px-6 bg-white rounded-full shadow-lg">
-        {sections.map(section => (
-          <motion.a
-            key={section.id}
-            href={`#${section.id}`}
-            onClick={e => {
-              e.preventDefault();
-              scrollToSection(section.id);
-            }}
-            className={`px-3 py-1.5 text-sm font-semibold rounded-full transition-all duration-300 ${
-              activeSection === section.id
-                ? 'text-black --color-yellow-400 shadow-md'
-                : 'text-black hover:bg-yellow-400'
-            }`}
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: activeSection === section.id ? 1 : 0.8,
-              scale: activeSection === section.id ? 1.1 : 1,
-            }}
-            transition={{ duration: 0.3 }}
+      <nav className="flex justify-center items-center gap-4 py-2 px-6">
+        <button
+          className="md:hidden focus:outline-none"
+          onClick={() => setMenuOpen(prev => !prev)}
+          aria-label="Toggle menu"
+          type="button"
+        >
+          <svg
+            className="w-6 h-6 text-black"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            {section.label}
-          </motion.a>
-        ))}
+            {menuOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            )}
+          </svg>
+        </button>
+
+        <div className="hidden md:flex justify-center items-center gap-4">
+          {sections.map(section => (
+            <motion.a
+              key={section.id}
+              href={`#${section.id}`}
+              onClick={e => {
+                e.preventDefault();
+                scrollToSection(section.id);
+              }}
+              className={`px-3 py-1.5 text-sm font-semibold rounded-full transition-all duration-300 ${
+                activeSection === section.id
+                  ? 'text-black bg-yellow-400 shadow-md'
+                  : 'text-black hover:bg-yellow-400'
+              }`}
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: activeSection === section.id ? 1 : 0.8,
+                scale: activeSection === section.id ? 1.1 : 1,
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              {section.label}
+            </motion.a>
+          ))}
+        </div>
+
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-lg shadow-lg flex flex-col items-center w-56 py-2 z-50"
+          >
+            {sections.map(section => (
+              <a
+                key={section.id}
+                href={`#${section.id}`}
+                onClick={e => {
+                  e.preventDefault();
+                  scrollToSection(section.id);
+                }}
+                className={`block w-full px-4 py-2 text-center text-black font-semibold rounded-lg transition-colors duration-300 ${
+                  activeSection === section.id
+                    ? 'bg-yellow-400 shadow-md'
+                    : 'hover:bg-yellow-400'
+                }`}
+              >
+                {section.label}
+              </a>
+            ))}
+          </motion.div>
+        )}
       </nav>
     </div>
   );
