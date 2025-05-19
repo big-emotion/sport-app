@@ -3,25 +3,26 @@
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import React, { JSX, useCallback, useEffect, useState } from 'react';
+import { SECTION_IDS } from '@/app/components/ui/Section-id';
 
 export default function Navbar(): JSX.Element {
-  const t = useTranslations('navbar'); // Using translations for the navbar
+  const t = useTranslations('navbar');
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const sections = [
-    { id: 'header', label: t('header') },
-    { id: 'feature', label: t('features') },
-    { id: 'testimonial', label: t('testimonials') },
-    { id: 'galerie', label: t('gallery') },
-    { id: 'advantages', label: t('advantage') },
-    { id: 'newsletter', label: t('newsletter') },
-    { id: 'faq', label: t('faq') },
+    { id: SECTION_IDS.HEADER, label: t('header') },
+    { id: SECTION_IDS.FEATURE, label: t('features') },
+    { id: SECTION_IDS.TESTIMONIAL, label: t('testimonials') },
+    { id: SECTION_IDS.GALERIE, label: t('gallery') },
+    { id: SECTION_IDS.ADVANTAGES, label: t('advantage') },
+    { id: SECTION_IDS.NEWSLETTER, label: t('newsletter') },
+    { id: SECTION_IDS.FAQ, label: t('faq') },
   ];
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // Offset to account for the height of the navigation bar
+      const offset = 80;
       const elementPosition =
         element.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - offset;
@@ -34,7 +35,7 @@ export default function Navbar(): JSX.Element {
   };
 
   const handleScroll = useCallback(() => {
-    const scrollPosition = window.scrollY + 150; // Adjusted for the height of the navbar
+    const scrollPosition = window.scrollY + 150;
     for (const section of sections) {
       const element = document.getElementById(section.id);
       if (element) {
@@ -64,7 +65,7 @@ export default function Navbar(): JSX.Element {
     };
 
     window.addEventListener('scroll', onScroll);
-    handleScroll(); // Activates the correct section on load
+    handleScroll();
 
     return () => {
       window.removeEventListener('scroll', onScroll);
@@ -87,8 +88,8 @@ export default function Navbar(): JSX.Element {
             }}
             className={`px-3 py-1.5 text-sm font-semibold rounded-full transition-all duration-300 ${
               activeSection === section.id
-                ? 'text-white bg-blue-600 shadow-md'
-                : 'text-black hover:bg-blue-100'
+                ? 'text-black bg-yellow-400 shadow-md'
+                : 'text-black hover:bg-yellow-400'
             }`}
             initial={{ opacity: 0 }}
             animate={{

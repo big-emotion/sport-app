@@ -7,12 +7,13 @@ import React from 'react';
 import Navbar from '../ui/Navbar';
 import { Button } from '../ui/Button';
 import { Section } from '../ui/Section';
+import { SECTION_IDS } from '../ui/Section-id';
 
 export function Header(): React.ReactElement {
   const t = useTranslations('header');
 
   return (
-    <Section id="header">
+    <Section id={SECTION_IDS.HEADER}>
       <Navbar />
       <div className="relative">
         <motion.div

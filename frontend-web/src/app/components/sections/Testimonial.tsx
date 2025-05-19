@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { JSX } from 'react';
 
 import { Section } from '@/app/components/ui/Section';
+import { SECTION_IDS } from '@/app/components/ui/Section-id';
 
 const transition = { duration: 0.8 };
 const viewportConfig = { once: true, amount: 0.3 };
@@ -26,7 +27,7 @@ export function Testimonial(): JSX.Element {
   const t = useTranslations('testimonials');
 
   return (
-    <Section id="testimonial">
+    <Section id={SECTION_IDS.TESTIMONIAL}>
       <motion.h2
         className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-12 text-black"
         variants={item}

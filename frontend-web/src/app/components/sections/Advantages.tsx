@@ -6,6 +6,7 @@ import { JSX } from 'react';
 
 import { AccessItem } from '@/app/components/ui/AccessItem';
 import { Section } from '@/app/components/ui/Section';
+import { SECTION_IDS } from '@/app/components/ui/Section-id';
 
 export default function Advantages(): JSX.Element {
   const t = useTranslations('advantage');
@@ -38,7 +39,7 @@ export default function Advantages(): JSX.Element {
   ];
 
   return (
-    <Section id="advantages">
+    <Section id={SECTION_IDS.ADVANTAGES}>
       <motion.h2
         className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-12 text-black"
         initial={{ opacity: 0, y: -50 }}
