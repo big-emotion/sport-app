@@ -1,0 +1,4 @@
+backend:
+  image: ghcr.io/your-user/sport-backend:latest
+frontend:
+  image: ghcr.io/your-user/sport-frontend:latest

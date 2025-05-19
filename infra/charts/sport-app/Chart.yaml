@@ -1,0 +1,9 @@
+# Chart.yaml
+apiVersion: v2
+name: sport-app
+description: A Helm chart for deploying sport-app frontend, backend and database
+version: 0.1.0
+dependencies:
+  - name: postgresql
+    version: 12.1.5
+    repository: https://charts.bitnami.com/bitnami
