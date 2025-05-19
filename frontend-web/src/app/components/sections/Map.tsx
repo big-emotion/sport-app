@@ -21,7 +21,9 @@ const Map = (): JSX.Element => {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const backendPort = process.env.NEXT_PUBLIC_BACKEND_PORT;
 
-      const res = await fetch(`http://${backendUrl}:${backendPort}/api/sport_places`);
+      const res = await fetch(
+        `http://${backendUrl}:${backendPort}/api/sport_places`
+      );
       const data = await res.json();
 
       const venues = data.member;
@@ -69,13 +71,16 @@ const Map = (): JSX.Element => {
         });
       });
 
+      const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
+      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+      const mapboxAttribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
+
       L.tileLayer(
-        'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZmFiaW8tYmlnLWVtb3Rpb24iLCJhIjoiY21hZHEzODF0MDNpZDJxczcwYmk0N3AzbiJ9.ptnGmBUgFPTJAEKU12fnWg',
+        `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
         {
           tileSize: 512,
           zoomOffset: -1,
-          attribution:
-            '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © OpenStreetMap contributors',
+          attribution: mapboxAttribution,
         }
       ).addTo(map);
     };
