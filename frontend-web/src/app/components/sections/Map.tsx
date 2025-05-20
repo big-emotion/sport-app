@@ -11,6 +11,7 @@ const Map = (): JSX.Element => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [leafletMap, setLeafletMap] = useState<any>(null);
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
@@ -45,6 +46,8 @@ const Map = (): JSX.Element => {
       const map = L.map(mapRef.current!, {
         zoomControl: false,
       }).setView([48.8584, 2.2945], 12);
+
+      setLeafletMap(map);
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
@@ -130,6 +133,33 @@ const Map = (): JSX.Element => {
   return (
     <div>
       <div ref={mapRef} className="fixed inset-0 z-0 h-screen w-screen" />
+
+      {leafletMap && (
+        <button
+          onClick={() => {
+            if (!navigator.geolocation) {
+              alert(
+                'La géolocalisation n’est pas supportée par votre navigateur.'
+              );
+              return;
+            }
+            navigator.geolocation.getCurrentPosition(
+              position => {
+                const { latitude, longitude } = position.coords;
+                leafletMap.setView([latitude, longitude], 14);
+              },
+              () => {
+                alert('Impossible de récupérer votre position.');
+              }
+            );
+          }}
+          className="fixed right-3 bottom-20 transform -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
+          aria-label="Centrer sur ma position"
+        >
+          📍
+        </button>
+      )}
+
       {isSidebarOpen && (
         <Sidebar content={sidebarContent} closeSidebar={closeSidebar} />
       )}
