@@ -3,6 +3,7 @@ import { JSX, useEffect, useRef, useState } from 'react';
 
 import Sidebar from '@/app/components/ui/Sidebar';
 import 'leaflet/dist/leaflet.css';
+import { fetchFromApi } from '@/lib/apiClient';
 
 const Map = (): JSX.Element => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -20,12 +21,9 @@ const Map = (): JSX.Element => {
     const fetchDataAndInitMap = async () => {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const backendPort = process.env.NEXT_PUBLIC_BACKEND_PORT;
+      const apiUrl = `http://${backendUrl}:${backendPort}/api/sport_places`;
 
-      const res = await fetch(
-        `http://${backendUrl}:${backendPort}/api/sport_places`
-      );
-      const data = await res.json();
-
+      const data = await fetchFromApi(apiUrl);
       const venues = data.member;
       const L = await import('leaflet');
 
