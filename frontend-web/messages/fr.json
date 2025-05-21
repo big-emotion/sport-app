@@ -90,5 +90,13 @@
     "advantage": "Avantages",
     "newsletter": "Newsletter",
     "faq": "FAQ"
+  "images": {
+    "app_preview": "Aperçu de l'interface Sport-App"
+  },
+  "sidebar": {
+    "detail": "Détails du Lieu"
+  },
+  "map": {
+    "loading": "Chargement de la carte..."
   }
 } 
