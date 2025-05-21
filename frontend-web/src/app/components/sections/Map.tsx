@@ -15,7 +15,9 @@ const Map = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !mapRef.current) return;
+    if (typeof window === 'undefined' || !mapRef.current) {
+      return;
+    }
 
     const fetchDataAndInitMap = async () => {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -29,7 +31,9 @@ const Map = (): JSX.Element => {
       const venues = data.member;
       const L = await import('leaflet');
 
-      if (mapRef.current!.childElementCount > 0) return;
+      if (mapRef.current!.childElementCount > 0) {
+        return;
+      }
 
       const customIcon = L.icon({
         iconUrl: '/images/marqueur.png',
@@ -46,6 +50,7 @@ const Map = (): JSX.Element => {
 
       map.on('click', () => closeSidebar());
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       venues.forEach((venue: any) => {
         const content = `
   <div class="text-sm text-gray-800 font-semibold">

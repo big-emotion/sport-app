@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import React, { JSX, useCallback, useEffect, useState } from 'react';
+
 import { SECTION_IDS } from '@/app/components/ui/Section-id';
 
 export default function Navbar(): JSX.Element {
@@ -76,8 +77,8 @@ export default function Navbar(): JSX.Element {
   }, [handleScroll]);
 
   return (
-    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-md rounded-full">
-      <nav className="flex justify-center items-center gap-4 py-2 px-6 bg-white rounded-full shadow-lg">
+    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+      <nav className="bg-white rounded-full shadow-lg flex justify-center items-center gap-4 px-6 py-2">
         {sections.map(section => (
           <motion.a
             key={section.id}
@@ -88,7 +89,7 @@ export default function Navbar(): JSX.Element {
             }}
             className={`px-3 py-1.5 text-sm font-semibold rounded-full transition-all duration-300 ${
               activeSection === section.id
-                ? 'text-black --color-yellow-400 shadow-md'
+                ? 'text-black bg-yellow-400 shadow-md'
                 : 'text-black hover:bg-yellow-400'
             }`}
             initial={{ opacity: 0 }}
