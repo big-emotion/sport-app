@@ -4,8 +4,9 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import React from 'react';
-import Navbar from '../ui/Navbar';
+
 import { Button } from '../ui/Button';
+import Navbar from '../ui/Navbar';
 import { Section } from '../ui/Section';
 import { SECTION_IDS } from '../ui/Section-id';
 

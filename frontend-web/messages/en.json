@@ -90,5 +90,11 @@
     "advantage": "Advantages",
     "newsletter": "Newsletter",
     "faq": "FAQ"
+  },
+  "sidebar": {
+    "detail": "Location details"
+  },
+  "map": {
+    "loading": "Loading the card..."
   }
-} 
+}
