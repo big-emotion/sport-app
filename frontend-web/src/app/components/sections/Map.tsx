@@ -10,7 +10,7 @@ const Map = (): JSX.Element => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-  const [leafletMap, setLeafletMap] = useState<any>(null);
+  const [leafletMap, setLeafletMap] = useState<L.Map | null >(null);
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
