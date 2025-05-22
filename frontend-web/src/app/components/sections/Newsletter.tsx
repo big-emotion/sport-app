@@ -9,6 +9,7 @@ import ConfirmModal from '@/app/components/ui/ConfirmModal';
 import { Section } from '@/app/components/ui/Section';
 
 import { Button } from '../ui/Button';
+import { SECTION_IDS } from '../ui/Section-id';
 
 export default function Newsletter(): JSX.Element {
   const t = useTranslations('newsletter');
@@ -45,7 +46,7 @@ export default function Newsletter(): JSX.Element {
   };
 
   return (
-    <Section>
+    <Section id={SECTION_IDS.NEWSLETTER}>
       <motion.h2
         className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-12 text-black"
         initial={{ opacity: 0, y: 50 }}

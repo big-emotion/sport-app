@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { JSX, useState } from 'react';
 
 import { Section } from '@/app/components/ui/Section';
+import { SECTION_IDS } from '@/app/components/ui/Section-id';
 
 interface FAQItem {
   questionKey: string;
@@ -39,7 +40,7 @@ export default function Faq(): JSX.Element {
   };
 
   return (
-    <Section>
+    <Section id={SECTION_IDS.FAQ}>
       <motion.h2
         className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-12 text-black"
         whileInView={{ opacity: 1, y: 0 }}

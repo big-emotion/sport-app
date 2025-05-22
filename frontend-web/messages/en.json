@@ -82,10 +82,19 @@
   "images": {
     "app_preview": "Sport-App interface preview"
   },
+  "navbar": {
+    "header": "Home",
+    "features": "Features",
+    "testimonials": "Testimonials",
+    "gallery": "Gallery",
+    "advantage": "Advantages",
+    "newsletter": "Newsletter",
+    "faq": "FAQ"
+  },
   "sidebar": {
     "detail": "Location details"
   },
   "map": {
     "loading": "Loading the card..."
   }
-} 
+}

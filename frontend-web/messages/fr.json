@@ -82,10 +82,19 @@
   "images": {
     "app_preview": "Aperçu de l'interface Sport-App"
   },
+  "navbar": {
+    "header": "Accueil",
+    "features": "Fonctionnalités",
+    "testimonials": "Témoignages",
+    "gallery": "Galerie",
+    "advantage": "Avantages",
+    "newsletter": "Newsletter",
+    "faq": "FAQ"
+  },
   "sidebar": {
     "detail": "Détails du Lieu"
   },
   "map": {
     "loading": "Chargement de la carte..."
   }
-} 
+}

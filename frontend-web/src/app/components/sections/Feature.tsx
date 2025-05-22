@@ -6,6 +6,7 @@ import React, { JSX } from 'react';
 
 import { FeatureCard } from '@/app/components/ui/FeatureCard';
 import { Section } from '@/app/components/ui/Section';
+import { SECTION_IDS } from '@/app/components/ui/Section-id';
 
 const container: Variants = {
   hidden: {},
@@ -41,7 +42,7 @@ export function Feature(): JSX.Element {
   ];
 
   return (
-    <Section>
+    <Section id={SECTION_IDS.FEATURE}>
       <div className="flex flex-col">
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-12 text-black">
           {t('title')}

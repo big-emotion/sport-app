@@ -6,13 +6,16 @@ import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { Button } from '../ui/Button';
+import Navbar from '../ui/Navbar';
 import { Section } from '../ui/Section';
+import { SECTION_IDS } from '../ui/Section-id';
 
 export function Header(): React.ReactElement {
   const t = useTranslations('header');
 
   return (
-    <Section className="pt-24 lg:pt-32">
+    <Section id={SECTION_IDS.HEADER}>
+      <Navbar />
       <div className="relative">
         <motion.div
           className="mb-12"
