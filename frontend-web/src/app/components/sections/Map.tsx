@@ -5,7 +5,6 @@ import Sidebar from '@/app/components/ui/Sidebar';
 import 'leaflet/dist/leaflet.css';
 import { fetchFromApi } from '@/lib/apiClient';
 import MarkerIcon from '@/../public/images/marqueur.png';
-import type { Map as LeafletMap } from 'leaflet';
 
 const Map = (): JSX.Element => {
   const mapRef = useRef<HTMLDivElement>(null);
