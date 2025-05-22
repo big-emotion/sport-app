@@ -50,7 +50,6 @@ const Map = (): JSX.Element => {
 
       map.on('click', () => closeSidebar());
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       venues.forEach((venue: any) => {
         const content = `
   <div class="text-sm text-gray-800 font-semibold">
