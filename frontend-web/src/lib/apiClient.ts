@@ -1,10 +1,9 @@
-// lib/apiClient.ts
 export async function fetchFromApi(
   slug: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
   body?: any
 ): Promise<any> {
-  const baseUrl = `${process.env.NEXT_PUBLIC_HTTP ?? 'http'}://${process.env.NEXT_PUBLIC_BACKEND_URL}:${process.env.NEXT_PUBLIC_BACKEND_PORT}`;
+  const baseUrl = `${process.env.NEXT_PUBLIC_HTTP ?? 'http'}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}`;
   const url = `${baseUrl}${slug}`;
 
   const options: RequestInit = {
