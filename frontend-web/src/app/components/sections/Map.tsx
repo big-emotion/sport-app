@@ -4,6 +4,8 @@ import { JSX, useEffect, useRef, useState } from 'react';
 import Sidebar from '@/app/components/ui/Sidebar';
 import 'leaflet/dist/leaflet.css';
 import { fetchFromApi } from '@/lib/apiClient';
+import MarkerIcon from '@/../public/images/marqueur.png';
+
 
 const Map = (): JSX.Element => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -28,7 +30,7 @@ const Map = (): JSX.Element => {
         if (mapRef.current!.childElementCount > 0) return;
 
         const customIcon = L.icon({
-          iconUrl: '/images/marqueur.png',
+          iconUrl: MarkerIcon.src,
           iconSize: [30, 30],
           iconAnchor: [15, 30],
           popupAnchor: [0, -27],
