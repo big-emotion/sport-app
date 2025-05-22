@@ -25,7 +25,7 @@ const Map = (): JSX.Element => {
         const data = await fetchFromApi('/api/sport_places');
         const venues = data.member;
 
-        const L = await import('leaflet');
+        const { default: L } = await import('leaflet');
 
         if (mapRef.current!.childElementCount > 0) return;
 
@@ -68,20 +68,20 @@ const Map = (): JSX.Element => {
             setSidebarContent(content);
             setIsSidebarOpen(true);
           });
+
+          const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
+          const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+          const mapboxAttribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
+
+          L.tileLayer(
+            `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
+            {
+              tileSize: 512,
+              zoomOffset: -1,
+              attribution: mapboxAttribution,
+            }
+          ).addTo(map);
         });
-
-        const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
-        const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-        const mapboxAttribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
-
-        L.tileLayer(
-          `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
-          {
-            tileSize: 512,
-            zoomOffset: -1,
-            attribution: mapboxAttribution,
-          }
-        ).addTo(map);
       } catch (error) {
         console.error('Erreur lors de l’init de la carte :', error);
       }
