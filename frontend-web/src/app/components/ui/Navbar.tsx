@@ -90,7 +90,7 @@ export default function Navbar(): JSX.Element {
   return (
     <>
       {/* Navbar desktop (centrée) */}
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-md rounded-full hidden md:block">
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-md rounded-full hidden lg:block">
         <nav className="flex justify-center items-center gap-4 py-2 px-6">
           <div className="flex justify-center items-center gap-4">
             {sections.map(section => (
@@ -120,8 +120,8 @@ export default function Navbar(): JSX.Element {
         </nav>
       </div>
 
-      {/* Burger menu mobile */}
-      <div className="fixed top-4 right-4 z-50 md:hidden">
+      {/* Burger menu mobile et tablette */}
+      <div className="fixed top-4 right-4 z-50 lg:hidden">
         <button
           className="focus:outline-none bg-white text-black p-3 rounded-full shadow-md hover:bg-gray-100 transition-colors duration-300"
           onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
@@ -129,7 +129,7 @@ export default function Navbar(): JSX.Element {
           type="button"
         >
           <svg
-            className="w-6 h-6 text-black"
+            className="w-6 h-6 md:w-7 md:h-7 text-black"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -153,81 +153,59 @@ export default function Navbar(): JSX.Element {
           </svg>
         </button>
 
-        {/* Menu mobile blanc */}
+        {/* Menu mobile et tablette */}
         {(menuOpen || isClosing) && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
-            onClick={closeMenu}
+          <motion.div
+            initial={{ x: 300 }}
+            animate={{ x: isClosing ? 300 : 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="fixed top-0 right-0 h-full w-full sm:w-80 md:w-96 bg-white text-black shadow-lg py-6 px-4 z-50 flex flex-col"
           >
-            <motion.div
-              initial={{ x: 300 }}
-              animate={{ x: isClosing ? 300 : 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 h-full w-72 bg-white text-black shadow-lg py-6 px-4 z-50 flex flex-col"
-              onClick={e => e.stopPropagation()}
-            >
-              <div className="flex justify-end items-center mb-12 px-2">
-                <button
-                  onClick={closeMenu}
-                  className="p-2 rounded-full hover:bg-gray-200 transition-colors"
-                  aria-label="Close menu"
+            <div className="flex justify-end items-center mb-12 px-2">
+              <button
+                onClick={closeMenu}
+                className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+                aria-label="Close menu"
+              >
+                <svg
+                  className="w-6 h-6 md:w-7 md:h-7 text-black"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    className="w-6 h-6 text-black"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
 
-              <div className="flex flex-col space-y-4 px-2 mb-16">
-                {sections.map(section => (
-                  <a
-                    key={section.id}
-                    href={`#${section.id}`}
-                    onClick={e => {
-                      e.preventDefault();
-                      scrollToSection(section.id);
-                    }}
-                    className={`py-3 text-lg font-light border-b border-gray-200 transition-colors duration-300 ${
-                      activeSection === section.id
-                        ? 'text-black font-medium'
-                        : 'text-gray-600 hover:text-black'
-                    }`}
-                  >
-                    <span className="uppercase tracking-wide">
-                      {section.label}
-                    </span>
-                  </a>
-                ))}
-              </div>
-
-              {/* Logo et footer */}
-              <div className="mt-auto pb-6">
-                <div className="flex justify-center">
-                  <svg
-                    className="w-10 h-10 text-black"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z" />
-                  </svg>
-                </div>
-                <p className="text-gray-500 text-xs text-center mt-4">
-                  © {new Date().getFullYear()} JUST DO IT.
-                </p>
-              </div>
-            </motion.div>
-          </div>
+            <div className="flex flex-col space-y-4 md:space-y-6 px-2 mb-16">
+              {sections.map(section => (
+                <a
+                  key={section.id}
+                  href={`#${section.id}`}
+                  onClick={e => {
+                    e.preventDefault();
+                    scrollToSection(section.id);
+                  }}
+                  className={`py-3 md:py-4 text-lg md:text-sm transition-colors duration-300 ${
+                    activeSection === section.id
+                      ? 'text-black font-bold text-xl md:text-base'
+                      : 'text-black hover:text-gray-600 font-light'
+                  }`}
+                >
+                  <span className="uppercase tracking-wide">
+                    {section.label}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </motion.div>
         )}
       </div>
     </>
