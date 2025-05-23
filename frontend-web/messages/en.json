@@ -96,5 +96,12 @@
   },
   "map": {
     "loading": "Loading the card..."
+  },
+  
+  "languageSwitcher": {
+    "fr": "French",
+    "en": "English"
   }
+
+
 }

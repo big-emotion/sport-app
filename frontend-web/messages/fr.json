@@ -96,5 +96,11 @@
   },
   "map": {
     "loading": "Chargement de la carte..."
+  },
+  "languageSwitcher": {
+    "fr": "Français",
+    "en": "Anglais"
   }
+
+
 }

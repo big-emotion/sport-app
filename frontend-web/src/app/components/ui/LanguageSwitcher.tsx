@@ -1,25 +1,22 @@
 'use client';
-
-import { usePathname, useRouter } from 'next/navigation';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter, usePathname } from '@/i18n/navigation';
 
 export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+  const t = useTranslations('languageSwitcher');
 
   const locales = [
-    { code: 'en', label: 'ENGLISH' },
-    { code: 'fr', label: 'FRANÇAIS' },
+    { code: 'fr', label: t('fr') },
+    { code: 'en', label: t('en') },
   ];
 
   const handleSwitch = (targetLocale: string) => {
     if (targetLocale === locale) return;
 
-    const segments = pathname.split('/');
-    segments[1] = targetLocale;
-    const newPath = segments.join('/');
-    router.push(newPath);
+    router.push(pathname, { locale: targetLocale });
   };
 
   return (
@@ -34,7 +31,6 @@ export default function LanguageSwitcher() {
           >
             {lang.label}
           </button>
-
           {index < locales.length - 1 && <span className="px-1">/</span>}
         </span>
       ))}
