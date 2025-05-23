@@ -99,5 +99,9 @@
     "location": "Impossible de récupérer votre position.",
     "center": "Centrer sur ma position",
     "geolocation": "La géolocalisation n’est pas supportée par votre navigateur."
+  },
+  "languageSwitcher": {
+    "fr": "Français",
+    "en": "Anglais"
   }
 }
