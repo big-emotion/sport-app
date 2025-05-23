@@ -1,16 +1,19 @@
 'use client';
 import { JSX, useEffect, useRef, useState } from 'react';
+import { SportPlace, SportPlacesResponse } from '@/types/api';
 
 import Sidebar from '@/app/components/ui/Sidebar';
 import 'leaflet/dist/leaflet.css';
 import { fetchFromApi } from '@/lib/apiClient';
 import MarkerIcon from '@/../public/images/marqueur.png';
+import { useTranslations } from 'next-intl';
 
 const Map = (): JSX.Element => {
+  const t = useTranslations('map');
   const mapRef = useRef<HTMLDivElement>(null);
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-  const [leafletMap, setLeafletMap] = useState<L.Map | null >(null);
+  const [leafletMap, setLeafletMap] = useState<L.Map | null>(null);
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
@@ -22,10 +25,13 @@ const Map = (): JSX.Element => {
 
     const fetchDataAndInitMap = async () => {
       try {
-        const data = await fetchFromApi('/api/sport_places');
+        const data = await fetchFromApi<SportPlacesResponse>(
+          '/api/sport_places',
+          'GET'
+        );
         const venues = data.member;
 
-        const L = await import('leaflet');
+        const { default: L } = await import('leaflet');
 
         if (mapRef.current!.childElementCount > 0) return;
 
@@ -46,9 +52,8 @@ const Map = (): JSX.Element => {
 
         map.on('click', () => closeSidebar());
 
-        venues.forEach((venue: any) => {
-          const content =
-            `<div class="text-sm text-gray-800 font-semibold">
+        venues.forEach((venue: SportPlace) => {
+          const content = `<div class="text-sm text-gray-800 font-semibold">
               <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
               <p>${venue.description}</p>
               <p class="text-gray-600">${venue.address}</p>
@@ -68,20 +73,20 @@ const Map = (): JSX.Element => {
             setSidebarContent(content);
             setIsSidebarOpen(true);
           });
+
+          const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
+          const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+          const mapboxAttribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
+
+          L.tileLayer(
+            `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
+            {
+              tileSize: 512,
+              zoomOffset: -1,
+              attribution: mapboxAttribution,
+            }
+          ).addTo(map);
         });
-
-        const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
-        const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-        const mapboxAttribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
-
-        L.tileLayer(
-          `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
-          {
-            tileSize: 512,
-            zoomOffset: -1,
-            attribution: mapboxAttribution,
-          }
-        ).addTo(map);
       } catch (error) {
         console.error('Erreur lors de l’init de la carte :', error);
       }
@@ -98,7 +103,7 @@ const Map = (): JSX.Element => {
         <button
           onClick={() => {
             if (!navigator.geolocation) {
-              alert('La géolocalisation n’est pas supportée par votre navigateur.');
+              alert(t('geolocation'));
               return;
             }
             navigator.geolocation.getCurrentPosition(
@@ -107,12 +112,12 @@ const Map = (): JSX.Element => {
                 leafletMap.setView([latitude, longitude], 14);
               },
               () => {
-                alert('Impossible de récupérer votre position.');
+                alert(t('location'));
               }
             );
           }}
           className="fixed right-3 bottom-20 transform -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
-          aria-label="Centrer sur ma position"
+          aria-label={t('center')}
         >
           📍
         </button>
