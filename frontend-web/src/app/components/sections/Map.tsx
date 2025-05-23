@@ -17,6 +17,7 @@ const Map = (): JSX.Element => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [leafletMap, setLeafletMap] = useState<L.Map | null>(null);
   const userMarkerRef = useRef<L.CircleMarker | null>(null);
+  const zoomControlRef = useRef<L.Control.Zoom | null>(null);
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
@@ -26,14 +27,9 @@ const Map = (): JSX.Element => {
   useEffect(() => {
     if (typeof window === 'undefined' || !mapRef.current) return;
 
-    let zoomControl: L.Control.Zoom | null = null;
-
     const fetchDataAndInitMap = async () => {
       try {
-        const data = await fetchFromApi<SportPlacesResponse>(
-          '/api/sport_places',
-          'GET'
-        );
+        const data = await fetchFromApi<SportPlacesResponse>('/api/sport_places', 'GET');
         const venues = data.member;
 
         const { default: L } = await import('leaflet');
@@ -53,25 +49,28 @@ const Map = (): JSX.Element => {
 
         setLeafletMap(map);
 
-        const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
-        zoomControl = L.control
-          .zoom({ position: isMobile ? 'topright' : 'bottomright' })
-          .addTo(map);
+        // Fonction pour créer / recréer le zoom control à la bonne position
+        const createZoomControl = () => {
+          const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+
+          if (zoomControlRef.current) {
+            map.removeControl(zoomControlRef.current);
+          }
+
+          zoomControlRef.current = L.control.zoom({
+            position: isMobile ? 'topright' : 'bottomright',
+          });
+
+          zoomControlRef.current.addTo(map);
+        };
+
+        createZoomControl();
 
         const handleResize = () => {
-          if (!map || !zoomControl) return;
-          const isMobileNow = window.innerWidth < MOBILE_BREAKPOINT;
-          map.removeControl(zoomControl);
-          zoomControl = L.control
-            .zoom({ position: isMobileNow ? 'topright' : 'bottomright' })
-            .addTo(map);
+          createZoomControl();
         };
 
         window.addEventListener('resize', handleResize);
-
-        const cleanup = () => {
-          window.removeEventListener('resize', handleResize);
-        };
 
         map.on('click', () => closeSidebar());
 
@@ -111,21 +110,19 @@ const Map = (): JSX.Element => {
           }
         ).addTo(map);
 
-        return cleanup;
+        return () => {
+          window.removeEventListener('resize', handleResize);
+          if (zoomControlRef.current) {
+            map.removeControl(zoomControlRef.current);
+          }
+          map.remove();
+        };
       } catch (error) {
         console.error('Erreur lors de l’init de la carte :', error);
       }
     };
 
-    const cleanupPromise = fetchDataAndInitMap();
-
-    return () => {
-      if (cleanupPromise && typeof cleanupPromise.then === 'function') {
-        cleanupPromise.then(cleanupFn => {
-          if (typeof cleanupFn === 'function') cleanupFn();
-        });
-      }
-    };
+    fetchDataAndInitMap();
   }, []);
 
   return (
