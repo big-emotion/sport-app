@@ -8,13 +8,15 @@ import { fetchFromApi } from '@/lib/apiClient';
 import MarkerIcon from '@/../public/images/marqueur.png';
 import { useTranslations } from 'next-intl';
 
+const MOBILE_BREAKPOINT = 640;
+
 const Map = (): JSX.Element => {
   const t = useTranslations('map');
   const mapRef = useRef<HTMLDivElement>(null);
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [leafletMap, setLeafletMap] = useState<L.Map | null>(null);
-  const userMarkerRef = useRef<L.CircleMarker | null>(null); // 👈 Marqueur bleu
+  const userMarkerRef = useRef<L.CircleMarker | null>(null);
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
@@ -23,6 +25,8 @@ const Map = (): JSX.Element => {
 
   useEffect(() => {
     if (typeof window === 'undefined' || !mapRef.current) return;
+
+    let zoomControl: L.Control.Zoom | null = null;
 
     const fetchDataAndInitMap = async () => {
       try {
@@ -49,7 +53,26 @@ const Map = (): JSX.Element => {
 
         setLeafletMap(map);
 
-        L.control.zoom({ position: 'bottomright' }).addTo(map);
+        const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+        zoomControl = L.control
+          .zoom({ position: isMobile ? 'topright' : 'bottomright' })
+          .addTo(map);
+
+        const handleResize = () => {
+          if (!map || !zoomControl) return;
+          const isMobileNow = window.innerWidth < MOBILE_BREAKPOINT;
+          map.removeControl(zoomControl);
+          zoomControl = L.control
+            .zoom({ position: isMobileNow ? 'topright' : 'bottomright' })
+            .addTo(map);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        const cleanup = () => {
+          window.removeEventListener('resize', handleResize);
+        };
+
         map.on('click', () => closeSidebar());
 
         venues.forEach((venue: SportPlace) => {
@@ -87,12 +110,22 @@ const Map = (): JSX.Element => {
             attribution: mapboxAttribution,
           }
         ).addTo(map);
+
+        return cleanup;
       } catch (error) {
         console.error('Erreur lors de l’init de la carte :', error);
       }
     };
 
-    fetchDataAndInitMap();
+    const cleanupPromise = fetchDataAndInitMap();
+
+    return () => {
+      if (cleanupPromise && typeof cleanupPromise.then === 'function') {
+        cleanupPromise.then(cleanupFn => {
+          if (typeof cleanupFn === 'function') cleanupFn();
+        });
+      }
+    };
   }, []);
 
   return (
@@ -130,7 +163,7 @@ const Map = (): JSX.Element => {
               }
             );
           }}
-          className="fixed right-3 bottom-20 transform -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
+          className="fixed right-3 bottom-190 sm:bottom-20 transform -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
           aria-label={t('center')}
         >
           📍
