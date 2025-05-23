@@ -95,6 +95,10 @@
     "detail": "Location details"
   },
   "map": {
-    "loading": "Loading the card..."
+    "loading": "Loading the card...",
+    "location": "Unable to retrieve your location.",
+    "center": "Center on my location",
+    "geolocation": "Geolocation is not supported by your browser."
+
   }
 }
