@@ -14,6 +14,7 @@ const Map = (): JSX.Element => {
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [leafletMap, setLeafletMap] = useState<L.Map | null>(null);
+  const userMarkerRef = useRef<L.CircleMarker | null>(null); // 👈 Marqueur bleu
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
@@ -49,7 +50,6 @@ const Map = (): JSX.Element => {
         setLeafletMap(map);
 
         L.control.zoom({ position: 'bottomright' }).addTo(map);
-
         map.on('click', () => closeSidebar());
 
         venues.forEach((venue: SportPlace) => {
@@ -73,20 +73,20 @@ const Map = (): JSX.Element => {
             setSidebarContent(content);
             setIsSidebarOpen(true);
           });
-
-          const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
-          const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-          const mapboxAttribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
-
-          L.tileLayer(
-            `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
-            {
-              tileSize: 512,
-              zoomOffset: -1,
-              attribution: mapboxAttribution,
-            }
-          ).addTo(map);
         });
+
+        const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
+        const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+        const mapboxAttribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
+
+        L.tileLayer(
+          `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
+          {
+            tileSize: 512,
+            zoomOffset: -1,
+            attribution: mapboxAttribution,
+          }
+        ).addTo(map);
       } catch (error) {
         console.error('Erreur lors de l’init de la carte :', error);
       }
@@ -101,15 +101,29 @@ const Map = (): JSX.Element => {
 
       {leafletMap && (
         <button
-          onClick={() => {
+          onClick={async () => {
             if (!navigator.geolocation) {
               alert(t('geolocation'));
               return;
             }
             navigator.geolocation.getCurrentPosition(
-              position => {
+              async position => {
                 const { latitude, longitude } = position.coords;
-                leafletMap.setView([latitude, longitude], 14);
+                const { default: L } = await import('leaflet');
+
+                if (userMarkerRef.current) {
+                  leafletMap.removeLayer(userMarkerRef.current);
+                }
+
+                const userMarker = L.circleMarker([latitude, longitude], {
+                  radius: 5,
+                  color: '#2563eb',
+                  fillColor: '#3b82f6',
+                  fillOpacity: 0.8,
+                }).addTo(leafletMap);
+
+                userMarkerRef.current = userMarker;
+                leafletMap.setView([latitude, longitude], 18);
               },
               () => {
                 alert(t('location'));
