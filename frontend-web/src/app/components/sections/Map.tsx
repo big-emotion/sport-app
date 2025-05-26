@@ -160,7 +160,7 @@ const Map = (): JSX.Element => {
               }
             );
           }}
-          className="fixed right-3 bottom-190 sm:bottom-20 transform -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
+          className="fixed right-3 bottom-[240px] sm:bottom-[80px] transform -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
           aria-label={t('center')}
         >
           📍
