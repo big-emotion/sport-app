@@ -19,6 +19,7 @@ export const useLeafletMap = (
       const data = await fetchFromApi<SportPlacesResponse>('/api/sport_places', 'GET');
 
       const leafletMap = L.map(mapRef.current!, { zoomControl: false }).setView([48.8584, 2.2945], 12);
+      L.control.zoom({ position: 'topright' }).addTo(leafletMap);
 
       const icon = L.icon({
         iconUrl: MarkerIcon.src,
