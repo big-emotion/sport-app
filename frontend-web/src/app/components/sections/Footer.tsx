@@ -29,21 +29,10 @@ export default function Footer(): JSX.Element {
             viewport={{ once: true, amount: 0.3 }}
           >
             <div className="flex flex-col md:flex-row md:flex-grow gap-2 md:gap-0 md:w-full md:justify-between">
-              {isMobile() ? (
-                <>
-                  <div className="font-bold text-lg text-gray-800">
-                    {t('title')} {t('copyright')}
-                  </div>
-                  <LanguageSwitcher />
-                </>
-              ) : (
-                <>
-                  <LanguageSwitcher />
-                  <div className="font-bold text-xl text-gray-800">
-                    {t('copyright')} {t('title')}
-                  </div>
-                </>
-              )}
+              <LanguageSwitcher className="hidden md:flex" />
+              <div className="font-bold text-xl text-gray-800">
+                {t('copyright')} {t('title')}
+              </div>
               <div className="text-gray-600">
                 <p>{t('legal')}</p>
               </div>
