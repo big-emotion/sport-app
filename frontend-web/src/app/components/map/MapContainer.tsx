@@ -12,16 +12,31 @@ const MapContainer = () => {
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
-  const map = useLeafletMap(mapRef, content => {
-    setSidebarContent(content);
-    setIsSidebarOpen(true);
-  });
+  // Utilisation du hook personnalisé avec callback pour marqueur et clic sur la carte
+  const map = useLeafletMap(
+    mapRef,
+    content => {
+      setSidebarContent(content);
+      setIsSidebarOpen(true);
+    },
+    () => {
+      setSidebarContent(null);
+      setIsSidebarOpen(false);
+    }
+  );
 
   return (
     <div>
       <div ref={mapRef} className="fixed inset-0 z-0 h-screen w-screen" />
+
       <GeolocationButton map={map} />
-      {isSidebarOpen && <Sidebar content={sidebarContent} closeSidebar={() => setIsSidebarOpen(false)} />}
+
+      {isSidebarOpen && (
+        <Sidebar
+          content={sidebarContent}
+          closeSidebar={() => setIsSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 };

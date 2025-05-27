@@ -6,7 +6,8 @@ import MarkerIcon from '@/../public/images/marqueur.png';
 
 export const useLeafletMap = (
   mapRef: React.RefObject<HTMLDivElement | null>,
-  onMarkerClick: (content: string) => void
+  onMarkerClick: (content: string) => void,
+  onMapClick: () => void
 ) => {
   const [map, setMap] = useState<L.Map | null>(null);
 
@@ -40,6 +41,10 @@ export const useLeafletMap = (
         marker.on('mouseover', () => marker.openPopup());
         marker.on('mouseout', () => marker.closePopup());
         marker.on('click', () => onMarkerClick(content));
+      });
+
+      leafletMap.on('click', () => {
+        onMapClick();
       });
 
       const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
