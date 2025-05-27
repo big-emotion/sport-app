@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
+import MapContainer from '@/app/components/map/MapContainer';
 
 const Map = dynamic(() => import('../../components/sections/Map'), {
   ssr: false,
@@ -13,7 +14,7 @@ const Map = dynamic(() => import('../../components/sections/Map'), {
 export default function MapInteractivePage(): ReactElement {
   return (
     <div>
-      <Map />
+      <MapContainer />
     </div>
   );
 }
