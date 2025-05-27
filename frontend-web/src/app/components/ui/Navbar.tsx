@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import React, { JSX, useCallback, useEffect, useState } from 'react';
 
 import { SECTION_IDS } from '@/app/components/ui/Section-id';
+import LanguageSwitcher from '../ui/LanguageSwitcher'; // ✅ Ajouté
 
 export default function Navbar(): JSX.Element {
   const t = useTranslations('navbar');
