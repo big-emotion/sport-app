@@ -1,6 +1,6 @@
 'use client';
 import { useTranslations } from 'next-intl';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface SidebarProps {
   content: string | null;
@@ -9,26 +9,39 @@ interface SidebarProps {
 
 const INITIAL_SIDEBAR_HEIGHT = 256;
 const MIN_SIDEBAR_HEIGHT = 150;
+const CLOSED_SIDEBAR_HEIGHT = 0;
 const MAX_SIDEBAR_HEIGHT_RATIO = 0.9;
+const MOBILE_BREAKPOINT = 640;
 
 const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
   const t = useTranslations('sidebar');
 
   const [isOpen, setIsOpen] = useState(true);
-  const [height, setHeight] = useState(INITIAL_SIDEBAR_HEIGHT);
+  const [height, setHeight] = useState<number>(INITIAL_SIDEBAR_HEIGHT);
   const startY = useRef<number | null>(null);
   const startHeight = useRef<number>(INITIAL_SIDEBAR_HEIGHT);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
-  // Store initial touch Y position and sidebar height on touch start
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= MOBILE_BREAKPOINT) {
+        setHeight(CLOSED_SIDEBAR_HEIGHT);
+      } else if (height === CLOSED_SIDEBAR_HEIGHT) {
+        setHeight(INITIAL_SIDEBAR_HEIGHT);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [height]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     startY.current = e.touches[0].clientY;
     startHeight.current = height;
   };
-
-  // Adjust sidebar height dynamically based on vertical finger movement, within min/max limits
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (startY.current !== null) {
@@ -68,7 +81,11 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
             bottom-0 bg-white shadow-lg p-4 z-10 transition-all duration-200
             sm:transition-none
           `}
-          style={window.innerWidth < 640 ? { height: `${height}px` } : {}}
+          style={
+            window.innerWidth < MOBILE_BREAKPOINT && height > CLOSED_SIDEBAR_HEIGHT
+              ? { height: `${height}px` }
+              : { height: '100%' }
+          }
         >
           <div
             className="w-12 h-2 rounded-full bg-gray-400 mx-auto mb-4 sm:hidden touch-none"
