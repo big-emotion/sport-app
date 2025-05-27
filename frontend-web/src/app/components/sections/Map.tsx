@@ -49,7 +49,6 @@ const Map = (): JSX.Element => {
 
         setLeafletMap(map);
 
-        // Fonction pour créer / recréer le zoom control à la bonne position
         const createZoomControl = () => {
           const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
 
