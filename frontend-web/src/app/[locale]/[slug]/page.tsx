@@ -1,12 +1,15 @@
 import { notFound } from 'next/navigation';
 import MapInteractive from '@/app/components/map/MapContainer';
 
-export default async function LocalizedPage({
-                                              params,
-                                            }: {
-  params: { locale: string; slug: string };
-}) {
-  const { locale, slug } = await Promise.resolve(params);
+type Props = {
+  params: {
+    locale: string;
+    slug: string;
+  };
+};
+
+export default function LocalizedPage({ params }: Props) {
+  const { locale, slug } = params;
 
   const isMap =
     (locale === 'fr' && slug === 'carte-interactive') ||
@@ -18,4 +21,3 @@ export default async function LocalizedPage({
 
   return notFound();
 }
-
