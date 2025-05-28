@@ -16,9 +16,15 @@ export const useLeafletMap = (
 
     const initMap = async () => {
       const { default: L } = await import('leaflet');
-      const data = await fetchFromApi<SportPlacesResponse>('/api/sport_places', 'GET');
+      const data = await fetchFromApi<SportPlacesResponse>(
+        '/api/sport_places',
+        'GET'
+      );
 
-      const leafletMap = L.map(mapRef.current!, { zoomControl: false }).setView([48.8584, 2.2945], 12);
+      const leafletMap = L.map(mapRef.current!, { zoomControl: false }).setView(
+        [48.8584, 2.2945],
+        12
+      );
       L.control.zoom({ position: 'topright' }).addTo(leafletMap);
 
       const icon = L.icon({
@@ -52,11 +58,14 @@ export const useLeafletMap = (
       const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
       const attribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
 
-      L.tileLayer(`https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`, {
-        tileSize: 512,
-        zoomOffset: -1,
-        attribution,
-      }).addTo(leafletMap);
+      L.tileLayer(
+        `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
+        {
+          tileSize: 512,
+          zoomOffset: -1,
+          attribution,
+        }
+      ).addTo(leafletMap);
 
       setMap(leafletMap);
     };
