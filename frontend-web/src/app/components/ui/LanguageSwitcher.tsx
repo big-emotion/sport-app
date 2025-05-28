@@ -2,7 +2,7 @@
 import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname } from '@/i18n/navigation';
-import ReactCountryFlag from 'react-country-flag'; // Ensure you have installed react-country-flag package
+import ReactCountryFlag from 'react-country-flag';
 
 interface LanguageSwitcherProps {
   className?: string;
