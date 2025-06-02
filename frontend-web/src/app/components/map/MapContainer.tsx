@@ -6,13 +6,19 @@ import Sidebar from '@/app/components/ui/Sidebar';
 import GeolocationButton from './GeolocationButton';
 import 'leaflet/dist/leaflet.css';
 
-const MapContainer = () => {
+type MapContainerProps = {
+  locale: string;
+};
+
+const MapContainer = ({ locale }: MapContainerProps) => {
+  // Par exemple tu peux faire un hook de traduction basé sur la locale passée
+  // Mais ici next-intl détecte souvent automatiquement la locale dans la page
   const t = useTranslations('map');
+
   const mapRef = useRef<HTMLDivElement>(null);
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
-  // Utilisation du hook personnalisé avec callback pour marqueur et clic sur la carte
   const map = useLeafletMap(
     mapRef,
     content => {
