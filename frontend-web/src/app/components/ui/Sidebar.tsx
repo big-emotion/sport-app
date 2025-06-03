@@ -7,7 +7,7 @@ interface SidebarProps {
   closeSidebar: () => void;
 }
 
-const INITIAL_SIDEBAR_HEIGHT = 256;
+const INITIAL_SIDEBAR_HEIGHT = 190;
 const MIN_SIDEBAR_HEIGHT = 150;
 const CLOSED_SIDEBAR_HEIGHT = 0;
 const MAX_SIDEBAR_HEIGHT_RATIO = 0.9;
