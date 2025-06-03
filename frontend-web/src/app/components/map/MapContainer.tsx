@@ -11,8 +11,6 @@ type MapContainerProps = {
 };
 
 const MapContainer = ({ locale }: MapContainerProps) => {
-  // Par exemple tu peux faire un hook de traduction basé sur la locale passée
-  // Mais ici next-intl détecte souvent automatiquement la locale dans la page
   const t = useTranslations('map');
 
   const mapRef = useRef<HTMLDivElement>(null);
