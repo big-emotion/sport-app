@@ -60,7 +60,7 @@
   "footer": {
     "title": "Sport-App",
     "legal": "Mentions légales",
-    "copyright": "© 2024"
+    "copyright": "© 2025"
   },
   "confirmation": {
     "title": "Merci pour votre inscription !",
@@ -99,5 +99,9 @@
     "location": "Impossible de récupérer votre position.",
     "center": "Centrer sur ma position",
     "geolocation": "La géolocalisation n’est pas supportée par votre navigateur."
+  },
+  "languageSwitcher": {
+    "fr": "Français",
+    "en": "Anglais"
   }
 }

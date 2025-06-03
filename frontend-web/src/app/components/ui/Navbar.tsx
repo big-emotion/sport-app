@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import React, { JSX, useCallback, useEffect, useState } from 'react';
 
 import { SECTION_IDS } from '@/app/components/ui/Section-id';
+import LanguageSwitcher from '../ui/LanguageSwitcher';
 
 export default function Navbar(): JSX.Element {
   const t = useTranslations('navbar');
@@ -89,7 +90,6 @@ export default function Navbar(): JSX.Element {
 
   return (
     <>
-      {/* Navbar desktop (centrée) */}
       <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-md rounded-full hidden lg:block">
         <nav className="flex justify-center items-center gap-4 py-2 px-6">
           <div className="flex justify-center items-center gap-4">
@@ -120,7 +120,6 @@ export default function Navbar(): JSX.Element {
         </nav>
       </div>
 
-      {/* Burger menu mobile et tablette */}
       <div className="fixed top-4 right-4 z-50 lg:hidden">
         <button
           className="focus:outline-none bg-white text-black p-3 rounded-full shadow-md hover:bg-gray-100 transition-colors duration-300"
@@ -153,7 +152,6 @@ export default function Navbar(): JSX.Element {
           </svg>
         </button>
 
-        {/* Menu mobile et tablette */}
         {(menuOpen || isClosing) && (
           <motion.div
             initial={{ x: 300 }}
@@ -161,7 +159,8 @@ export default function Navbar(): JSX.Element {
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className="fixed top-0 right-0 h-full w-full sm:w-80 md:w-96 bg-white text-black shadow-lg py-6 px-4 z-50 flex flex-col"
           >
-            <div className="flex justify-end items-center mb-12 px-2">
+            <div className="flex justify-between items-center mb-8 px-2">
+              <LanguageSwitcher className="flex md:hidden" showFlags />
               <button
                 onClick={closeMenu}
                 className="p-2 rounded-full hover:bg-gray-200 transition-colors"
