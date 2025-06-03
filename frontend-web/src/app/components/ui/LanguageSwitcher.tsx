@@ -63,7 +63,6 @@ export default function LanguageSwitcher({
               lang.label
             )}
           </button>
-          {/* Séparateur uniquement en mode texte et pas après le dernier */}
           {!showFlags && idx < locales.length - 1 && (
             <span className="text-gray-400 select-none">/</span>
           )}

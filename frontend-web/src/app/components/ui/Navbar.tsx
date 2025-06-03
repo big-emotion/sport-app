@@ -90,7 +90,6 @@ export default function Navbar(): JSX.Element {
 
   return (
     <>
-      {/* Navbar desktop (centrée) */}
       <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-md rounded-full hidden lg:block">
         <nav className="flex justify-center items-center gap-4 py-2 px-6">
           <div className="flex justify-center items-center gap-4">
