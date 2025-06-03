@@ -8,7 +8,7 @@ export default async function CarteInteractivePage({
 }) {
   const { locale } = await params;
 
-  if (locale === 'fr') {
+  if (locale === 'en') {
     return notFound();
   }
 
