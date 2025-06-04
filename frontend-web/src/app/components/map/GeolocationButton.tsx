@@ -33,7 +33,7 @@ const GeolocationButton = ({ map }: { map: L.Map | null }) => {
   return map ? (
     <button
       onClick={handleClick}
-      className="absolute bottom-50 sm:bottom-25 right-3 bg-white shadow-md p-2 rounded-full hover:bg-gray-100 z-50"
+      className="absolute bottom-50 sm:bottom-25 right-3 bg-white shadow-md p-2 rounded-full hover:bg-gray-100 z-49"
       aria-label={t('center')}
     >
       📍

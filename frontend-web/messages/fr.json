@@ -103,5 +103,13 @@
   "languageSwitcher": {
     "fr": "Français",
     "en": "Anglais"
+  },
+  "loginButton": {
+    "login": "connexion"
+  },
+  "loginModal": {
+    "login": "Connexion",
+    "password": "Mot de passe",
+    "sign": "Se connecter"
   }
 }
