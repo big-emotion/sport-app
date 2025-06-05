@@ -25,7 +25,12 @@ export const useLeafletMap = (
         [48.8584, 2.2945],
         12
       );
-      L.control.zoom({ position: 'topright' }).addTo(leafletMap);
+      L.control.zoom({ position: 'bottomright' }).addTo(leafletMap);
+
+      setTimeout(() => {
+        const zoomEl = mapRef.current?.querySelector('.leaflet-control-zoom');
+        if (zoomEl) zoomEl.classList.add('custom-zoom-control');
+      }, 0);
 
       const icon = L.icon({
         iconUrl: MarkerIcon.src,
