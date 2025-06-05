@@ -108,8 +108,15 @@
     "login": "login"
   },
   "loginModal": {
-    "login": "Login",
-    "password": "Password",
-    "sign": "Sign in"
+    "login": "Log in",
+    "google": "Sign in with Google",
+    "apple": "Sign in with Apple",
+    "facebook": "Sign in with Facebook",
+    "or": "or",
+    "phoneOrEmail": "Phone number or email address",
+    "next": "Next",
+    "password": "Forgot password",
+    "account": "Don't have an account?",
+    "sign": "Sign up"
   }
 }
