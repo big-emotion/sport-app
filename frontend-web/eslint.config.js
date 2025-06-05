@@ -17,17 +17,7 @@ export default [
   },
   js.configs.recommended,
   {
-    env: {
-      browser: true,
-      node: false,
-    },
     files: ['**/*.ts?(x)'],
-    plugins: {
-      '@typescript-eslint': typescriptPlugin,
-      import: importPlugin,
-      prettier: prettierPlugin,
-      'unused-imports': unusedImportsPlugin,
-    },
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -35,6 +25,12 @@ export default [
         sourceType: 'module',
         project: ['./tsconfig.json'],
       },
+    },
+    plugins: {
+      '@typescript-eslint': typescriptPlugin,
+      import: importPlugin,
+      prettier: prettierPlugin,
+      'unused-imports': unusedImportsPlugin,
     },
     rules: {
       '@typescript-eslint/prefer-optional-chain': 'error',
@@ -156,6 +152,9 @@ export default [
   },
   {
     files: ['next.config.ts'],
+    languageOptions: {
+      parser: typescriptParser,
+    },
     plugins: {
       prettier: prettierPlugin,
     },
