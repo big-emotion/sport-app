@@ -6,7 +6,7 @@ import React, { JSX, useState } from 'react';
 import { z } from 'zod';
 
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
-import Honypot from '@/app/components/ui/honypot';
+import Honypot from '@/app/components/ui/honeypot';
 import { Section } from '@/app/components/ui/Section';
 
 import { Button } from '../ui/Button';
