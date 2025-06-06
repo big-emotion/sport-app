@@ -1,8 +1,9 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { SportPlace, SportPlacesResponse } from '@/types/api';
-import { fetchFromApi } from '@/lib/apiClient';
+import { useEffect, useState } from 'react';
+
 import MarkerIcon from '@/../public/images/marqueur.png';
+import { fetchFromApi } from '@/lib/apiClient';
+import { SportPlace, SportPlacesResponse } from '@/types/api';
 
 export const useLeafletMap = (
   mapRef: React.RefObject<HTMLDivElement | null>,
@@ -12,7 +13,9 @@ export const useLeafletMap = (
   const [map, setMap] = useState<L.Map | null>(null);
 
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapRef.current) {
+      return;
+    }
 
     const initMap = async () => {
       const { default: L } = await import('leaflet');
@@ -29,7 +32,9 @@ export const useLeafletMap = (
 
       setTimeout(() => {
         const zoomEl = mapRef.current?.querySelector('.leaflet-control-zoom');
-        if (zoomEl) zoomEl.classList.add('custom-zoom-control');
+        if (zoomEl) {
+          zoomEl.classList.add('custom-zoom-control');
+        }
       }, 0);
 
       const icon = L.icon({

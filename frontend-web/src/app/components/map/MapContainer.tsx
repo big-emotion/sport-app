@@ -1,9 +1,11 @@
 'use client';
-import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useLeafletMap } from './useLeafletMap';
+import { useRef, useState } from 'react';
+
 import Sidebar from '@/app/components/ui/Sidebar';
+
 import GeolocationButton from './GeolocationButton';
+import { useLeafletMap } from './useLeafletMap';
 import 'leaflet/dist/leaflet.css';
 
 type MapContainerProps = {

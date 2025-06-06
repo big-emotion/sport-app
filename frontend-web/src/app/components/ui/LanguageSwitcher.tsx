@@ -1,18 +1,20 @@
 'use client';
-import React from 'react';
+
 import { useLocale, useTranslations } from 'next-intl';
-import { useRouter, usePathname } from '@/i18n/navigation';
+import React from 'react';
 import ReactCountryFlag from 'react-country-flag';
+
+import { usePathname, useRouter } from '@/i18n/navigation';
 
 interface LanguageSwitcherProps {
   className?: string;
   showFlags?: boolean;
 }
 
-export default function LanguageSwitcher({
+export const LanguageSwitcher = ({
   className,
   showFlags,
-}: LanguageSwitcherProps) {
+}: LanguageSwitcherProps): React.ReactElement => {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
@@ -24,7 +26,9 @@ export default function LanguageSwitcher({
   ];
 
   const handleSwitch = (targetLocale: string) => {
-    if (targetLocale === locale) return;
+    if (targetLocale === locale) {
+      return;
+    }
     router.push(pathname, { locale: targetLocale });
   };
 
@@ -70,4 +74,4 @@ export default function LanguageSwitcher({
       ))}
     </div>
   );
-}
+};

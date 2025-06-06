@@ -26,16 +26,19 @@ A modern, responsive landing page for a sports application built with Next.js, R
 ## 📦 Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/sport-app-landing.git
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -79,6 +82,7 @@ npm run format # Format code
 ### Vercel CLI
 
 To run the project locally with Vercel:
+
 ```bash
 # Install Vercel CLI globally
 npm i -g vercel
@@ -98,6 +102,7 @@ The project is deployed on Vercel with the following setup:
 ### GitHub Integration
 
 This project is linked to the BIG EMOTION GitHub repository. All pushes to the repository will trigger automatic deployments:
+
 - Main branch → Production
 - Feature branches → Preview deployments
 

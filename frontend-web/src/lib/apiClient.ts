@@ -33,6 +33,7 @@ function getBaseOption(method: 'GET' | 'POST'): RequestInit {
 function getUrl(slug: string) {
   const baseUrl = `${process.env.NEXT_PUBLIC_HTTP ?? 'http'}://${process.env.NEXT_PUBLIC_BACKEND_URL}:${process.env.NEXT_PUBLIC_BACKEND_PORT}`;
   const url = `${baseUrl}${slug}`;
+
   return url;
 }
 
