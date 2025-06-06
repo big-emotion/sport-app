@@ -103,5 +103,20 @@
   "languageSwitcher": {
     "fr": "Français",
     "en": "Anglais"
+  },
+  "loginButton": {
+    "login": "connexion"
+  },
+  "loginModal": {
+    "login": "Connectez-vous",
+    "google": "Se connecter avec Google",
+    "apple": "Se connecter avec Apple",
+    "facebook": "Se connecter avec facebook",
+    "or": "ou",
+    "phoneOrEmail": "Numéro de Téléphone ou adresse Email",
+    "next": "Suivant",
+    "password": "Mot de passe oublié",
+    "account": "Vous n'avez pas de compte ?",
+    "sign": "Inscrivez-vous"
   }
 }

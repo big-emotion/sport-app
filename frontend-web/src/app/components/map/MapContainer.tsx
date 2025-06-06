@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useLeafletMap } from './useLeafletMap';
 import Sidebar from '@/app/components/ui/Sidebar';
 import GeolocationButton from './GeolocationButton';
+import LoginButton from '@/app/components/ui/LoginButton';
 import 'leaflet/dist/leaflet.css';
 
 type MapContainerProps = {
@@ -31,6 +32,9 @@ const MapContainer = ({ locale }: MapContainerProps) => {
 
   return (
     <div>
+      <div className="fixed top-4 right-4 z-50">
+        <LoginButton />
+      </div>
       <div ref={mapRef} className="fixed inset-0 z-0 h-screen w-screen" />
 
       <GeolocationButton map={map} />
