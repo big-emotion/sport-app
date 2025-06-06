@@ -6,11 +6,11 @@ import React, { JSX, useState } from 'react';
 import { z } from 'zod';
 
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
-import Honypot from '@/app/components/ui/honeypot';
 import { Section } from '@/app/components/ui/Section';
 
 import { Button } from '../ui/Button';
 import { SECTION_IDS } from '../ui/Section-id';
+import Honeypot from '@/app/components/ui/honeypot';
 
 export default function Newsletter(): JSX.Element {
   const t = useTranslations('newsletter');
@@ -78,7 +78,7 @@ export default function Newsletter(): JSX.Element {
             {typeof error === 'string' && error.length > 0 && (
               <p className="text-sm text-red-500 px-2">{error}</p>
             )}
-            <Honypot />
+            <Honeypot />
             <motion.div
               className="self-end"
               whileHover={{ scale: 1.05 }}
