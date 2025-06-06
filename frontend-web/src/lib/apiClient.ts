@@ -39,6 +39,7 @@ function getUrl(slug: string) {
     : '';
   const baseUrl = `${protocol}${process.env.NEXT_PUBLIC_BACKEND_URL}${port}`;
   const url = `${baseUrl}${slug}`;
+
   return url;
 }
 

@@ -1,11 +1,13 @@
 'use client';
 import { JSX, useEffect, useRef, useState } from 'react';
-import { SportPlace, SportPlacesResponse } from '@/types/api';
 
 import Sidebar from '@/app/components/ui/Sidebar';
+import { SportPlace, SportPlacesResponse } from '@/types/api';
+
 import 'leaflet/dist/leaflet.css';
 import { fetchFromApi } from '@/lib/apiClient';
 import MarkerIcon from '@/../public/images/marqueur.png';
+
 import { useTranslations } from 'next-intl';
 
 const MOBILE_BREAKPOINT = 640;
@@ -25,7 +27,9 @@ const Map = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !mapRef.current) return;
+    if (typeof window === 'undefined' || !mapRef.current) {
+      return;
+    }
 
     const fetchDataAndInitMap = async () => {
       try {
@@ -33,11 +37,13 @@ const Map = (): JSX.Element => {
           '/api/sport-places',
           'GET'
         );
-        const venues = data.member;
+        const venues = data.sportPlaces;
 
         const { default: L } = await import('leaflet');
 
-        if (mapRef.current!.childElementCount > 0) return;
+        if (mapRef.current!.childElementCount > 0) {
+          return;
+        }
 
         const customIcon = L.icon({
           iconUrl: MarkerIcon.src,
@@ -136,6 +142,7 @@ const Map = (): JSX.Element => {
           onClick={async () => {
             if (!navigator.geolocation) {
               alert(t('geolocation'));
+
               return;
             }
             navigator.geolocation.getCurrentPosition(

@@ -1,19 +1,14 @@
 'use client';
 import { useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { useLeafletMap } from './useLeafletMap';
-import Sidebar from '@/app/components/ui/Sidebar';
-import GeolocationButton from './GeolocationButton';
+
 import LoginButton from '@/app/components/ui/LoginButton';
+import Sidebar from '@/app/components/ui/Sidebar';
+
+import GeolocationButton from './GeolocationButton';
+import { useLeafletMap } from './useLeafletMap';
 import 'leaflet/dist/leaflet.css';
 
-type MapContainerProps = {
-  locale: string;
-};
-
-const MapContainer = ({ locale }: MapContainerProps) => {
-  const t = useTranslations('map');
-
+const MapContainer = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);

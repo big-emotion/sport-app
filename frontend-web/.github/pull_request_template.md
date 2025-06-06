@@ -3,6 +3,7 @@
 ## ✅ Description de la tâche
 
 <!-- Décris clairement ce que fait cette PR -->
+
 Ex : Ajout d'une section sur la landing page.
 
 ---
@@ -15,6 +16,7 @@ Ex : Ajout d'une section sur la landing page.
 - [ ] Autre (préciser ci-dessous)
 
 **Détails :**
+
 - ...
 - ...
 
@@ -23,7 +25,9 @@ Ex : Ajout d'une section sur la landing page.
 ## 🧪 Instructions de test
 
 <!-- Indique comment tester ta branche -->
+
 Ex :
+
 1. Lancer le projet avec `npm run dev`
 2. Aller sur `/map`
 3. Vérifier que les lieux s'affichent correctement

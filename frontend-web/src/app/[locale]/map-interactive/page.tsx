@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+
 import MapContainer from '@/app/components/map/MapContainer';
 
 export default async function CarteInteractivePage({

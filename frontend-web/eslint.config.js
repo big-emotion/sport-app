@@ -4,6 +4,7 @@ import typescriptParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
+import globals from 'globals';
 
 export default [
   {
@@ -18,19 +19,25 @@ export default [
   js.configs.recommended,
   {
     files: ['**/*.ts?(x)'],
+    plugins: {
+      '@typescript-eslint': typescriptPlugin,
+      import: importPlugin,
+      prettier: prettierPlugin,
+      'unused-imports': unusedImportsPlugin,
+    },
     languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
       parser: typescriptParser,
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
         project: ['./tsconfig.json'],
       },
-    },
-    plugins: {
-      '@typescript-eslint': typescriptPlugin,
-      import: importPlugin,
-      prettier: prettierPlugin,
-      'unused-imports': unusedImportsPlugin,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
     rules: {
       '@typescript-eslint/prefer-optional-chain': 'error',
