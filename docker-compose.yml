@@ -20,15 +20,26 @@ services:
       retries: 5
       start_period: 10s
 
+  backend:
+    build: ./backend
+    container_name: sport-backend
+    restart: always
+    ports:
+      - "8080:3000"
+    depends_on:
+      - database
+    environment:
+      - DATABASE_URL=postgresql://sport_user:sport_pass@database:5432/sport_db
+
   frontend-web:
     build: ./frontend-web
     container_name: sport-frontend-web
     restart: always
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8080/api
-      - BACKEND_API_URL=http://localhost:8080/api/sport_venues
+      - BACKEND_API_URL=http://localhost:8080/api
       - NODE_ENV=development
 
   frontend-mobile:

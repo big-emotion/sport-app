@@ -1,0 +1,253 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  firstName  String   @map("first_name")
+  lastName   String   @map("last_name")
+  email      String   @unique
+  password   String
+  roles      Json     @default("[]")
+  avatarUrl  String?  @map("avatar_url")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  sportPlaces    SportPlace[]
+  events         Event[]        @relation("OrganizerEvents")
+  reviews        Review[]
+  forumPosts     ForumPost[]
+  forumReplies   ForumReply[]
+  favorites      Favorite[]
+  notifications  Notification[]
+  itineraries    Itinerary[]
+  media          Media[]
+  userActions    UserAction[]
+
+  @@map("user")
+}
+
+model Sport {
+  id          String   @id @default(uuid())
+  name        String
+  description String?  @db.Text
+  iconUrl     String?  @map("icon_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  sportPlaces SportPlaceSport[]
+
+  @@map("sport")
+}
+
+model SportPlace {
+  id          String   @id @default(uuid())
+  name        String
+  description String?  @db.Text
+  address     String?
+  latitude    Float?
+  longitude   Float?
+  openingHours Json?   @map("opening_hours")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Foreign keys
+  createdById String   @map("created_by_id")
+
+  // Relations
+  sports     SportPlaceSport[]
+  createdBy  User        @relation(fields: [createdById], references: [id])
+  events     Event[]
+  reviews    Review[]
+  favorites  Favorite[]
+  forumPosts ForumPost[]
+  media      Media[]
+  itineraries Itinerary[]
+
+  @@map("sport_place")
+}
+
+model SportPlaceSport {
+  sportPlace   SportPlace @relation(fields: [sportPlaceId], references: [id], onDelete: Cascade)
+  sportPlaceId String     @map("sport_place_id")
+  sport        Sport      @relation(fields: [sportId], references: [id], onDelete: Cascade)
+  sportId      String     @map("sport_id")
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  @@id([sportPlaceId, sportId])
+  @@map("sport_place_sport")
+}
+
+model Event {
+  id          String            @id @default(uuid())
+  title       String
+  description String            @db.Text
+  eventDate   DateTime          @map("event_date")
+  createdAt   DateTime          @default(now()) @map("created_at")
+
+  // Foreign keys
+  sportPlaceId String @map("sport_place_id")
+  organizerId  String @map("organizer_id")
+
+  // Relations
+  sportPlace SportPlace @relation(fields: [sportPlaceId], references: [id], onDelete: Cascade)
+  organizer  User       @relation("OrganizerEvents", fields: [organizerId], references: [id])
+
+  @@map("event")
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  rating      Int
+  comment     String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Foreign keys
+  userId       String @map("user_id")
+  sportPlaceId String @map("sport_place_id")
+
+  // Relations
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sportPlace SportPlace @relation(fields: [sportPlaceId], references: [id], onDelete: Cascade)
+
+  @@map("review")
+}
+
+model ForumPost {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Foreign keys
+  userId       String  @map("user_id")
+  sportPlaceId String? @map("sport_place_id")
+
+  // Relations
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sportPlace SportPlace? @relation(fields: [sportPlaceId], references: [id], onDelete: SetNull)
+  replies    ForumReply[]
+
+  @@map("forum_post")
+}
+
+model ForumReply {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+
+  @@index([authorId])
+  @@index([postId])
+  @@map("forum_reply")
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Foreign keys
+  userId       String @map("user_id")
+  sportPlaceId String @map("sport_place_id")
+
+  // Relations
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sportPlace SportPlace @relation(fields: [sportPlaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sportPlaceId])
+  @@map("favorite")
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  title     String
+  message   String    @db.Text
+  read      Boolean   @default(false)
+  createdAt DateTime  @default(now()) @map("created_at")
+  readAt    DateTime? @map("read_at")
+
+  // Foreign keys
+  userId String @map("user_id")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notification")
+}
+
+model Itinerary {
+  id          String   @id @default(uuid())
+  name        String
+  description String?  @db.Text
+  startDate   DateTime @map("start_date")
+  endDate     DateTime @map("end_date")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Foreign keys
+  userId String @map("user_id")
+
+  // Relations
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sportPlaces SportPlace[]
+
+  @@map("itinerary")
+}
+
+model Media {
+  id        String   @id @default(uuid())
+  url       String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Foreign keys
+  userId       String @map("user_id")
+  sportPlaceId String @map("sport_place_id")
+
+  // Relations
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sportPlace SportPlace @relation(fields: [sportPlaceId], references: [id], onDelete: Cascade)
+
+  @@map("media")
+}
+
+model UsageStatistics {
+  id        String   @id @default(uuid())
+  action    String
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("usage_statistics")
+}
+
+model UserAction {
+  id         String   @id @default(uuid())
+  action     String
+  entityId   String   @map("entity_id")
+  entityType String   @map("entity_type")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Foreign keys
+  userId String? @map("user_id")
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("user_action")
+}
