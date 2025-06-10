@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
+import type * as L from 'leaflet';
+import React, { useEffect, useState } from 'react';
 
 import MarkerIcon from '@/../public/images/marqueur.png';
 import { fetchFromApi } from '@/lib/apiClient';
@@ -9,7 +10,7 @@ export const useLeafletMap = (
   mapRef: React.RefObject<HTMLDivElement | null>,
   onMarkerClick: (content: string) => void,
   onMapClick: () => void
-) => {
+): L.Map | null => {
   const [map, setMap] = useState<L.Map | null>(null);
 
   useEffect(() => {

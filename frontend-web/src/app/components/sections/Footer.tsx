@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { JSX } from 'react';
 
-import LanguageSwitcher from '../ui/LanguageSwitcher';
+import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 import { Section } from '../ui/Section';
 
 export default function Footer(): JSX.Element {

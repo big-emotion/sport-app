@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { JSX, useRef, useState } from 'react';
 
 import LoginButton from '@/app/components/ui/LoginButton';
 import Sidebar from '@/app/components/ui/Sidebar';
@@ -8,7 +8,7 @@ import GeolocationButton from './GeolocationButton';
 import { useLeafletMap } from './useLeafletMap';
 import 'leaflet/dist/leaflet.css';
 
-const MapContainer = () => {
+const MapContainer = (): JSX.Element => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
