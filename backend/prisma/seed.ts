@@ -3,7 +3,7 @@ import { hashPassword } from "../src/utils/password";
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function main(): Promise<void> {
   console.log("🌱 Starting seed...");
 
   // Créer des sports
