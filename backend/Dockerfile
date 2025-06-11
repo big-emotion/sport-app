@@ -10,7 +10,7 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Installer les dépendances
-RUN npm install --omit=dev
+RUN npm install
 
 # Générer le client Prisma
 RUN npx prisma generate
@@ -20,6 +20,9 @@ COPY . .
 
 # Compiler TypeScript
 RUN npm run build
+
+# Supprimer les devDependencies pour la production
+RUN npm prune --production
 
 # Créer un utilisateur non-root
 RUN addgroup -g 1001 -S nodejs
