@@ -1,5 +1,7 @@
 FROM node:18-alpine
 
+RUN apk update && apk upgrade
+
 # Créer le répertoire de l'application
 WORKDIR /app
 
@@ -8,7 +10,7 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Installer les dépendances
-RUN npm ci --only=production
+RUN npm install
 
 # Générer le client Prisma
 RUN npx prisma generate
@@ -18,6 +20,9 @@ COPY . .
 
 # Compiler TypeScript
 RUN npm run build
+
+# Supprimer les devDependencies pour la production
+RUN npm prune --production
 
 # Créer un utilisateur non-root
 RUN addgroup -g 1001 -S nodejs
@@ -35,4 +40,4 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 # Commande de démarrage
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]

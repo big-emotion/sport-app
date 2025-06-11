@@ -1,32 +1,37 @@
-import js from '@eslint/js';
-import tsEslint from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
+import js from "@eslint/js";
+import tsEslint from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.ts'],
+    files: ["**/*.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
         ecmaVersion: 2020,
-        sourceType: 'module',
-        project: './tsconfig.json'
-      }
+        sourceType: "module",
+        project: "./tsconfig.json",
+      },
+      globals: {
+        console: true,
+        process: true,
+      },
     },
     plugins: {
-      '@typescript-eslint': tsEslint
+      "@typescript-eslint": tsEslint,
     },
     rules: {
       ...tsEslint.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/explicit-function-return-type': 'warn',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      'prefer-const': 'error',
-      'no-var': 'error'
-    }
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/explicit-function-return-type": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "prefer-const": "error",
+      "no-var": "error",
+      "no-console": ["error", { allow: ["log", "error"] }],
+    },
   },
   {
-    ignores: ['dist/', 'node_modules/', '**/*.js']
-  }
+    ignores: ["dist/", "node_modules/", "**/*.js"],
+  },
 ];
