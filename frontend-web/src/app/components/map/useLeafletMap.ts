@@ -17,7 +17,7 @@ export const useLeafletMap = (
     const initMap = async () => {
       const { default: L } = await import('leaflet');
       const data = await fetchFromApi<SportPlacesResponse>(
-        '/api/sport_places',
+        '/api/sport-places',
         'GET'
       );
 
@@ -39,7 +39,7 @@ export const useLeafletMap = (
         popupAnchor: [0, -27],
       });
 
-      data.member.forEach((venue: SportPlace) => {
+      data.sportPlaces.forEach((venue: SportPlace) => {
         const content = `<div class="text-sm text-gray-800 font-semibold">
           <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
           <p>${venue.description}</p>

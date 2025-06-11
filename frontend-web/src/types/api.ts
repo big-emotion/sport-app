@@ -7,5 +7,5 @@ export interface SportPlace {
 }
 
 export interface SportPlacesResponse {
-  member: SportPlace[];
+  sportPlaces: SportPlace[];
 }
