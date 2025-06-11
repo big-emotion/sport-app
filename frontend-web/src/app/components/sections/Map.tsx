@@ -33,7 +33,7 @@ const Map = (): JSX.Element => {
           '/api/sport-places',
           'GET'
         );
-        const venues = data.member;
+        const venues = data.sportPlaces;
 
         const { default: L } = await import('leaflet');
 
