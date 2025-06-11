@@ -1,0 +1,26 @@
+FROM node:18-alpine
+
+# Installer les outils de développement
+RUN apk add --no-cache git
+
+# Créer le répertoire de l'application
+WORKDIR /app
+
+# Copier les fichiers de dépendances
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Installer toutes les dépendances (dev incluses)
+RUN npm install
+
+# Générer le client Prisma
+RUN npx prisma generate
+
+# Exposer le port
+EXPOSE 3000
+
+# Variables d'environnement de développement
+ENV NODE_ENV=development
+
+# Commande par défaut (peut être overridée)
+CMD ["npm", "run", "dev"]
