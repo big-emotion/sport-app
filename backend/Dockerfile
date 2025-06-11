@@ -1,5 +1,7 @@
 FROM node:18-alpine
 
+RUN apk update && apk upgrade
+
 # Créer le répertoire de l'application
 WORKDIR /app
 
