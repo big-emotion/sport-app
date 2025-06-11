@@ -7,5 +7,11 @@ export interface SportPlace {
 }
 
 export interface SportPlacesResponse {
-  member: SportPlace[];
+  sportPlaces: SportPlace[];
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+  };
 }
