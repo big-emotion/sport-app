@@ -29,7 +29,10 @@ const Map = (): JSX.Element => {
 
     const fetchDataAndInitMap = async () => {
       try {
-        const data = await fetchFromApi<SportPlacesResponse>('/api/sport_places', 'GET');
+        const data = await fetchFromApi<SportPlacesResponse>(
+          '/api/sport-places',
+          'GET'
+        );
         const venues = data.member;
 
         const { default: L } = await import('leaflet');

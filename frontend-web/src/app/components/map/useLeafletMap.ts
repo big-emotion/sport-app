@@ -17,7 +17,7 @@ export const useLeafletMap = (
     const initMap = async () => {
       const { default: L } = await import('leaflet');
       const data = await fetchFromApi<SportPlacesResponse>(
-        '/api/sport_places',
+        '/api/sport-places',
         'GET'
       );
 
