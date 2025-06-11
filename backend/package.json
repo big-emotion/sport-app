@@ -13,7 +13,8 @@
     "db:migrate": "npx prisma migrate dev",
     "db:generate": "npx prisma generate",
     "db:seed": "npx prisma db seed",
-    "migrate:symfony": "ts-node scripts/migrate-data.ts"
+    "migrate:symfony": "ts-node scripts/migrate-data.ts",
+    "db:seed:prod": "ts-node prisma/seed-prod.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

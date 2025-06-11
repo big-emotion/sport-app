@@ -38,7 +38,7 @@ model User {
 
 model Sport {
   id          String   @id @default(uuid())
-  name        String
+  name        String   @unique
   description String?  @db.Text
   iconUrl     String?  @map("icon_url")
   createdAt   DateTime @default(now()) @map("created_at")

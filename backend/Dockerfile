@@ -40,4 +40,4 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 # Commande de démarrage
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]
