@@ -31,7 +31,13 @@ function getBaseOption(method: 'GET' | 'POST'): RequestInit {
 }
 
 function getUrl(slug: string) {
-  const baseUrl = `${process.env.NEXT_PUBLIC_HTTP ?? 'http'}://${process.env.NEXT_PUBLIC_BACKEND_URL}:${process.env.NEXT_PUBLIC_BACKEND_PORT}`;
+  const protocol = process.env.NEXT_PUBLIC_HTTP
+    ? `${process.env.NEXT_PUBLIC_HTTP}://`
+    : '';
+  const port = process.env.NEXT_PUBLIC_BACKEND_PORT
+    ? `:${process.env.NEXT_PUBLIC_BACKEND_PORT}`
+    : '';
+  const baseUrl = `${protocol}${process.env.NEXT_PUBLIC_BACKEND_URL}${port}`;
   const url = `${baseUrl}${slug}`;
   return url;
 }
