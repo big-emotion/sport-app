@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import LoginModal from './LoginModal';
 import { useTranslations } from 'next-intl';
+import React, { useState } from 'react';
 
-export default function LoginButton() {
-  const t = useTranslations('loginButton')
-  const [isOpen, setIsOpen] = useState(false);
+import LoginModal from './LoginModal';
+
+export default function LoginButton(): React.ReactElement {
+  const t = useTranslations('loginButton');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <>

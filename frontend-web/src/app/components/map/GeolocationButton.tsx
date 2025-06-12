@@ -1,20 +1,25 @@
 'use client';
+import type * as L from 'leaflet';
 import { useTranslations } from 'next-intl';
-import { useEffect, useRef } from 'react';
+import { JSX, useRef } from 'react';
 
-const GeolocationButton = ({ map }: { map: L.Map | null }) => {
+const GeolocationButton = ({
+  map,
+}: {
+  map: L.Map | null;
+}): JSX.Element | null => {
   const t = useTranslations('map');
   const markerRef = useRef<L.CircleMarker | null>(null);
 
   const handleClick = async () => {
-    if (!navigator.geolocation) return alert(t('geolocation'));
-
     navigator.geolocation.getCurrentPosition(
       async ({ coords }) => {
         const { latitude, longitude } = coords;
         const { default: L } = await import('leaflet');
 
-        if (markerRef.current) map?.removeLayer(markerRef.current);
+        if (markerRef.current) {
+          map?.removeLayer(markerRef.current);
+        }
 
         const userMarker = L.circleMarker([latitude, longitude], {
           radius: 5,

@@ -4,6 +4,7 @@ import typescriptParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
+import globals from 'globals';
 
 export default [
   {
@@ -17,10 +18,6 @@ export default [
   },
   js.configs.recommended,
   {
-    env: {
-      browser: true,
-      node: false,
-    },
     files: ['**/*.ts?(x)'],
     plugins: {
       '@typescript-eslint': typescriptPlugin,
@@ -29,11 +26,17 @@ export default [
       'unused-imports': unusedImportsPlugin,
     },
     languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
       parser: typescriptParser,
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
         project: ['./tsconfig.json'],
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
       },
     },
     rules: {
@@ -63,6 +66,15 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': 'error',
+      'no-unused-vars': [
+        'error',
+        {
+          vars: 'all',
+          args: 'after-used',
+          varsIgnorePattern: '^_',
+          argsIgnorePattern: '^_',
+        },
+      ],
       '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
       '@typescript-eslint/no-unnecessary-condition': 'error',
       '@typescript-eslint/no-unnecessary-type-arguments': 'error',
@@ -156,6 +168,9 @@ export default [
   },
   {
     files: ['next.config.ts'],
+    languageOptions: {
+      parser: typescriptParser,
+    },
     plugins: {
       prettier: prettierPlugin,
     },
