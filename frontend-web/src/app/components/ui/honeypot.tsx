@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
+import React, { JSX, useState } from 'react';
 
-interface HoneypotProps {
-  name?: string;
-}
-
-export default function Honeypot() {
-  const [filled, setFilled] = useState(false);
+export default function Honeypot(): JSX.Element {
+  const [filled, setFilled] = useState<boolean>(false);
 
   return (
     <div>
@@ -16,7 +12,8 @@ export default function Honeypot() {
         tabIndex={-1}
         className="hidden"
         aria-hidden="true"
-        onChange={e => setFilled(!!e.target.value)}
+        onChange={e => setFilled(e.target.value !== '')}
+        value={filled ? 'filled' : ''}
       />
     </div>
   );

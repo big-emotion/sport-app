@@ -1,4 +1,5 @@
 'use client';
+
 import type * as L from 'leaflet';
 import React, { useEffect, useState } from 'react';
 
@@ -6,9 +7,11 @@ import MarkerIcon from '@/../public/images/marqueur.png';
 import { fetchFromApi } from '@/lib/apiClient';
 import { SportPlace, SportPlacesResponse } from '@/types/api';
 
+type MarkerClickHandler = (_content: string) => void;
+
 export const useLeafletMap = (
   mapRef: React.RefObject<HTMLDivElement | null>,
-  onMarkerClick: (content: string) => void,
+  onMarkerClick: MarkerClickHandler,
   onMapClick: () => void
 ): L.Map | null => {
   const [map, setMap] = useState<L.Map | null>(null);
@@ -82,7 +85,7 @@ export const useLeafletMap = (
     };
 
     initMap();
-  }, [mapRef]);
+  }, [mapRef, onMapClick, onMarkerClick]);
 
   return map;
 };

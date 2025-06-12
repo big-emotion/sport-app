@@ -9,7 +9,7 @@ export async function fetchFromApi<T>(slug: string, method: 'GET'): Promise<T> {
 export async function postToApi<T>(
   slug: string,
   method: 'POST' = 'POST',
-  body: unknown = {} //TODO: type body
+  body: unknown = {}
 ): Promise<T> {
   const url = getUrl(slug);
 
@@ -31,12 +31,12 @@ function getBaseOption(method: 'GET' | 'POST'): RequestInit {
 }
 
 function getUrl(slug: string) {
-  const protocol = process.env.NEXT_PUBLIC_HTTP
-    ? `${process.env.NEXT_PUBLIC_HTTP}://`
-    : '';
-  const port = process.env.NEXT_PUBLIC_BACKEND_PORT
-    ? `:${process.env.NEXT_PUBLIC_BACKEND_PORT}`
-    : '';
+  const httpProtocol = (process.env.NEXT_PUBLIC_HTTP ?? '').trim();
+  const protocol = httpProtocol !== '' ? `${httpProtocol}://` : '';
+
+  const backendPort = (process.env.NEXT_PUBLIC_BACKEND_PORT ?? '').trim();
+  const port = backendPort !== '' ? `:${backendPort}` : '';
+
   const baseUrl = `${protocol}${process.env.NEXT_PUBLIC_BACKEND_URL}${port}`;
   const url = `${baseUrl}${slug}`;
 
@@ -53,6 +53,8 @@ async function getJsonData(url: string, options: RequestInit) {
 
     return response.json();
   } catch (error) {
-    throw new Error(`Erreur ${error}`);
+    throw new Error(
+      error instanceof Error ? error.message : 'Une erreur est survenue'
+    );
   }
 }
