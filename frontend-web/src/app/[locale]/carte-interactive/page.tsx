@@ -16,5 +16,5 @@ export default async function CarteInteractivePage({
     return null;
   }
 
-  return <MapContainer locale={locale} />;
+  return <MapContainer />;
 }
