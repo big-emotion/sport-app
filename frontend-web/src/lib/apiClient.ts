@@ -9,12 +9,11 @@ export async function fetchFromApi<T>(slug: string, method: 'GET'): Promise<T> {
 export async function postToApi<T>(
   slug: string,
   method: 'POST' = 'POST',
-  body: unknown = {} //TODO: type body
+  body: unknown = {}
 ): Promise<T> {
   const url = getUrl(slug);
 
   const options: RequestInit = getBaseOption(method);
-
   options.body = JSON.stringify(body);
 
   return await getJsonData(url, options);
@@ -32,8 +31,7 @@ function getBaseOption(method: 'GET' | 'POST'): RequestInit {
 
 function getUrl(slug: string) {
   const baseUrl = `${process.env.NEXT_PUBLIC_HTTP ?? 'http'}://${process.env.NEXT_PUBLIC_BACKEND_URL}:${process.env.NEXT_PUBLIC_BACKEND_PORT}`;
-  const url = `${baseUrl}${slug}`;
-  return url;
+  return `${baseUrl}${slug}`;
 }
 
 async function getJsonData(url: string, options: RequestInit) {
@@ -49,3 +47,4 @@ async function getJsonData(url: string, options: RequestInit) {
     throw new Error(`Erreur ${error}`);
   }
 }
+
