@@ -1,26 +1,55 @@
 'use client';
-import { useTranslations } from 'next-intl';
-import React from 'react';
 
-import {
-  AppleIcons,
-  FacebookIcons,
-  GoogleIcons,
-} from '../../../../public/icons';
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { postToApi } from '@/lib/apiClient';  // <- ici
+import { setCookie } from 'cookies-next';
 
 type LoginModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-export default function LoginModal({
-  isOpen,
-  onClose,
-}: LoginModalProps): React.ReactElement | null {
+export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const t = useTranslations('loginModal');
-  if (!isOpen) {
-    return null;
-  }
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('🧪 handleSubmit déclenché');
+    setError(null);
+    setLoading(true);
+
+    try {
+      const data = await postToApi<{
+        token: string;
+        user: { id: string; firstName: string; lastName: string; email: string };
+      }>('/api/auth/login', 'POST', { email, password });
+
+      console.log('✅ Authentification réussie :', data.user);
+
+      setCookie('token', data.token, {
+        maxAge: 60 * 60 * 24,
+        path: '/',
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
+
+      onClose();
+      window.location.reload();
+    } catch (err: any) {
+      console.error('❌ Échec de l’authentification :', err);
+      setError(err.message || 'Erreur lors de la connexion');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -33,57 +62,35 @@ export default function LoginModal({
         </button>
 
         <h2 className="text-xl font-semibold mb-4 text-black">{t('login')}</h2>
-        <div className="space-y-3 mb-6">
-          <button className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-100 transition">
-            <GoogleIcons />
-            <span className="text-black font-medium">{t('google')}</span>
-          </button>
 
-          <button className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-100 transition">
-            <AppleIcons />
-            <span className="text-black font-medium">{t('apple')}</span>
-          </button>
-          <button className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-100 transition">
-            <FacebookIcons />
-            <span className="text-black font-medium">{t('facebook')}</span>
-          </button>
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <input
+            type="email"
+            className="w-full px-3 py-2 border text-black rounded focus:outline-none"
+            placeholder={t('phoneOrEmail')}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            className="w-full px-3 py-2 border text-black rounded focus:outline-none"
+            placeholder={t('password')}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <div className="flex items-center my-6">
-          <div className="flex-grow border-t border-gray-300" />
-          <span className="mx-4 text-gray-500 text-lg">{t('or')}</span>
-          <div className="flex-grow border-t border-gray-300" />
-        </div>
-
-        <form className="space-y-3">
-          <div>
-            <input
-              type="text"
-              className="w-full px-3 py-2 border text-black rounded focus:outline-none"
-              placeholder={t('phoneOrEmail')}
-            />
-          </div>
+          {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-yellow-400 text-black py-2 rounded hover:bg-yellow-500 transition"
           >
-            {t('next')}
-          </button>
-
-          <button
-            type="submit"
-            className="w-full bg-white text-black py-2 rounded border border-black hover:bg-gray-50 transition"
-          >
-            {t('password')}
+            {loading ? t('loading') : t('login')}
           </button>
         </form>
-        <div className="flex justify-center mt-8">
-          <p className="text-sm text-black font-semibold">
-            {t('account')}{' '}
-            <span className="text-yellow-500 underline">{t('sign')}</span>
-          </p>
-        </div>
       </div>
     </div>
   );
