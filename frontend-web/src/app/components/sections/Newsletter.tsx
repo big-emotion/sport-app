@@ -7,10 +7,10 @@ import { z } from 'zod';
 
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
 import { Section } from '@/app/components/ui/Section';
+import Honeypot from '@/app/components/ui/honeypot';
 
 import { Button } from '../ui/Button';
 import { SECTION_IDS } from '../ui/Section-id';
-import Honeypot from '@/app/components/ui/honeypot';
 
 export default function Newsletter(): JSX.Element {
   const t = useTranslations('newsletter');

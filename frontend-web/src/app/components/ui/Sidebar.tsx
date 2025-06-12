@@ -82,7 +82,8 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
             sm:transition-none
           `}
           style={
-            window.innerWidth < MOBILE_BREAKPOINT && height > CLOSED_SIDEBAR_HEIGHT
+            window.innerWidth < MOBILE_BREAKPOINT &&
+            height > CLOSED_SIDEBAR_HEIGHT
               ? { height: `${height}px` }
               : { height: '100%' }
           }

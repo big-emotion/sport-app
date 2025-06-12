@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 'use client';
 
 import { motion } from 'framer-motion';
@@ -5,7 +6,8 @@ import { useTranslations } from 'next-intl';
 import React, { JSX, useCallback, useEffect, useState } from 'react';
 
 import { SECTION_IDS } from '@/app/components/ui/Section-id';
-import LanguageSwitcher from '../ui/LanguageSwitcher';
+
+import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 
 export default function Navbar(): JSX.Element {
   const t = useTranslations('navbar');

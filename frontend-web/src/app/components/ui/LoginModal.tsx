@@ -1,15 +1,26 @@
 'use client';
 import { useTranslations } from 'next-intl';
-import { AppleIcons, GoogleIcons, FacebookIcons } from '../../../../public/icons';
+import React from 'react';
+
+import {
+  AppleIcons,
+  FacebookIcons,
+  GoogleIcons,
+} from '../../../../public/icons';
 
 type LoginModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+export default function LoginModal({
+  isOpen,
+  onClose,
+}: LoginModalProps): React.ReactElement | null {
   const t = useTranslations('loginModal');
-  if (!isOpen) return null;
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -68,7 +79,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           </button>
         </form>
         <div className="flex justify-center mt-8">
-          <p className="text-sm text-black font-semibold">{t('account')} <span className="text-yellow-500 underline">{t('sign')}</span></p>
+          <p className="text-sm text-black font-semibold">
+            {t('account')}{' '}
+            <span className="text-yellow-500 underline">{t('sign')}</span>
+          </p>
         </div>
       </div>
     </div>

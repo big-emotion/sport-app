@@ -1,4 +1,6 @@
-export const GoogleIcons = () => (
+import React from 'react';
+
+export const GoogleIcons: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -24,7 +26,7 @@ export const GoogleIcons = () => (
   </svg>
 );
 
-export const AppleIcons = () => (
+export const AppleIcons: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -38,7 +40,7 @@ export const AppleIcons = () => (
   </svg>
 );
 
-export const FacebookIcons = () => (
+export const FacebookIcons: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"

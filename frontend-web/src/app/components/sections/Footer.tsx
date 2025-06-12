@@ -3,8 +3,9 @@
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { JSX } from 'react';
+
+import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 import { Section } from '../ui/Section';
-import LanguageSwitcher from '../ui/LanguageSwitcher';
 
 export default function Footer(): JSX.Element {
   const t = useTranslations('footer');

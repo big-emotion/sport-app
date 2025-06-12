@@ -1,23 +1,24 @@
 'use client';
-import { JSX, useEffect, useRef, useState } from 'react';
-import { SportPlace, SportPlacesResponse } from '@/types/api';
-
-import Sidebar from '@/app/components/ui/Sidebar';
 import 'leaflet/dist/leaflet.css';
-import { fetchFromApi } from '@/lib/apiClient';
-import MarkerIcon from '@/../public/images/marqueur.png';
+import type { CircleMarker, Control, Map as LeafletMap } from 'leaflet';
 import { useTranslations } from 'next-intl';
+import React, { useEffect, useRef, useState } from 'react';
+
+import MarkerIcon from '@/../public/images/marqueur.png';
+import Sidebar from '@/app/components/ui/Sidebar';
+import { fetchFromApi } from '@/lib/apiClient';
+import { SportPlace, SportPlacesResponse } from '@/types/api';
 
 const MOBILE_BREAKPOINT = 640;
 
-const Map = (): JSX.Element => {
+const Map = (): React.ReactElement => {
   const t = useTranslations('map');
   const mapRef = useRef<HTMLDivElement>(null);
   const [sidebarContent, setSidebarContent] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-  const [leafletMap, setLeafletMap] = useState<L.Map | null>(null);
-  const userMarkerRef = useRef<L.CircleMarker | null>(null);
-  const zoomControlRef = useRef<L.Control.Zoom | null>(null);
+  const [leafletMap, setLeafletMap] = useState<LeafletMap | null>(null);
+  const userMarkerRef = useRef<CircleMarker | null>(null);
+  const zoomControlRef = useRef<Control.Zoom | null>(null);
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
@@ -25,7 +26,9 @@ const Map = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !mapRef.current) return;
+    if (typeof window === 'undefined' || !mapRef.current) {
+      return;
+    }
 
     const fetchDataAndInitMap = async () => {
       try {
@@ -37,7 +40,9 @@ const Map = (): JSX.Element => {
 
         const { default: L } = await import('leaflet');
 
-        if (mapRef.current!.childElementCount > 0) return;
+        if (mapRef.current!.childElementCount > 0) {
+          return;
+        }
 
         const customIcon = L.icon({
           iconUrl: MarkerIcon.src,
@@ -134,10 +139,6 @@ const Map = (): JSX.Element => {
       {leafletMap && (
         <button
           onClick={async () => {
-            if (!navigator.geolocation) {
-              alert(t('geolocation'));
-              return;
-            }
             navigator.geolocation.getCurrentPosition(
               async position => {
                 const { latitude, longitude } = position.coords;
