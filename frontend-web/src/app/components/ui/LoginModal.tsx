@@ -46,14 +46,17 @@ export default function LoginModal({
         path: '/',
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
       });
 
       onClose();
       window.location.reload();
-    } catch (err: any) {
-      console.error('❌ Échec de l’authentification :', err);
-      setError(err.message ?? 'Erreur lors de la connexion');
-    } finally {
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Erreur lors de la connexion');
+      }
       setLoading(false);
     }
   };
