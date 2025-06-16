@@ -1,38 +1,45 @@
 'use client';
 
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { postToApi } from '@/lib/apiClient';  // <- ici
 import { setCookie } from 'cookies-next';
+import { useTranslations } from 'next-intl';
+import React, { useState } from 'react';
+
+import { postToApi } from '@/lib/apiClient';
 
 type LoginModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+export default function LoginModal({
+  isOpen,
+  onClose,
+}: LoginModalProps): React.ReactElement | null {
   const t = useTranslations('loginModal');
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  if (!isOpen) return null;
+  if (!isOpen) {
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('🧪 handleSubmit déclenché');
     setError(null);
     setLoading(true);
 
     try {
       const data = await postToApi<{
         token: string;
-        user: { id: string; firstName: string; lastName: string; email: string };
+        user: {
+          id: string;
+          firstName: string;
+          lastName: string;
+          email: string;
+        };
       }>('/api/auth/login', 'POST', { email, password });
-
-      console.log('✅ Authentification réussie :', data.user);
 
       setCookie('token', data.token, {
         maxAge: 60 * 60 * 24,
@@ -45,7 +52,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       window.location.reload();
     } catch (err: any) {
       console.error('❌ Échec de l’authentification :', err);
-      setError(err.message || 'Erreur lors de la connexion');
+      setError(err.message ?? 'Erreur lors de la connexion');
     } finally {
       setLoading(false);
     }
@@ -69,7 +76,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             className="w-full px-3 py-2 border text-black rounded focus:outline-none"
             placeholder={t('phoneOrEmail')}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             required
           />
           <input
@@ -77,11 +84,13 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             className="w-full px-3 py-2 border text-black rounded focus:outline-none"
             placeholder={t('password')}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             required
           />
 
-          {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
+          {error != null && (
+            <p className="text-red-600 text-sm mt-1">{error}</p>
+          )}
 
           <button
             type="submit"
@@ -91,6 +100,12 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             {loading ? t('loading') : t('login')}
           </button>
         </form>
+        <div className="flex justify-center mt-8">
+          <p className="text-sm text-black font-semibold">
+            {t('account')}{' '}
+            <span className="text-yellow-500 underline">{t('sign')}</span>
+          </p>
+        </div>
       </div>
     </div>
   );
