@@ -154,7 +154,7 @@ export default function LoginModal({
             </>
           )}
 
-          {error && <p className="text-red-600 text-sm">{error}</p>}
+          {error != null && <p className="text-red-600 text-sm">{error}</p>}
 
           <button
             type="submit"
