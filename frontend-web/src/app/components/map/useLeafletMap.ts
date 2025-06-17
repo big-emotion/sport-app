@@ -17,10 +17,9 @@ export const useLeafletMap = (
   const [map, setMap] = useState<L.Map | null>(null);
 
   useEffect(() => {
-    if (!mapRef.current) {
+    if (!mapRef.current || map) {
       return;
     }
-
     const initMap = async () => {
       const { default: L } = await import('leaflet');
       const data = await fetchFromApi<SportPlacesResponse>(
@@ -50,10 +49,10 @@ export const useLeafletMap = (
 
       data.sportPlaces.forEach((venue: SportPlace) => {
         const content = `<div class="text-sm text-gray-800 font-semibold">
-          <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
-          <p>${venue.description}</p>
-          <p class="text-gray-600">${venue.address}</p>
-        </div>`;
+        <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
+        <p>${venue.description}</p>
+        <p class="text-gray-600">${venue.address}</p>
+      </div>`;
 
         const marker = L.marker([venue.latitude, venue.longitude], { icon })
           .addTo(leafletMap)
@@ -85,7 +84,7 @@ export const useLeafletMap = (
     };
 
     initMap();
-  }, [mapRef, onMapClick, onMarkerClick]);
+  }, [mapRef, map, onMapClick, onMarkerClick]);
 
   return map;
 };
