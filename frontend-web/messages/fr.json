@@ -115,7 +115,8 @@
     "or": "ou",
     "phoneOrEmail": "Numéro de Téléphone ou adresse Email",
     "next": "Suivant",
-    "password": "Mot de passe oublié",
+    "forgotPassword": "Mot de passe oublié",
+    "password": "Entrer votre mot de passe",
     "account": "Vous n'avez pas de compte ?",
     "sign": "Inscrivez-vous",
     "loading": "Chargement..."

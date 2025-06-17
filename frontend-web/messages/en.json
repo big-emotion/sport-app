@@ -115,8 +115,10 @@
     "or": "or",
     "phoneOrEmail": "Phone number or email address",
     "next": "Next",
-    "password": "Forgot password",
+    "forgotPassword": "Forgot password",
+    "password": "Enter your password",
     "account": "Don't have an account?",
-    "sign": "Sign up"
+    "sign": "Sign up",
+    "loading": "Loading..."
   }
 }
