@@ -1,10 +1,7 @@
 'use client';
 
-import { setCookie } from 'cookies-next';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
-
-import { postToApi } from '@/lib/apiClient';
 
 import {
   AppleIcons,
@@ -49,24 +46,20 @@ export default function LoginModal({
     setLoading(true);
 
     try {
-      const data = await postToApi<{
-        token: string;
-        user: {
-          id: string;
-          firstName: string;
-          lastName: string;
-          email: string;
-        };
-      }>('/api/auth/login', 'POST', { email, password });
-
-      setCookie('token', data.token, {
-        maxAge: 60 * 60 * 24,
-        path: '/',
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: true,
+      const res = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
       });
 
+      if (!res.ok) {
+        const { message } = await res.json();
+        throw new Error(message ?? 'Erreur inconnue');
+      }
+
+      // Le cookie est déjà défini côté serveur avec HttpOnly.
       onClose();
       window.location.reload();
     } catch (err: unknown) {
