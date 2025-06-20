@@ -46,7 +46,7 @@ export default function LoginModal({
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/login', {
+      const res = await fetch('http://localhost:3001/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,8 +58,6 @@ export default function LoginModal({
         const { message } = await res.json();
         throw new Error(message ?? 'Erreur inconnue');
       }
-
-      // Le cookie est déjà défini côté serveur avec HttpOnly.
       onClose();
       window.location.reload();
     } catch (err: unknown) {
