@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
+import { z } from 'zod';
 
 import {
   AppleIcons,
@@ -29,10 +30,18 @@ export default function LoginModal({
     return null;
   }
 
+  const loginSchema = z.object({
+    email: z
+      .string()
+      .min(1, { message: t('error') })
+      .email({ message: t('error') }),
+    password: z.string().min(6, { message: t('passwordTooShort') }),
+  });
+
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (email === '') {
-      setError('Veuillez saisir un email.');
+      setError(t('error'));
 
       return;
     }
@@ -43,14 +52,23 @@ export default function LoginModal({
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const validation = loginSchema.safeParse({ email, password });
+    if (!validation.success) {
+      const firstError =
+        Object.values(validation.error.formErrors.fieldErrors)[0]?.[0] ??
+        t('loginError');
+      setError(firstError);
+
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:3001/api/auth/login', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
@@ -58,12 +76,11 @@ export default function LoginModal({
         const { message } = await res.json();
         throw new Error(message ?? 'Erreur inconnue');
       }
+
       onClose();
       window.location.reload();
     } catch (err: unknown) {
-      setError(
-        err instanceof Error ? err.message : 'Erreur lors de la connexion'
-      );
+      setError(err instanceof Error ? err.message : t('loginError'));
       setLoading(false);
     }
   };
@@ -80,7 +97,6 @@ export default function LoginModal({
 
         <h2 className="text-xl font-semibold mb-4 text-black">{t('login')}</h2>
 
-        {/* Boutons sociaux */}
         <div className="space-y-3 mb-6">
           <button className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-100 transition">
             <GoogleIcons />
@@ -96,14 +112,12 @@ export default function LoginModal({
           </button>
         </div>
 
-        {/* Séparateur */}
         <div className="flex items-center my-6">
           <div className="flex-grow border-t border-gray-300" />
           <span className="mx-4 text-gray-500 text-lg">{t('or')}</span>
           <div className="flex-grow border-t border-gray-300" />
         </div>
 
-        {/* Formulaire */}
         <form
           onSubmit={showPassword ? handleLogin : handleNext}
           className="space-y-3"
@@ -156,7 +170,6 @@ export default function LoginModal({
           </button>
         </form>
 
-        {/* Pied de modal */}
         <div className="flex justify-center mt-8">
           <p className="text-sm text-black font-semibold">
             {t('account')}{' '}

@@ -4,7 +4,8 @@ export async function POST(req: Request): Promise<Response> {
   const { email, password } = await req.json();
 
   try {
-    const response = await fetch('http://localhost:3000/api/auth/login', {
+    const backendUrl = `${process.env.NEXT_PUBLIC_HTTP}://${process.env.NEXT_PUBLIC_BACKEND_URL}:${process.env.NEXT_PUBLIC_BACKEND_PORT}`;
+    const response = await fetch(`${backendUrl}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -19,7 +20,7 @@ export async function POST(req: Request): Promise<Response> {
     const { token, user } = await response.json();
 
     (await cookies()).set({
-      name: 'token',
+      name: 'SPORT_APP_AUTH_TOKEN',
       value: token,
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -33,9 +34,8 @@ export async function POST(req: Request): Promise<Response> {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch {
-    return new Response(
-      JSON.stringify({ message: 'Erreur interne du serveur' }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ message: 'Internal server error' }), {
+      status: 500,
+    });
   }
 }

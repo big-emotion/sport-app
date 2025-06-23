@@ -119,6 +119,10 @@
     "password": "Enter your password",
     "account": "Don't have an account?",
     "sign": "Sign up",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "error": "Please enter an email.",
+    "loginError": "Error during login",
+    "passwordTooShort": "Password too short"
   }
 }
+

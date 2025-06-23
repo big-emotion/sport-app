@@ -119,6 +119,12 @@
     "password": "Entrer votre mot de passe",
     "account": "Vous n'avez pas de compte ?",
     "sign": "Inscrivez-vous",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "error": "Veuillez saisir un email.",
+    "loginError": "Erreur lors de la connexion",
+    "passwordTooShort": "Mot de passe trop court"
+  },
+  "erreur": {
+    "interneError": "Erreur interne du serveur"
   }
 }
