@@ -24,7 +24,6 @@ export default function LoginModal({
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   if (!isOpen) {
     return null;
@@ -37,17 +36,6 @@ export default function LoginModal({
       .email({ message: t('error') }),
     password: z.string().min(6, { message: t('passwordTooShort') }),
   });
-
-  const handleNext = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email === '') {
-      setError(t('error'));
-
-      return;
-    }
-    setError(null);
-    setShowPassword(true);
-  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,10 +106,7 @@ export default function LoginModal({
           <div className="flex-grow border-t border-gray-300" />
         </div>
 
-        <form
-          onSubmit={showPassword ? handleLogin : handleNext}
-          className="space-y-3"
-        >
+        <form onSubmit={handleLogin} className="space-y-3">
           <input
             type="email"
             className="w-full px-3 py-2 border text-black rounded focus:outline-none"
@@ -130,34 +115,21 @@ export default function LoginModal({
             onChange={e => setEmail(e.target.value)}
             required
           />
-          {!showPassword && (
-            <button
-              type="button"
-              className="w-full px-3 py-2 border text-black rounded focus:outline-none hover:bg-gray-100 transition"
-              onClick={() => alert('Mot de passe oublié ?')}
-            >
-              {t('forgotPassword')}
-            </button>
-          )}
-          {showPassword && (
-            <>
-              <input
-                type="password"
-                className="w-full px-3 py-2 border text-black rounded focus:outline-none"
-                placeholder={t('password')}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-              />
-              <button
-                type="button"
-                className="w-full text-center text-sm text-blue-600 hover:underline"
-                onClick={() => alert('Mot de passe oublié ?')}
-              >
-                {t('forgotPassword')}
-              </button>
-            </>
-          )}
+          <input
+            type="password"
+            className="w-full px-3 py-2 border text-black rounded focus:outline-none"
+            placeholder={t('password')}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            className="w-full text-center text-sm text-blue-600 hover:underline"
+            onClick={() => alert('Mot de passe oublié ?')}
+          >
+            {t('forgotPassword')}
+          </button>
 
           {error != null && <p className="text-red-600 text-sm">{error}</p>}
 
@@ -166,7 +138,7 @@ export default function LoginModal({
             disabled={loading}
             className="w-full bg-yellow-400 text-black py-2 rounded hover:bg-yellow-500 transition"
           >
-            {loading ? t('loading') : showPassword ? t('login') : t('next')}
+            {loading ? t('loading') : t('login')}
           </button>
         </form>
 

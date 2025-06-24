@@ -123,6 +123,9 @@
     "error": "Please enter an email.",
     "loginError": "Error during login",
     "passwordTooShort": "Password too short"
+  },
+  "erreur": {
+    "interneError": "Internal server error"
   }
 }
 
