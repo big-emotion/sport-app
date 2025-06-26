@@ -7,7 +7,7 @@ export async function POST(req: Request): Promise<Response> {
 
   try {
     const response = await fetch(
-      `http://${process.env.NEXT_PUBLIC_BACKEND_URL}:3001/api/auth/login`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
