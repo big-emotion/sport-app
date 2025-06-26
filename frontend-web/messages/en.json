@@ -105,7 +105,9 @@
     "en": "English"
   },
   "loginButton": {
-    "login": "login"
+    "login": "login",
+    "profil": "Profil"
+
   },
   "loginModal": {
     "login": "Log in",
