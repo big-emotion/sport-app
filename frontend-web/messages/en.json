@@ -106,8 +106,10 @@
   },
   "loginButton": {
     "login": "login",
-    "profil": "Profil"
-
+    "profil": "Profil",
+    "favoris": "favorites",
+    "notifications": "notifications",
+    "déconnexion": "logout"
   },
   "loginModal": {
     "login": "Log in",
