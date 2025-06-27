@@ -77,11 +77,15 @@ export default function LoginButton(): React.ReactElement {
         <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
           <ul className="py-1 text-sm text-black">
             <li>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2">
+              <button
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2"
+                onClick={() => alert(`Salut ${user.firstName} !`)}
+              >
                 <UserIcon />
                 {t('profil')}
               </button>
             </li>
+
             <li>
               <button className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2">
                 <HeartIcon />
