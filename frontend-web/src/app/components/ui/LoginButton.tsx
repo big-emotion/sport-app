@@ -3,7 +3,13 @@
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { ClocheIcon, GridIcon, HeartIcon, LogoutIcon, UserIcon } from '@/app/components/ui/icons';
+import {
+  ClocheIcon,
+  GridIcon,
+  HeartIcon,
+  LogoutIcon,
+  UserIcon,
+} from '@/app/components/ui/icons';
 
 import LoginModal from './LoginModal';
 
@@ -85,7 +91,6 @@ export default function LoginButton(): React.ReactElement {
                 {t('profil')}
               </button>
             </li>
-
             <li>
               <button className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2">
                 <HeartIcon />
