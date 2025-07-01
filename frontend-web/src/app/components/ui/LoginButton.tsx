@@ -104,7 +104,21 @@ export default function LoginButton(): React.ReactElement {
               </button>
             </li>
             <li>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2">
+              <button
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2"
+                onClick={async () => {
+                  try {
+                    const res = await fetch('/api/auth/logout', {
+                      method: 'POST',
+                    });
+                    if (res.ok) {
+                      window.location.reload();
+                    }
+                  } catch (err) {
+                    console.error('Erreur lors de la déconnexion', err);
+                  }
+                }}
+              >
                 <LogoutIcon />
                 {t('logout')}
               </button>
