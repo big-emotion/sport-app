@@ -105,7 +105,11 @@
     "en": "Anglais"
   },
   "loginButton": {
-    "login": "connexion"
+    "login": "connexion",
+    "profil": "Profil",
+    "favorites": "favoris",
+    "notifications": "notifications",
+    "logout": "déconnexion"
   },
   "loginModal": {
     "login": "Connectez-vous",
