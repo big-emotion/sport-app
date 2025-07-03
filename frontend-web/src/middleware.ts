@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest): NextResponse | void {
-  console.log('Middleware triggered for:', request.nextUrl.pathname);
+  console.info('Middleware triggered for:', request.nextUrl.pathname);
 
   return NextResponse.next();
 }

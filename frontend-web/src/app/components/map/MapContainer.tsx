@@ -1,11 +1,12 @@
 'use client';
 import { JSX, useRef, useState } from 'react';
 
-import LoginButton from '@/app/components/ui/LoginButton';
+import AccountWidget from '@/app/components/ui/AccountWidget';
 import Sidebar from '@/app/components/ui/Sidebar';
 
 import GeolocationButton from './GeolocationButton';
 import { useLeafletMap } from './useLeafletMap';
+
 import 'leaflet/dist/leaflet.css';
 
 const MapContainer = (): JSX.Element => {
@@ -28,7 +29,7 @@ const MapContainer = (): JSX.Element => {
   return (
     <div>
       <div className="fixed top-4 right-4 z-50">
-        <LoginButton />
+        <AccountWidget />
       </div>
       <div ref={mapRef} className="fixed inset-0 z-0 h-screen w-screen" />
 
