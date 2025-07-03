@@ -1,21 +1,18 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { User, withAuth } from '@/utils/withAuth';
+import { useWithAuth } from '@/utils/withAuth';
 
 import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
 
-export default function AccountWidget(): React.ReactElement {
-  const [user, setUser] = useState<User | null>(null);
+export default function AccountWidget(): React.ReactElement | null {
+  const { user, isLoading } = useWithAuth();
 
-  useEffect(() => {
-    (async () => {
-      const authUser = await withAuth();
-      setUser(authUser);
-    })();
-  }, []);
+  if (isLoading) {
+    return null;
+  }
 
   return user ? <UserMenu user={user} /> : <LoginButton />;
 }
