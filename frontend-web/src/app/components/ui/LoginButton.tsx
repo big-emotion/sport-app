@@ -7,7 +7,7 @@ import LoginModal from './LoginModal';
 
 export default function LoginButton(): React.ReactElement {
   const t = useTranslations('loginButton');
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
@@ -17,7 +17,6 @@ export default function LoginButton(): React.ReactElement {
       >
         {t('login')}
       </button>
-
       <LoginModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );

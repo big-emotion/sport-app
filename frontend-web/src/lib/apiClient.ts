@@ -14,7 +14,6 @@ export async function postToApi<T>(
   const url = getUrl(slug);
 
   const options: RequestInit = getBaseOption(method);
-
   options.body = JSON.stringify(body);
 
   return await getJsonData(url, options);

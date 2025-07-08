@@ -105,7 +105,11 @@
     "en": "English"
   },
   "loginButton": {
-    "login": "login"
+    "login": "login",
+    "profil": "Profil",
+    "favoris": "favorites",
+    "notifications": "notifications",
+    "déconnexion": "logout"
   },
   "loginModal": {
     "login": "Log in",
@@ -115,8 +119,17 @@
     "or": "or",
     "phoneOrEmail": "Phone number or email address",
     "next": "Next",
-    "password": "Forgot password",
+    "forgotPassword": "Forgot password",
+    "password": "Enter your password",
     "account": "Don't have an account?",
-    "sign": "Sign up"
+    "sign": "Sign up",
+    "loading": "Loading...",
+    "error": "Please enter an email.",
+    "loginError": "Error during login",
+    "passwordTooShort": "Password too short"
+  },
+  "erreur": {
+    "interneError": "Internal server error"
   }
 }
+

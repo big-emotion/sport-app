@@ -105,7 +105,11 @@
     "en": "Anglais"
   },
   "loginButton": {
-    "login": "connexion"
+    "login": "connexion",
+    "profil": "Profil",
+    "favorites": "favoris",
+    "notifications": "notifications",
+    "logout": "déconnexion"
   },
   "loginModal": {
     "login": "Connectez-vous",
@@ -115,8 +119,16 @@
     "or": "ou",
     "phoneOrEmail": "Numéro de Téléphone ou adresse Email",
     "next": "Suivant",
-    "password": "Mot de passe oublié",
+    "forgotPassword": "Mot de passe oublié",
+    "password": "Entrer votre mot de passe",
     "account": "Vous n'avez pas de compte ?",
-    "sign": "Inscrivez-vous"
+    "sign": "Inscrivez-vous",
+    "loading": "Chargement...",
+    "error": "Veuillez saisir un email.",
+    "loginError": "Erreur lors de la connexion",
+    "passwordTooShort": "Mot de passe trop court"
+  },
+  "erreur": {
+    "interneError": "Erreur interne du serveur"
   }
 }
