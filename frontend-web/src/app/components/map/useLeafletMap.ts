@@ -20,6 +20,7 @@ export const useLeafletMap = (
     if (!mapRef.current || map) {
       return;
     }
+
     const initMap = async () => {
       const { default: L } = await import('leaflet');
       const data = await fetchFromApi<SportPlacesResponse>(
@@ -49,11 +50,13 @@ export const useLeafletMap = (
       });
 
       data.sportPlaces.forEach((venue: SportPlace) => {
-        const content = `<div class="text-sm text-gray-800 font-semibold">
-        <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
-        <p>${venue.description}</p>
-        <p class="text-gray-600">${venue.address}</p>
-      </div>`;
+        const content = `
+          <div class="text-sm text-gray-800 font-semibold">
+            <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
+            <p>${venue.description}</p>
+            <p class="text-gray-600">${venue.address}</p>
+          </div>
+        `;
 
         const marker = L.marker([venue.latitude, venue.longitude], { icon })
           .addTo(leafletMap)
@@ -69,9 +72,25 @@ export const useLeafletMap = (
       });
 
       leafletMap.on('dblclick', (e: L.LeafletMouseEvent) => {
-        L.marker(e.latlng, { icon }).addTo(leafletMap);
+        const lat = e.latlng.lat.toFixed(5);
+        const lng = e.latlng.lng.toFixed(5);
+
+        const content = `
+          <div class="text-sm text-gray-800 font-semibold">
+            <h3 class="text-lg font-bold mb-1">Marqueur personnalisé</h3>
+            <p>Latitude : ${lat}</p>
+            <p>Longitude : ${lng}</p>
+          </div>
+        `;
+
+        const newMarker = L.marker(e.latlng, { icon }).addTo(leafletMap);
+
+        newMarker.on('click', () => {
+          onMarkerClick(content);
+        });
       });
 
+      // Ajout du fond de carte Mapbox
       const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
       const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
       const attribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
