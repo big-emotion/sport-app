@@ -9,6 +9,27 @@ import { SportPlace, SportPlacesResponse } from '@/types/api';
 
 type MarkerClickHandler = (_content: string) => void;
 
+const reverseGeocodeWithMapbox = async (
+  lat: number,
+  lng: number
+): Promise<string> => {
+  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const placeName = data.features?.[0]?.place_name;
+
+    return placeName ?? 'Adresse inconnue';
+  } catch (error) {
+    console.error('Erreur reverse geocoding :', error);
+
+    return 'Adresse inconnue';
+  }
+};
+
 export const useLeafletMap = (
   mapRef: React.RefObject<HTMLDivElement | null>,
   onMarkerClick: MarkerClickHandler,
@@ -71,15 +92,16 @@ export const useLeafletMap = (
         onMapClick();
       });
 
-      leafletMap.on('dblclick', (e: L.LeafletMouseEvent) => {
-        const lat = e.latlng.lat.toFixed(5);
-        const lng = e.latlng.lng.toFixed(5);
+      leafletMap.on('dblclick', async (e: L.LeafletMouseEvent) => {
+        const lat = parseFloat(e.latlng.lat.toFixed(5));
+        const lng = parseFloat(e.latlng.lng.toFixed(5));
+
+        const address = await reverseGeocodeWithMapbox(lat, lng);
 
         const content = `
           <div class="text-sm text-gray-800 font-semibold">
             <h3 class="text-lg font-bold mb-1">Marqueur personnalisé</h3>
-            <p>Latitude : ${lat}</p>
-            <p>Longitude : ${lng}</p>
+            <p class="text-gray-600 mb-1">${address}</p>
           </div>
         `;
 
@@ -90,7 +112,6 @@ export const useLeafletMap = (
         });
       });
 
-      // Ajout du fond de carte Mapbox
       const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
       const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
       const attribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
