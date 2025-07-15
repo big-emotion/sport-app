@@ -51,7 +51,17 @@ export const useLeafletMap = (
       const leafletMap = L.map(mapRef.current!, {
         zoomControl: false,
         doubleClickZoom: false,
-      }).setView([48.8584, 2.2945], 12);
+      });
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { latitude, longitude } = position.coords;
+          leafletMap.setView([latitude, longitude], 13);
+        },
+        () => {
+          leafletMap.setView([48.8584, 2.2945], 12);
+        }
+      );
 
       L.control.zoom({ position: 'bottomright' }).addTo(leafletMap);
 
