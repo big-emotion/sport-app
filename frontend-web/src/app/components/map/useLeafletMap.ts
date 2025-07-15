@@ -13,8 +13,7 @@ const reverseGeocodeWithMapbox = async (
   lat: number,
   lng: number
 ): Promise<string> => {
-  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`;
+  const url = `${process.env.NEXT_PUBLIC_MAPBOX_URL}${lng},${lat}.json?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`;
 
   try {
     const response = await fetch(url);
@@ -22,11 +21,11 @@ const reverseGeocodeWithMapbox = async (
 
     const placeName = data.features?.[0]?.place_name;
 
-    return placeName ?? 'Adresse inconnue';
+    return placeName ?? 'unknown adress';
   } catch (error) {
     console.error('Erreur reverse geocoding :', error);
 
-    return 'Adresse inconnue';
+    return 'unknown qdress';
   }
 };
 
@@ -100,7 +99,6 @@ export const useLeafletMap = (
 
         const content = `
           <div class="text-sm text-gray-800 font-semibold">
-            <h3 class="text-lg font-bold mb-1">Marqueur personnalisé</h3>
             <p class="text-gray-600 mb-1">${address}</p>
           </div>
         `;
@@ -112,12 +110,10 @@ export const useLeafletMap = (
         });
       });
 
-      const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
-      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
       const attribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
 
       L.tileLayer(
-        `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
+        `https://api.mapbox.com/styles/v1/${process.env.NEXT_PUBLIC_MAPBOX_STYLE}/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`,
         {
           tileSize: 512,
           zoomOffset: -1,

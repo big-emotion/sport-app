@@ -130,6 +130,12 @@
   },
   "erreur": {
     "interneError": "Internal server error"
+  },
+  "place": {
+    "unknownAdress": "Unknown address",
+    "marker": "Custom marker"
+
   }
+
 }
 
