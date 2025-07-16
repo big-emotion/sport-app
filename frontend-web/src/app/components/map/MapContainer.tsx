@@ -2,6 +2,7 @@
 import { JSX, useRef, useState } from 'react';
 
 import AccountWidget from '@/app/components/ui/AccountWidget';
+import SportModal from '@/app/components/ui/AddAdressModal';
 import Sidebar from '@/app/components/ui/Sidebar';
 
 import GeolocationButton from './GeolocationButton';
@@ -29,6 +30,7 @@ const MapContainer = (): JSX.Element => {
   return (
     <div>
       <div className="fixed top-4 right-4 z-50">
+        <SportModal />
         <AccountWidget />
       </div>
       <div ref={mapRef} className="fixed inset-0 z-0 h-screen w-screen" />
