@@ -16,13 +16,16 @@ export default function SportModal(): JSX.Element {
   });
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      return;
+    }
 
     async function fetchSports() {
       try {
         const res = await fetch('/api/sports');
         if (!res.ok) {
           console.error('Erreur lors de la récupération des sports');
+
           return;
         }
         const data: Sport[] = await res.json();
@@ -51,7 +54,7 @@ export default function SportModal(): JSX.Element {
       name: form.name,
       description: form.description,
       address: form.address,
-      sportIds: form.sport ? [form.sport] : [], // <- Important : tableau attendu par le backend
+      sportIds: form.sport !== '' ? [form.sport] : [], // <- Important : tableau attendu par le backend
     };
 
     try {
@@ -64,6 +67,7 @@ export default function SportModal(): JSX.Element {
       if (!response.ok) {
         const { message } = await response.json();
         alert(`Erreur : ${message}`);
+
         return;
       }
 
