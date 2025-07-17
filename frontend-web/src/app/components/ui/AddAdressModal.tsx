@@ -3,7 +3,6 @@ import React, { JSX, useEffect, useState } from 'react';
 type Sport = {
   id: string;
   name: string;
-  // adapte selon ce que renvoie ton API
 };
 
 export default function SportModal(): JSX.Element {
@@ -13,30 +12,23 @@ export default function SportModal(): JSX.Element {
     name: '',
     description: '',
     address: '',
-    sport: '',
+    sport: '', // contiendra l'ID du sport sélectionné
   });
 
-  // Charge la liste des sports à l'ouverture du modal
   useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
+    if (!isOpen) return;
 
     async function fetchSports() {
       try {
         const res = await fetch('/api/sports');
         if (!res.ok) {
-          console.error('Erreur récupération sports');
-
+          console.error('Erreur lors de la récupération des sports');
           return;
         }
         const data: Sport[] = await res.json();
         setSports(data);
       } catch (error) {
-        console.error(
-          'Erreur serveur lors de la récupération des sports',
-          error
-        );
+        console.error('Erreur serveur :', error);
       }
     }
 
@@ -55,17 +47,23 @@ export default function SportModal(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const payload = {
+      name: form.name,
+      description: form.description,
+      address: form.address,
+      sportIds: form.sport ? [form.sport] : [], // <- Important : tableau attendu par le backend
+    };
+
     try {
       const response = await fetch('/api/sport-places', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         const { message } = await response.json();
         alert(`Erreur : ${message}`);
-
         return;
       }
 
@@ -73,7 +71,7 @@ export default function SportModal(): JSX.Element {
       console.info('Lieu créé :', data);
       alert('Lieu sportif ajouté avec succès');
       setIsOpen(false);
-      setForm({ name: '', description: '', address: '', sport: '' }); // reset form
+      setForm({ name: '', description: '', address: '', sport: '' });
     } catch (error) {
       console.error(error);
       alert('Erreur serveur');
@@ -111,7 +109,6 @@ export default function SportModal(): JSX.Element {
                 value={form.description}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded text-black px-3 py-2"
-                required
               />
               <input
                 type="text"
@@ -120,7 +117,6 @@ export default function SportModal(): JSX.Element {
                 value={form.address}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded text-black px-3 py-2"
-                required
               />
               <select
                 name="sport"
@@ -131,7 +127,7 @@ export default function SportModal(): JSX.Element {
               >
                 <option value="">-- Choisissez un sport --</option>
                 {sports.map(sport => (
-                  <option key={sport.id} value={sport.name}>
+                  <option key={sport.id} value={sport.id}>
                     {sport.name}
                   </option>
                 ))}
