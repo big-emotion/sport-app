@@ -1,5 +1,7 @@
 import React, { JSX, useEffect, useState } from 'react';
 
+import { AddAdressIcon } from '@/app/components/ui/icons';
+
 type Sport = {
   id: string;
   name: string;
@@ -86,9 +88,9 @@ export default function SportModal(): JSX.Element {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="px-4 py-2 bg-yellow-400 text-black rounded hover:bg-yellow-500 font-semibold"
+        className="px-1.5 bg-yellow-400 text-black rounded hover:bg-yellow-500 font-semibold"
       >
-        Ouvrir la modal
+        <AddAdressIcon />
       </button>
 
       {isOpen && (

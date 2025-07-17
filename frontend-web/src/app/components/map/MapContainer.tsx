@@ -29,7 +29,7 @@ const MapContainer = (): JSX.Element => {
 
   return (
     <div>
-      <div className="fixed top-4 right-4 z-50">
+      <div className="fixed top-4 right-4 z-50 flex gap-2">
         <SportModal />
         <AccountWidget />
       </div>
