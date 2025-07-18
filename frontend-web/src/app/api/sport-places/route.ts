@@ -58,7 +58,13 @@ export async function POST(req: Request): Promise<Response> {
       address,
       latitude,
       longitude,
-      sportIds: sportIds ?? (sportId ? [sportId] : sport ? [sport] : []),
+      sportIds:
+        sportIds ??
+        ((sportId as string) !== ''
+          ? [sportId]
+          : (sport as string) !== ''
+            ? [sport]
+            : []),
     };
 
     const response = await fetch(backendUrl, {

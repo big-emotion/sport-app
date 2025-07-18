@@ -80,21 +80,34 @@ export const useLeafletMap = (
       });
 
       data.sportPlaces.forEach((venue: SportPlace) => {
-        const content = `
-          <div class="text-sm text-gray-800 font-semibold">
-            <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
-            <p>${venue.description}</p>
-            <p class="text-gray-600">${venue.address}</p>
-          </div>
-        `;
+        if (
+          typeof venue.latitude === 'number' &&
+          !isNaN(venue.latitude) &&
+          typeof venue.longitude === 'number' &&
+          !isNaN(venue.longitude)
+        ) {
+          const content = `
+      <div class="text-sm text-gray-800 font-semibold">
+        <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
+        <p>${venue.description}</p>
+        <p class="text-gray-600">${venue.address}</p>
+      </div>
+    `;
 
-        const marker = L.marker([venue.latitude, venue.longitude], { icon })
-          .addTo(leafletMap)
-          .bindPopup(content, { closeButton: false });
+          const marker = L.marker([venue.latitude, venue.longitude], { icon })
+            .addTo(leafletMap)
+            .bindPopup(content, { closeButton: false });
 
-        marker.on('mouseover', () => marker.openPopup());
-        marker.on('mouseout', () => marker.closePopup());
-        marker.on('click', () => onMarkerClick(content));
+          marker.on('mouseover', () => marker.openPopup());
+          marker.on('mouseout', () => marker.closePopup());
+          marker.on('click', () => onMarkerClick(content));
+        } else {
+          console.warn(
+            `Invalid coordinates for venue ${venue.name}:`,
+            venue.latitude,
+            venue.longitude
+          );
+        }
       });
 
       leafletMap.on('click', () => {
