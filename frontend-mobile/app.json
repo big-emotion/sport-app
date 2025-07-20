@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "sportapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -46,7 +46,8 @@
     "extra": {
       "httpProtocol": "http",
       "backendUrl": "192.168.1.20",
-      "backendPort": "3000"
+      "backendPort": "3000",
+      "webAppUrl": "http://localhost:3001"
     }
   }
 }

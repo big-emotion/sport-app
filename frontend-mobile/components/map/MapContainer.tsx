@@ -3,7 +3,7 @@ import { StyleSheet, View, Alert, TouchableOpacity } from "react-native";
 import MapView, { Marker, Region } from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
 
-import { SportPlace, SportPlacesResponse } from "@/types/api";
+import { SportPlace, SportPlacesResponse, CreateMarkerData } from "@/types/api";
 import { MAP_CONFIG } from "@/constants/Map";
 import { fetchFromApi } from "@/services/apiClient";
 import GeolocationButton from "./GeolocationButton";
@@ -15,6 +15,11 @@ import { useMapClustering } from "@/hooks/useMapClustering";
 import SearchBar from "./SearchBar";
 import FilterModal from "./FilterModal";
 import { cacheService } from "@/services/cacheService";
+import { useAuth } from "@/contexts/AuthContext";
+import { useCustomMarkers } from "@/hooks/useCustomMarkers";
+import AccountWidget from "@/components/auth/AccountWidget";
+import AddMarkerModal from "./AddMarkerModal";
+import { useMapNavigation } from "@/hooks/useMapNavigation";
 
 export default function MapContainer() {
   const [allSportPlaces, setAllSportPlaces] = useState<SportPlace[]>([]);
@@ -30,11 +35,39 @@ export default function MapContainer() {
   const [showSearch, setShowSearch] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
-  // Utiliser le clustering sur les lieux filtrés
-  const { clusters, markers } = useMapClustering(
-    filteredSportPlaces,
-    currentRegion
-  );
+  // Nouveaux états pour l'ajout de marqueurs
+  const [showAddMarker, setShowAddMarker] = useState(false);
+  const [newMarkerPosition, setNewMarkerPosition] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+
+  // Hooks d'authentification et de marqueurs personnalisés
+  const { isAuthenticated } = useAuth();
+  const { markers: customMarkers, addMarker } = useCustomMarkers();
+  const { updateRegion, getCurrentNavigationParams } = useMapNavigation();
+
+  // Combiner tous les marqueurs (officiels + custom)
+  const allMarkers: SportPlace[] = [
+    ...filteredSportPlaces.map((place) => ({
+      ...place,
+      type: "official" as const,
+    })),
+    ...customMarkers.map((marker) => ({
+      id: marker.id,
+      name: marker.description || "Marqueur personnalisé",
+      description: marker.description || "Marqueur personnalisé",
+      latitude: marker.latitude,
+      longitude: marker.longitude,
+      address: marker.address,
+      type: "custom" as const,
+      userId: marker.userId,
+      createdAt: marker.createdAt,
+    })),
+  ];
+
+  // Utiliser le clustering sur tous les marqueurs combinés
+  const { clusters, markers } = useMapClustering(allMarkers, currentRegion);
 
   useEffect(() => {
     loadSportPlaces();
@@ -89,6 +122,37 @@ export default function MapContainer() {
     setShowDetails(false);
   };
 
+  // Nouveau: Gestion du long press pour ajouter marqueur
+  const handleLongPress = (event: any) => {
+    if (!isAuthenticated) {
+      Alert.alert(
+        "Connexion requise",
+        "Connectez-vous pour ajouter des marqueurs personnalisés"
+      );
+      return;
+    }
+
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    setNewMarkerPosition({ latitude, longitude });
+    setShowAddMarker(true);
+  };
+
+  // Nouveau: Ajouter un marqueur personnalisé
+  const handleAddMarker = async (data: CreateMarkerData) => {
+    try {
+      await addMarker(data);
+    } catch (error) {
+      console.error("Failed to add marker:", error);
+      throw error; // Le modal gérera l'affichage de l'erreur
+    }
+  };
+
+  // Gérer les changements de région de la carte
+  const handleRegionChange = (region: Region) => {
+    setCurrentRegion(region);
+    updateRegion(region);
+  };
+
   const handleCloseDetails = () => {
     setShowDetails(false);
     setSelectedPlace(null);
@@ -100,7 +164,7 @@ export default function MapContainer() {
     setShowDetails(true);
 
     // Centrer la carte sur le lieu sélectionné
-    if (mapRef) {
+    if (mapRef && place.latitude && place.longitude) {
       mapRef.animateToRegion(
         {
           latitude: place.latitude,
@@ -119,30 +183,36 @@ export default function MapContainer() {
 
   return (
     <View style={styles.container}>
+      {/* AccountWidget en overlay */}
+      <AccountWidget currentMapParams={getCurrentNavigationParams()} />
+
       <MapView
         ref={setMapRef}
         style={styles.map}
         initialRegion={MAP_CONFIG.initialRegion}
         onPress={handleMapPress}
-        onRegionChangeComplete={setCurrentRegion}
+        onLongPress={handleLongPress} // Nouveau: ajout de marqueurs
+        onRegionChangeComplete={handleRegionChange}
         showsUserLocation={true}
         showsMyLocationButton={false} // On utilise notre bouton custom
       >
         {/* Marqueurs individuels */}
-        {markers.map((place, index) => (
-          <Marker
-            key={`marker-${place.latitude}-${place.longitude}-${index}`}
-            coordinate={{
-              latitude: place.latitude,
-              longitude: place.longitude,
-            }}
-            title={place.name}
-            description={place.description}
-            onPress={() => handleMarkerPress(place)}
-          >
-            <CustomMarker sportType={place.name} size={35} />
-          </Marker>
-        ))}
+        {markers
+          .filter((place) => place.latitude != null && place.longitude != null)
+          .map((place, index) => (
+            <Marker
+              key={`marker-${place.latitude}-${place.longitude}-${index}`}
+              coordinate={{
+                latitude: place.latitude!,
+                longitude: place.longitude!,
+              }}
+              title={place.name}
+              description={place.description}
+              onPress={() => handleMarkerPress(place)}
+            >
+              <CustomMarker sportType={place.name} size={35} />
+            </Marker>
+          ))}
 
         {/* Clusters */}
         {clusters.map((cluster) => (
@@ -212,6 +282,20 @@ export default function MapContainer() {
         visible={showDetails}
         onClose={handleCloseDetails}
       />
+
+      {/* Modal d'ajout de marqueur */}
+      {newMarkerPosition && (
+        <AddMarkerModal
+          visible={showAddMarker}
+          onClose={() => {
+            setShowAddMarker(false);
+            setNewMarkerPosition(null);
+          }}
+          onAdd={handleAddMarker}
+          latitude={newMarkerPosition.latitude}
+          longitude={newMarkerPosition.longitude}
+        />
+      )}
     </View>
   );
 }
