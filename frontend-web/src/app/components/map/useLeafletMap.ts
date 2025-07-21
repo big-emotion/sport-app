@@ -9,6 +9,26 @@ import { SportPlace, SportPlacesResponse } from '@/types/api';
 
 type MarkerClickHandler = (_content: string) => void;
 
+const reverseGeocodeWithMapbox = async (
+  lat: number,
+  lng: number
+): Promise<string> => {
+  const url = `${process.env.NEXT_PUBLIC_MAPBOX_URL}${lng},${lat}.json?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const placeName = data.features?.[0]?.place_name;
+
+    return placeName ?? 'unknown adress';
+  } catch (error) {
+    console.error('Erreur reverse geocoding :', error);
+
+    return 'unknown qdress';
+  }
+};
+
 export const useLeafletMap = (
   mapRef: React.RefObject<HTMLDivElement | null>,
   onMarkerClick: MarkerClickHandler,
@@ -20,6 +40,7 @@ export const useLeafletMap = (
     if (!mapRef.current || map) {
       return;
     }
+
     const initMap = async () => {
       const { default: L } = await import('leaflet');
       const data = await fetchFromApi<SportPlacesResponse>(
@@ -27,10 +48,21 @@ export const useLeafletMap = (
         'GET'
       );
 
-      const leafletMap = L.map(mapRef.current!, { zoomControl: false }).setView(
-        [48.8584, 2.2945],
-        12
+      const leafletMap = L.map(mapRef.current!, {
+        zoomControl: false,
+        doubleClickZoom: false,
+      });
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { latitude, longitude } = position.coords;
+          leafletMap.setView([latitude, longitude], 13);
+        },
+        () => {
+          leafletMap.setView([48.8584, 2.2945], 12);
+        }
       );
+
       L.control.zoom({ position: 'bottomright' }).addTo(leafletMap);
 
       setTimeout(() => {
@@ -48,11 +80,13 @@ export const useLeafletMap = (
       });
 
       data.sportPlaces.forEach((venue: SportPlace) => {
-        const content = `<div class="text-sm text-gray-800 font-semibold">
-        <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
-        <p>${venue.description}</p>
-        <p class="text-gray-600">${venue.address}</p>
-      </div>`;
+        const content = `
+          <div class="text-sm text-gray-800 font-semibold">
+            <h3 class="text-lg font-bold mb-1">${venue.name}</h3>
+            <p>${venue.description}</p>
+            <p class="text-gray-600">${venue.address}</p>
+          </div>
+        `;
 
         const marker = L.marker([venue.latitude, venue.longitude], { icon })
           .addTo(leafletMap)
@@ -67,12 +101,29 @@ export const useLeafletMap = (
         onMapClick();
       });
 
-      const style = process.env.NEXT_PUBLIC_MAPBOX_STYLE;
-      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+      leafletMap.on('dblclick', async (e: L.LeafletMouseEvent) => {
+        const lat = parseFloat(e.latlng.lat.toFixed(5));
+        const lng = parseFloat(e.latlng.lng.toFixed(5));
+
+        const address = await reverseGeocodeWithMapbox(lat, lng);
+
+        const content = `
+          <div class="text-sm text-gray-800 font-semibold">
+            <p class="text-gray-600 mb-1">${address}</p>
+          </div>
+        `;
+
+        const newMarker = L.marker(e.latlng, { icon }).addTo(leafletMap);
+
+        newMarker.on('click', () => {
+          onMarkerClick(content);
+        });
+      });
+
       const attribution = process.env.NEXT_PUBLIC_MAPBOX_ATTRIBUTION;
 
       L.tileLayer(
-        `https://api.mapbox.com/styles/v1/${style}/tiles/{z}/{x}/{y}?access_token=${token}`,
+        `https://api.mapbox.com/styles/v1/${process.env.NEXT_PUBLIC_MAPBOX_STYLE}/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`,
         {
           tileSize: 512,
           zoomOffset: -1,

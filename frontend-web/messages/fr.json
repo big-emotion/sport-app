@@ -130,5 +130,10 @@
   },
   "erreur": {
     "interneError": "Erreur interne du serveur"
+  },
+  "place": {
+    "unknownAdress": "Adresse inconnue",
+    "marker": "Marqueur personnalisé"
+
   }
 }
