@@ -7,7 +7,7 @@ import SportModal from '@/app/components/ui/AddAdressModal';
 import { SportPlace } from '@/types/api';
 
 interface SidebarProps {
-  content: SportPlace | null;
+  content: (SportPlace & { isNew?: boolean }) | null;
   closeSidebar: () => void;
 }
 
@@ -126,8 +126,8 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
               <div className="text-sm text-gray-800 font-semibold">
                 <h3 className="text-lg font-bold mb-1">{content.name}</h3>
                 <p>{content.description}</p>
-                <p className="text-gray-600">{content.address}</p>
-                <SportModal />
+                <p className="text-gray-600 mb-4">{content.address}</p>
+                {content.isNew === true && <SportModal />}
               </div>
             )}
           </div>

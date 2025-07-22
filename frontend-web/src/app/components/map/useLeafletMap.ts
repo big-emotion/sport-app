@@ -8,10 +8,10 @@ import { fetchFromApi } from '@/lib/apiClient';
 import { SportPlace, SportPlacesResponse } from '@/types/api';
 
 interface CustomMarker extends L.Marker {
-  data?: SportPlace;
+  data?: SportPlace & { isNew?: boolean };
 }
 
-type MarkerClickHandler = (_venue: SportPlace) => void;
+type MarkerClickHandler = (_venue: SportPlace & { isNew?: boolean }) => void;
 
 const reverseGeocodeWithMapbox = async (
   lat: number,
@@ -94,7 +94,7 @@ export const useLeafletMap = (
             { icon }
           ).addTo(leafletMap);
 
-          marker.data = venue;
+          marker.data = venue; // Pas de flag isNew ici
 
           marker.bindPopup(
             `<strong>${venue.name}</strong><br/><small>${venue.address ?? 'Adresse inconnue'}</small>`,
@@ -128,12 +128,13 @@ export const useLeafletMap = (
         const lng = parseFloat(e.latlng.lng.toFixed(5));
         const address = await reverseGeocodeWithMapbox(lat, lng);
 
-        const newPlace: SportPlace = {
+        const newPlace: SportPlace & { isNew: true } = {
           name: 'Nouveau lieu',
           description: '',
           address,
           latitude: lat,
           longitude: lng,
+          isNew: true, // <-- flag ajouté ici
         };
 
         const newMarker: CustomMarker = L.marker([lat, lng], { icon }).addTo(
