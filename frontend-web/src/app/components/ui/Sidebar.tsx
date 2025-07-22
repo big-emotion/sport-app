@@ -1,11 +1,13 @@
 'use client';
+
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react';
 
 import SportModal from '@/app/components/ui/AddAdressModal';
+import { SportPlace } from '@/types/api';
 
 interface SidebarProps {
-  content: string | null;
+  content: SportPlace | null;
   closeSidebar: () => void;
 }
 
@@ -116,17 +118,18 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
 
           <h2 className="text-xl text-black font-bold mb-4">{t('detail')}</h2>
 
-          {/* Zone scrollable */}
           <div
             className="text-black overflow-y-auto pr-2 mb-4"
             style={{ flexGrow: 1 }}
           >
-            <div dangerouslySetInnerHTML={{ __html: content ?? '' }} />
-          </div>
-
-          {/* Bouton modal en bas */}
-          <div className="mt-2 flex justify-end">
-            <SportModal />
+            {content && (
+              <div className="text-sm text-gray-800 font-semibold">
+                <h3 className="text-lg font-bold mb-1">{content.name}</h3>
+                <p>{content.description}</p>
+                <p className="text-gray-600">{content.address}</p>
+                <SportModal />
+              </div>
+            )}
           </div>
         </div>
       )}
