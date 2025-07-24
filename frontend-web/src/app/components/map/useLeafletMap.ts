@@ -83,7 +83,6 @@ export const useLeafletMap = (
         popupAnchor: [0, -27],
       });
 
-      // 🔸 Pour éviter les doublons exacts
       const existingCoords = new Set<string>();
 
       data.sportPlaces.forEach((venue: SportPlace) => {
@@ -93,7 +92,6 @@ export const useLeafletMap = (
           !isNaN(venue.latitude) &&
           !isNaN(venue.longitude)
         ) {
-          // 🔸 Décalage si doublon
           let lat = venue.latitude;
           let lng = venue.longitude;
           let key = `${lat},${lng}`;

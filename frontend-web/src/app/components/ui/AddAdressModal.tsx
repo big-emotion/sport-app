@@ -56,7 +56,7 @@ export default function SportModal(): JSX.Element {
       name: form.name,
       description: form.description,
       address: form.address,
-      sportIds: form.sport !== '' ? [form.sport] : [], // <- Important : tableau attendu par le backend
+      sportIds: form.sport !== '' ? [form.sport] : [],
     };
 
     try {
