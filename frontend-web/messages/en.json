@@ -132,10 +132,16 @@
     "interneError": "Internal server error"
   },
   "place": {
-    "unknownAdress": "Unknown address",
-    "marker": "Custom marker"
-
+    "unknownAdress": "Unknown Adress",
+    "invalidVenueCoordinates": "Invalid coordinates for venue",
+    "marker": "Custom marker",
+    "new": "New place",
+    "successfullyAdded": "Sport venue successfully added",
+    "addError": "An error occurred while adding the venue. Please try again later",
+    "addPlace": "Add a sport venue",
+    "chooseSport": "-- Choose a sport --",
+    "cancel": "Cancel",
+    "save": "Save"
   }
-
 }
 

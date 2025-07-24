@@ -132,8 +132,15 @@
     "interneError": "Erreur interne du serveur"
   },
   "place": {
-    "unknownAdress": "Adresse inconnue",
-    "marker": "Marqueur personnalisé"
-
+    "unknownAdress": "Adresse inconue",
+    "invalidVenueCoordinates": "Coordonnées invalides pour le lieu",
+    "marker": "Marqueur personnalisé",
+    "new": "Nouveau lieu",
+    "successfullyAdded": "Lieu sportif ajouté avec succès",
+    "addError": "Une erreur est survenue lors de l'ajout du lieu. Veuillez réessayer ultérieurement",
+    "addPlace": "Ajouter un lieu sportif",
+    "chooseSport": "-- Choisissez un sport --",
+    "cancel": "Annuler",
+    "save": "Enregistrer"
   }
 }

@@ -1,9 +1,13 @@
 'use client';
+
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState } from 'react';
 
+import SportModal from '@/app/components/ui/AddAdressModal';
+import { SportPlace } from '@/types/api';
+
 interface SidebarProps {
-  content: string | null;
+  content: (SportPlace & { isNew?: boolean }) | null;
   closeSidebar: () => void;
 }
 
@@ -79,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
           className={`
             fixed w-full sm:w-96 sm:h-full sm:left-0 sm:top-0
             bottom-0 bg-white shadow-lg p-4 z-10 transition-all duration-200
-            sm:transition-none
+            sm:transition-none flex flex-col
           `}
           style={
             window.innerWidth < MOBILE_BREAKPOINT &&
@@ -113,10 +117,20 @@ const Sidebar: React.FC<SidebarProps> = ({ content, closeSidebar }) => {
           </button>
 
           <h2 className="text-xl text-black font-bold mb-4">{t('detail')}</h2>
+
           <div
-            className="text-black overflow-y-auto h-full pr-2"
-            dangerouslySetInnerHTML={{ __html: content ?? '' }}
-          />
+            className="text-black overflow-y-auto pr-2 mb-4"
+            style={{ flexGrow: 1 }}
+          >
+            {content && (
+              <div className="text-sm text-gray-800 font-semibold">
+                <h3 className="text-lg font-bold mb-1">{content.name}</h3>
+                <p>{content.description}</p>
+                <p className="text-gray-600 mb-4">{content.address}</p>
+                {content.isNew === true && <SportModal />}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </>

@@ -1,9 +1,10 @@
 export interface SportPlace {
+  id?: string;
   name: string;
   description: string;
   latitude: number;
   longitude: number;
-  address: string;
+  address?: string | null;
 }
 
 export interface SportPlacesResponse {
