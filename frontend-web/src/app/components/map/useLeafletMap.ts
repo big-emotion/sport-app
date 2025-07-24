@@ -1,6 +1,7 @@
 'use client';
 
 import type * as L from 'leaflet';
+import { useTranslations } from 'next-intl';
 import React, { useEffect, useState } from 'react';
 
 import MarkerIcon from '@/../public/images/marqueur.png';
@@ -23,11 +24,11 @@ const reverseGeocodeWithMapbox = async (
     const response = await fetch(url);
     const data = await response.json();
 
-    return data.features?.[0]?.place_name ?? 'Adresse inconnue';
+    return data.features?.[0]?.place_name ?? '';
   } catch (error) {
     console.error('Erreur reverse geocoding :', error);
 
-    return 'Adresse inconnue';
+    return '';
   }
 };
 
@@ -37,6 +38,7 @@ export const useLeafletMap = (
   onMapClick: () => void
 ): L.Map | null => {
   const [map, setMap] = useState<L.Map | null>(null);
+  const t = useTranslations('place');
 
   useEffect(() => {
     if (!mapRef.current || map) {
@@ -81,7 +83,9 @@ export const useLeafletMap = (
         popupAnchor: [0, -27],
       });
 
-      // 🔹 Affichage des markers existants
+      // 🔸 Pour éviter les doublons exacts
+      const existingCoords = new Set<string>();
+
       data.sportPlaces.forEach((venue: SportPlace) => {
         if (
           typeof venue.latitude === 'number' &&
@@ -89,15 +93,27 @@ export const useLeafletMap = (
           !isNaN(venue.latitude) &&
           !isNaN(venue.longitude)
         ) {
-          const marker: CustomMarker = L.marker(
-            [venue.latitude, venue.longitude],
-            { icon }
-          ).addTo(leafletMap);
+          // 🔸 Décalage si doublon
+          let lat = venue.latitude;
+          let lng = venue.longitude;
+          let key = `${lat},${lng}`;
+          const offset = 0.00005;
 
-          marker.data = venue; // Pas de flag isNew ici
+          while (existingCoords.has(key)) {
+            lat += offset;
+            lng += offset;
+            key = `${lat.toFixed(5)},${lng.toFixed(5)}`;
+          }
+
+          existingCoords.add(key);
+
+          const marker: CustomMarker = L.marker([lat, lng], { icon }).addTo(
+            leafletMap
+          );
+          marker.data = venue;
 
           marker.bindPopup(
-            `<strong>${venue.name}</strong><br/><small>${venue.address ?? 'Adresse inconnue'}</small>`,
+            `<strong>${venue.name}</strong><br/><small>${venue.address ?? t('unknownAddress')}</small>`,
             {
               closeButton: false,
             }
@@ -105,7 +121,6 @@ export const useLeafletMap = (
 
           marker.on('mouseover', () => marker.openPopup());
           marker.on('mouseout', () => marker.closePopup());
-
           marker.on('click', () => {
             if (marker.data) {
               onMarkerClick(marker.data);
@@ -113,7 +128,7 @@ export const useLeafletMap = (
           });
         } else {
           console.warn(
-            `Invalid coordinates for venue ${venue.name}:`,
+            t('invalidVenueCoordinates'),
             venue.latitude,
             venue.longitude
           );
@@ -122,19 +137,18 @@ export const useLeafletMap = (
 
       leafletMap.on('click', () => onMapClick());
 
-      // 🔹 Double-clic pour créer un nouveau marker
       leafletMap.on('dblclick', async (e: L.LeafletMouseEvent) => {
         const lat = parseFloat(e.latlng.lat.toFixed(5));
         const lng = parseFloat(e.latlng.lng.toFixed(5));
         const address = await reverseGeocodeWithMapbox(lat, lng);
 
         const newPlace: SportPlace & { isNew: true } = {
-          name: 'Nouveau lieu',
+          name: t('new'),
           description: '',
           address,
           latitude: lat,
           longitude: lng,
-          isNew: true, // <-- flag ajouté ici
+          isNew: true,
         };
 
         const newMarker: CustomMarker = L.marker([lat, lng], { icon }).addTo(
@@ -143,16 +157,14 @@ export const useLeafletMap = (
         newMarker.data = newPlace;
 
         newMarker.bindPopup(
-          `<strong>${newPlace.name}</strong><br/><small>${newPlace.address ?? 'Adresse inconnue'}</small>`,
+          `<strong>${newPlace.name}</strong><br/><small>${newPlace.address != null || t('unknownAddress')}</small>`,
           {
             closeButton: false,
           }
         );
 
-        // Ajout des événements mouseover et mouseout pour afficher la popup au survol
         newMarker.on('mouseover', () => newMarker.openPopup());
         newMarker.on('mouseout', () => newMarker.closePopup());
-
         newMarker.on('click', () => {
           if (newMarker.data) {
             onMarkerClick(newMarker.data);

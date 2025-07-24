@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import React, { JSX, useEffect, useState } from 'react';
 
 import { AddAdressIcon } from '@/app/components/ui/icons';
@@ -8,13 +9,14 @@ type Sport = {
 };
 
 export default function SportModal(): JSX.Element {
+  const t = useTranslations('place');
   const [isOpen, setIsOpen] = useState(false);
   const [sports, setSports] = useState<Sport[]>([]);
   const [form, setForm] = useState({
     name: '',
     description: '',
     address: '',
-    sport: '', // contiendra l'ID du sport sélectionné
+    sport: '',
   });
 
   useEffect(() => {
@@ -26,14 +28,12 @@ export default function SportModal(): JSX.Element {
       try {
         const res = await fetch('/api/sports');
         if (!res.ok) {
-          console.error('Erreur lors de la récupération des sports');
-
           return;
         }
         const data: Sport[] = await res.json();
         setSports(data);
       } catch (error) {
-        console.error('Erreur serveur :', error);
+        console.error(error);
       }
     }
 
@@ -73,14 +73,13 @@ export default function SportModal(): JSX.Element {
         return;
       }
 
-      const data = await response.json();
-      console.info('Lieu créé :', data);
-      alert('Lieu sportif ajouté avec succès');
+      await response.json();
+      alert(t('successfullyAdded'));
       setIsOpen(false);
       setForm({ name: '', description: '', address: '', sport: '' });
     } catch (error) {
       console.error(error);
-      alert('Erreur serveur');
+      alert(t('addError'));
     }
   };
 
@@ -97,7 +96,7 @@ export default function SportModal(): JSX.Element {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4 text-black">
-              Ajouter un lieu sportif
+              {t('addPlace')}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
@@ -131,7 +130,7 @@ export default function SportModal(): JSX.Element {
                 className="w-full border border-gray-300 text-black rounded px-3 py-2"
                 required
               >
-                <option value="">-- Choisissez un sport --</option>
+                <option value="">{t('chooseSport')}</option>
                 {sports.map(sport => (
                   <option key={sport.id} value={sport.id}>
                     {sport.name}
@@ -144,13 +143,13 @@ export default function SportModal(): JSX.Element {
                   onClick={() => setIsOpen(false)}
                   className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
                 >
-                  Annuler
+                  {t('cancel')}
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-yellow-400 text-black font-semibold rounded hover:bg-yellow-500"
                 >
-                  Enregistrer
+                  {t('save')}
                 </button>
               </div>
             </form>
