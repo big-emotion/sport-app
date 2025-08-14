@@ -31,7 +31,7 @@ const MapContainer = (): JSX.Element => {
       <div className="fixed top-4 right-4 z-50">
         <AccountWidget />
       </div>
-      <div ref={mapRef} className="fixed inset-0 z-0 h-screen w-screen" />
+      <div ref={mapRef} className="fixed inset-1 z-0 h-screen w-screen" />
 
       <GeolocationButton map={map} />
 
